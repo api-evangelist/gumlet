@@ -1,0 +1,179 @@
+aid: gumlet
+url: https://raw.githubusercontent.com/api-evangelist/gumlet/refs/heads/main/apis.yml
+name: Gumlet
+kind: company
+description: Gumlet is a video hosting, streaming, and image optimization platform.
+  Its video APIs cover on-demand and live streaming, per-title encoding, DRM, subtitles,
+  and analytics, while its image APIs provide real-time resize, compression, and CDN
+  delivery from cloud storage sources. All surfaces run under a single REST API at
+  api.gumlet.com/v1 authenticated with a bearer API key.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Video
+- Streaming
+- Image Optimization
+- CDN
+- Encoding
+- Analytics
+created: '2026-07-01'
+modified: '2026-07-01'
+specificationVersion: '0.19'
+apis:
+- aid: gumlet:gumlet-video-assets-api
+  name: Gumlet Video Assets API
+  tags:
+  - Video
+  - Assets
+  - Encoding
+  - VOD
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.gumlet.com/reference/create-asset
+  baseURL: https://api.gumlet.com/v1/video
+  properties:
+  - url: https://docs.gumlet.com/docs/video-getting-started
+    type: Documentation
+  - url: https://docs.gumlet.com/reference/create-asset
+    type: APIReference
+  - url: openapi/gumlet-openapi.yml
+    type: OpenAPI
+  - url: collections/gumlet.postman_collection.json
+    type: PostmanCollection
+  - url: collections/gumlet.opencollection.json
+    type: OpenCollection
+  description: Ingest, encode, and manage video-on-demand assets with adaptive bitrate
+    (HLS/DASH) or MP4 output, per-title encoding, DRM, overlays, trimming, subtitles,
+    chapters, and thumbnails.
+- aid: gumlet:gumlet-video-collections-api
+  name: Gumlet Video Collections API
+  tags:
+  - Video
+  - Collections
+  - Sources
+  - Workspaces
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.gumlet.com/reference/list-collections
+  baseURL: https://api.gumlet.com/v1/video
+  properties:
+  - url: https://docs.gumlet.com/docs/manage-sources
+    type: Documentation
+  - url: https://docs.gumlet.com/reference/list-collections
+    type: APIReference
+  - url: openapi/gumlet-openapi.yml
+    type: OpenAPI
+  - url: collections/gumlet.postman_collection.json
+    type: PostmanCollection
+  - url: collections/gumlet.opencollection.json
+    type: OpenCollection
+  description: Create and manage video collections (sources) that group assets under
+    a workspace, along with playlists and folders for organizing library content.
+- aid: gumlet:gumlet-live-streaming-api
+  name: Gumlet Live Streaming API
+  tags:
+  - Live
+  - Streaming
+  - RTMP
+  - Low Latency
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.gumlet.com/reference/create-live-asset
+  baseURL: https://api.gumlet.com/v1/video
+  properties:
+  - url: https://docs.gumlet.com/docs/live-streaming
+    type: Documentation
+  - url: https://docs.gumlet.com/reference/create-live-asset
+    type: APIReference
+  - url: openapi/gumlet-openapi.yml
+    type: OpenAPI
+  - url: collections/gumlet.postman_collection.json
+    type: PostmanCollection
+  - url: collections/gumlet.opencollection.json
+    type: OpenCollection
+  description: Create and manage live streaming assets with RTMP ingest, live-to-VOD
+    recording, status history, and thumbnails for real-time broadcast workflows.
+- aid: gumlet:gumlet-image-optimization-api
+  name: Gumlet Image Optimization API
+  tags:
+  - Image
+  - Optimization
+  - Sources
+  - CDN
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.gumlet.com/docs/manage-sources
+  baseURL: https://api.gumlet.com/v1
+  properties:
+  - url: https://docs.gumlet.com/docs/image-getting-started
+    type: Documentation
+  - url: https://docs.gumlet.com/docs/image-transform-apis
+    type: APIReference
+  - url: openapi/gumlet-openapi.yml
+    type: OpenAPI
+  - url: collections/gumlet.postman_collection.json
+    type: PostmanCollection
+  - url: collections/gumlet.opencollection.json
+    type: OpenCollection
+  description: Manage image sources that connect cloud storage (S3, GCS, Spaces, Wasabi)
+    to Gumlet's real-time resize, compression, format conversion, and CDN delivery,
+    including cache purging.
+- aid: gumlet:gumlet-analytics-api
+  name: Gumlet Analytics API
+  tags:
+  - Analytics
+  - Insights
+  - Engagement
+  - Views
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.gumlet.com/docs/advanced-video-analytics
+  baseURL: https://api.gumlet.com/v1
+  properties:
+  - url: https://docs.gumlet.com/docs/advanced-video-analytics
+    type: Documentation
+  - url: https://docs.gumlet.com/docs/insights-metrics-tracked
+    type: APIReference
+  - url: openapi/gumlet-openapi.yml
+    type: OpenAPI
+  - url: collections/gumlet.postman_collection.json
+    type: PostmanCollection
+  - url: collections/gumlet.opencollection.json
+    type: OpenCollection
+  description: Query video and image analytics with aggregated, breakdown, and chart
+    data APIs covering views, unique viewers, watch time, and engagement/completion
+    metrics.
+- aid: gumlet:gumlet-uploads-api
+  name: Gumlet Uploads API
+  tags:
+  - Uploads
+  - Direct Upload
+  - Multipart
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.gumlet.com/reference/create-asset-direct-upload
+  baseURL: https://api.gumlet.com/v1/video
+  properties:
+  - url: https://docs.gumlet.com/docs/direct-upload
+    type: Documentation
+  - url: https://docs.gumlet.com/reference/create-asset-direct-upload
+    type: APIReference
+  - url: openapi/gumlet-openapi.yml
+    type: OpenAPI
+  - url: collections/gumlet.postman_collection.json
+    type: PostmanCollection
+  - url: collections/gumlet.opencollection.json
+    type: OpenCollection
+  description: Request signed direct-upload URLs and complete multipart uploads to
+    ingest local video files into Gumlet for processing.
+common:
+- type: GitHubOrganization
+  url: https://github.com/gumlet
+- type: LinkedIn
+  url: https://www.linkedin.com/company/gumlet
+- type: Website
+  url: https://www.gumlet.com/
+- type: Documentation
+  url: https://docs.gumlet.com/
+- type: Plans
+  url: plans/gumlet-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/gumlet-rate-limits.yml
+- type: FinOps
+  url: finops/gumlet-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

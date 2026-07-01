@@ -1,0 +1,56 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Gumlet
+providerId: gumlet
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- Video
+- Streaming
+- Image Optimization
+- CDN
+- Analytics
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Gumlet's REST API at api.gumlet.com/v1 applies per-account rate limits on
+  management calls, authenticated with a bearer API key. Video processing is
+  further bounded by concurrent encoding/processing capacity per plan, and
+  delivery scales via CDN. Specific per-endpoint request-per-minute values are
+  not published in a single reference and are not reconciled in this artifact.
+notes: >-
+  Confirm current management-API rate limits, concurrent processing limits, and
+  any per-plan quotas with Gumlet support or documentation during
+  reconciliation. Throttled requests are expected to return HTTP 429.
+sources:
+- https://docs.gumlet.com/docs/apis
+- https://docs.gumlet.com/reference/create-asset
+responseCodes:
+  throttled: 429
+limits:
+- name: API Requests
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: Per-account management-API rate limits; throttled requests return 429.
+- name: Concurrent Processing
+  scope: account
+  metric: jobs
+  limit: see provider documentation
+  notes: Concurrent video encoding/processing capacity varies by plan.
+- name: Delivery Bandwidth
+  scope: account
+  metric: bandwidth
+  limit: metered
+  notes: Video and image delivery is served via CDN and metered per usage/plan.
+policies:
+- name: Tiered Limits
+  description: Limits and concurrent processing capacity scale with plan tier and Enterprise agreements.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

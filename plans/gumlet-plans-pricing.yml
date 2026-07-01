@@ -1,0 +1,158 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Gumlet
+providerId: gumlet
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- Video
+- Streaming
+- Image Optimization
+- CDN
+- Encoding
+- Analytics
+- Plans
+description: >-
+  Gumlet offers a free tier plus subscription tiers (Creator, Growth, Business)
+  with simple per-minute video pricing that scales with usage, and separate
+  image optimization plans. DRM is available as a paid add-on. Enterprise plans
+  offer volume pricing and dedicated support. Values below are representative of
+  the published pricing page and are not reconciled; verify current tiers and
+  rates on the Gumlet pricing page.
+notes: >-
+  Prices reflect the May 2026 price reductions announced by Gumlet. Per-minute
+  encoding/storage/delivery rates and image plan tiers vary; confirm on the
+  pricing page during reconciliation.
+sources:
+- https://www.gumlet.com/pricing/
+- https://docs.gumlet.com/docs/apis
+plans:
+- id: gumlet-free
+  name: Free
+  type: free
+  description: >-
+    Free tier for evaluation and small projects; startups, non-profits, and
+    public-good projects may qualify for free or discounted access.
+  entries:
+  - label: Free Usage
+    name: free_usage
+    type: free
+    metric: minutes
+    limit: 0
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: free (usage caps apply)
+    userMultiplied: false
+  elements:
+  - name: Video Hosting
+  - name: Image Optimization
+  - name: Basic Analytics
+- id: gumlet-creator
+  name: Creator
+  type: subscription
+  description: >-
+    For creators and small businesses; removes Gumlet branding and adds secure
+    video access (referrer/domain restrictions) plus lead-gen CTAs and pixel
+    tracking.
+  entries:
+  - label: Creator Subscription
+    name: creator
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $6/month + per-minute usage
+    userMultiplied: false
+  elements:
+  - name: No Gumlet Branding
+  - name: Secure Video Access
+  - name: CTAs and Pixel Tracking
+- id: gumlet-growth
+  name: Growth
+  type: subscription
+  description: >-
+    For e-commerce and startups; adds custom channel domains, member-only
+    access, role-based access control, AI-generated chapters, subtitle
+    translation, and marketing CRM integration.
+  entries:
+  - label: Growth Subscription
+    name: growth
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $19/month + per-minute usage
+    userMultiplied: false
+  elements:
+  - name: Custom Channel Domain
+  - name: Member-Only Access
+  - name: Role-Based Access Control
+  - name: AI Chapters and Subtitle Translation
+- id: gumlet-business
+  name: Business
+  type: subscription
+  description: >-
+    For apps and brands with higher volume and advanced needs.
+  entries:
+  - label: Business Subscription
+    name: business
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $99/month + per-minute usage
+    userMultiplied: false
+  elements:
+  - name: Advanced Analytics
+  - name: Priority Processing
+- id: gumlet-drm-addon
+  name: DRM Add-on
+  type: usage
+  description: >-
+    Studio-grade DRM (Widevine/FairPlay/PlayReady) add-on for premium content
+    protection.
+  entries:
+  - label: DRM
+    name: drm
+    type: flat
+    metric: add_on
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $99/month
+    userMultiplied: false
+  elements:
+  - name: Multi-DRM
+- id: gumlet-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Volume commitments, dedicated support, and negotiated terms. Contact
+    Gumlet sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Volume Pricing
+  - name: Dedicated Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

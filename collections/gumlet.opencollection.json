@@ -1,0 +1,358 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gumlet API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Video Assets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gumlet.com/v1/video/assets",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"input\": \"https://example.com/video.mp4\",\n  \"collection_id\": \"<string>\",\n  \"format\": \"ABR\"\n}"
+            }
+          },
+          "docs": "Ingest a remote media file and create a video asset for processing (ABR HLS/DASH or MP4)."
+        },
+        {
+          "info": {
+            "name": "List Assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/video/assets/list/:collection_id",
+            "params": [
+              {
+                "name": "collection_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the collection whose assets to list."
+              }
+            ]
+          },
+          "docs": "List the assets contained in a video collection."
+        },
+        {
+          "info": {
+            "name": "Get Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/video/assets/:asset_id",
+            "params": [
+              {
+                "name": "asset_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the video asset."
+              }
+            ]
+          },
+          "docs": "Retrieve the details and processing status of a video asset."
+        },
+        {
+          "info": {
+            "name": "Update Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.gumlet.com/v1/video/assets/:asset_id",
+            "params": [
+              {
+                "name": "asset_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the video asset."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"title\": \"<string>\"\n}"
+            }
+          },
+          "docs": "Update the metadata or settings of a video asset."
+        },
+        {
+          "info": {
+            "name": "Delete Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.gumlet.com/v1/video/assets/:asset_id",
+            "params": [
+              {
+                "name": "asset_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the video asset."
+              }
+            ]
+          },
+          "docs": "Delete a video asset."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Uploads",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Asset Direct Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gumlet.com/v1/video/assets/upload",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"collection_id\": \"<string>\",\n  \"format\": \"ABR\"\n}"
+            }
+          },
+          "docs": "Create a video asset and receive a signed upload URL to upload a local file directly into Gumlet."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Video Collections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Collections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/video/sources"
+          },
+          "docs": "List the video collections (sources) available to the token."
+        },
+        {
+          "info": {
+            "name": "Create Collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gumlet.com/v1/video/sources",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"name\": \"<string>\"\n}"
+            }
+          },
+          "docs": "Create a new video collection (source)."
+        },
+        {
+          "info": {
+            "name": "Get Collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/video/sources/:video_source_id",
+            "params": [
+              {
+                "name": "video_source_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the video collection."
+              }
+            ]
+          },
+          "docs": "Retrieve the full details of a video collection."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Live Streaming",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Live Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gumlet.com/v1/video/live/assets",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"collection_id\": \"<string>\",\n  \"record\": true\n}"
+            }
+          },
+          "docs": "Create a live streaming asset with an RTMP ingest endpoint and stream key."
+        },
+        {
+          "info": {
+            "name": "Get Live Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/video/live/assets/:live_asset_id",
+            "params": [
+              {
+                "name": "live_asset_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the live asset."
+              }
+            ]
+          },
+          "docs": "Retrieve the status and details of a live asset."
+        },
+        {
+          "info": {
+            "name": "Delete Live Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.gumlet.com/v1/video/live/assets/:live_asset_id",
+            "params": [
+              {
+                "name": "live_asset_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the live asset."
+              }
+            ]
+          },
+          "docs": "Delete a live streaming asset."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Image Sources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Sources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/sources"
+          },
+          "docs": "List the image sources configured for the account."
+        },
+        {
+          "info": {
+            "name": "Create Source",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gumlet.com/v1/sources",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"name\": \"<string>\",\n  \"type\": \"web_folder\",\n  \"base_url\": \"https://example.com/images\"\n}"
+            }
+          },
+          "docs": "Create an image source that connects origin storage to Gumlet optimization."
+        },
+        {
+          "info": {
+            "name": "Get Source",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/sources/:source_id",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the image source."
+              }
+            ]
+          },
+          "docs": "Retrieve an image source configuration."
+        },
+        {
+          "info": {
+            "name": "Delete Source",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.gumlet.com/v1/sources/:source_id",
+            "params": [
+              {
+                "name": "source_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the image source."
+              }
+            ]
+          },
+          "docs": "Delete an image source."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Video Analytics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/analytics/videos"
+          },
+          "docs": "Query aggregated video analytics such as views, unique viewers, watch time, and engagement."
+        },
+        {
+          "info": {
+            "name": "Image Analytics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/analytics/images"
+          },
+          "docs": "Query aggregated image delivery and optimization analytics."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

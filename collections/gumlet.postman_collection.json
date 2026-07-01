@@ -1,0 +1,397 @@
+{
+  "info": {
+    "_postman_id": "b1e7c2a4-0d3f-4a1b-9c2e-3f4a5b6c7d8e",
+    "name": "Gumlet API",
+    "description": "Postman collection for the Gumlet REST API (video hosting, streaming, image optimization) at https://api.gumlet.com/v1. Authenticate with your Gumlet API key as a bearer token.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{apiKey}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.gumlet.com/v1",
+      "type": "string"
+    },
+    {
+      "key": "apiKey",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Video Assets",
+      "item": [
+        {
+          "name": "Create Asset",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"input\": \"https://example.com/video.mp4\",\n  \"collection_id\": \"<string>\",\n  \"format\": \"ABR\",\n  \"title\": \"<string>\",\n  \"per_title_encoding\": true,\n  \"enable_drm\": false,\n  \"generate_subtitles\": false\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/video/assets",
+              "host": ["{{baseUrl}}"],
+              "path": ["video", "assets"]
+            },
+            "description": "Ingest a remote media file and create a video asset for processing (ABR HLS/DASH or MP4)."
+          },
+          "response": []
+        },
+        {
+          "name": "List Assets",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/video/assets/list/:collection_id",
+              "host": ["{{baseUrl}}"],
+              "path": ["video", "assets", "list", ":collection_id"],
+              "variable": [
+                { "key": "collection_id", "value": "<string>", "description": "The ID of the collection whose assets to list." }
+              ]
+            },
+            "description": "List the assets contained in a video collection."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Asset",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/video/assets/:asset_id",
+              "host": ["{{baseUrl}}"],
+              "path": ["video", "assets", ":asset_id"],
+              "variable": [
+                { "key": "asset_id", "value": "<string>", "description": "The ID of the video asset." }
+              ]
+            },
+            "description": "Retrieve the details and processing status of a video asset."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Asset",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/video/assets/:asset_id",
+              "host": ["{{baseUrl}}"],
+              "path": ["video", "assets", ":asset_id"],
+              "variable": [
+                { "key": "asset_id", "value": "<string>", "description": "The ID of the video asset." }
+              ]
+            },
+            "description": "Update the metadata or settings of a video asset."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Asset",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/video/assets/:asset_id",
+              "host": ["{{baseUrl}}"],
+              "path": ["video", "assets", ":asset_id"],
+              "variable": [
+                { "key": "asset_id", "value": "<string>", "description": "The ID of the video asset." }
+              ]
+            },
+            "description": "Delete a video asset."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Uploads",
+      "item": [
+        {
+          "name": "Create Asset Direct Upload",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"collection_id\": \"<string>\",\n  \"format\": \"ABR\",\n  \"title\": \"<string>\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/video/assets/upload",
+              "host": ["{{baseUrl}}"],
+              "path": ["video", "assets", "upload"]
+            },
+            "description": "Create a video asset and receive a signed upload URL to upload a local file directly into Gumlet."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Video Collections",
+      "item": [
+        {
+          "name": "List Collections",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/video/sources",
+              "host": ["{{baseUrl}}"],
+              "path": ["video", "sources"]
+            },
+            "description": "List the video collections (sources) available to the token."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Collection",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/video/sources",
+              "host": ["{{baseUrl}}"],
+              "path": ["video", "sources"]
+            },
+            "description": "Create a new video collection (source)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Collection",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/video/sources/:video_source_id",
+              "host": ["{{baseUrl}}"],
+              "path": ["video", "sources", ":video_source_id"],
+              "variable": [
+                { "key": "video_source_id", "value": "<string>", "description": "The ID of the video collection." }
+              ]
+            },
+            "description": "Retrieve the full details of a video collection."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Live Streaming",
+      "item": [
+        {
+          "name": "Create Live Asset",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"collection_id\": \"<string>\",\n  \"title\": \"<string>\",\n  \"record\": true\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/video/live/assets",
+              "host": ["{{baseUrl}}"],
+              "path": ["video", "live", "assets"]
+            },
+            "description": "Create a live streaming asset with an RTMP ingest endpoint and stream key."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Live Asset",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/video/live/assets/:live_asset_id",
+              "host": ["{{baseUrl}}"],
+              "path": ["video", "live", "assets", ":live_asset_id"],
+              "variable": [
+                { "key": "live_asset_id", "value": "<string>", "description": "The ID of the live asset." }
+              ]
+            },
+            "description": "Retrieve the status and details of a live asset."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Live Asset",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/video/live/assets/:live_asset_id",
+              "host": ["{{baseUrl}}"],
+              "path": ["video", "live", "assets", ":live_asset_id"],
+              "variable": [
+                { "key": "live_asset_id", "value": "<string>", "description": "The ID of the live asset." }
+              ]
+            },
+            "description": "Delete a live streaming asset."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Image Sources",
+      "item": [
+        {
+          "name": "List Sources",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/sources",
+              "host": ["{{baseUrl}}"],
+              "path": ["sources"]
+            },
+            "description": "List the image sources configured for the account."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Source",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"web_folder\",\n  \"base_url\": \"https://example.com/images\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/sources",
+              "host": ["{{baseUrl}}"],
+              "path": ["sources"]
+            },
+            "description": "Create an image source that connects origin storage to Gumlet optimization."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Source",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/sources/:source_id",
+              "host": ["{{baseUrl}}"],
+              "path": ["sources", ":source_id"],
+              "variable": [
+                { "key": "source_id", "value": "<string>", "description": "The ID of the image source." }
+              ]
+            },
+            "description": "Retrieve an image source configuration."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Source",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/sources/:source_id",
+              "host": ["{{baseUrl}}"],
+              "path": ["sources", ":source_id"],
+              "variable": [
+                { "key": "source_id", "value": "<string>", "description": "The ID of the image source." }
+              ]
+            },
+            "description": "Delete an image source."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "item": [
+        {
+          "name": "Video Analytics",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/videos?from=&to=",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics", "videos"],
+              "query": [
+                { "key": "from", "value": "" },
+                { "key": "to", "value": "" }
+              ]
+            },
+            "description": "Query aggregated video analytics such as views, unique viewers, watch time, and engagement."
+          },
+          "response": []
+        },
+        {
+          "name": "Image Analytics",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": {
+              "raw": "{{baseUrl}}/analytics/images?from=&to=",
+              "host": ["{{baseUrl}}"],
+              "path": ["analytics", "images"],
+              "query": [
+                { "key": "from", "value": "" },
+                { "key": "to", "value": "" }
+              ]
+            },
+            "description": "Query aggregated image delivery and optimization analytics."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

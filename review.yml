@@ -1,0 +1,83 @@
+aid: gumlet
+name: Gumlet
+review:
+  question: Does Gumlet expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-01'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was created. Gumlet's public developer surface is a
+    REST management API under https://api.gumlet.com/v1 (bearer API key).
+    Live streaming ingest uses RTMP, and delivery uses HTTP-based adaptive
+    streaming (HLS/DASH) over CDN. Asynchronous processing state is delivered
+    via HTTP webhooks, not a documented WebSocket or SSE stream, so there is
+    no in-scope event-driven surface to model at review time.
+findings:
+  summary: |
+    Gumlet does not publish a documented public WebSocket API. The developer
+    platform is a REST (HTTPS) management API served from
+    https://api.gumlet.com/v1 and authenticated with a bearer API key. Real-
+    time media is handled by media protocols rather than a WebSocket
+    application API: live streams are ingested over RTMP and played back over
+    HTTP-based adaptive bitrate streaming (HLS/DASH) via CDN. Processing
+    events (e.g., asset ready) are pushed to consumers through HTTP webhooks.
+    No ws:// or wss:// application endpoint is documented.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.gumlet.com/v1
+      documented: true
+    - protocol: Webhooks
+      scheme: https
+      note: HTTP callbacks for asset/live processing events (create/update/delete webhook endpoints). Not WebSocket.
+      documented: true
+    - protocol: RTMP
+      scheme: rtmp
+      note: Live stream ingest endpoint returned per live asset. Media ingest protocol, not a WebSocket application API.
+      documented: true
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in Gumlet's API reference for video, image, live, or analytics surfaces as of the review date.
+  endpointsConfirmedRest:
+    - POST   https://api.gumlet.com/v1/video/assets
+    - GET    https://api.gumlet.com/v1/video/assets/list/{collection_id}
+    - GET    https://api.gumlet.com/v1/video/assets/{asset_id}
+    - PUT    https://api.gumlet.com/v1/video/assets/{asset_id}
+    - DELETE https://api.gumlet.com/v1/video/assets/{asset_id}
+    - POST   https://api.gumlet.com/v1/video/assets/upload
+    - GET    https://api.gumlet.com/v1/video/sources
+    - POST   https://api.gumlet.com/v1/video/sources
+    - GET    https://api.gumlet.com/v1/video/sources/{video_source_id}
+    - POST   https://api.gumlet.com/v1/video/live/assets
+    - GET    https://api.gumlet.com/v1/video/live/assets/{live_asset_id}
+    - GET    https://api.gumlet.com/v1/sources
+    - POST   https://api.gumlet.com/v1/sources
+    - GET    https://api.gumlet.com/v1/analytics/videos
+    - GET    https://api.gumlet.com/v1/analytics/images
+sources:
+  - url: https://docs.gumlet.com/
+    type: Documentation
+    note: Developer docs describe a REST API at https://api.gumlet.com/v1; no WebSocket mentioned.
+  - url: https://docs.gumlet.com/reference/create-asset
+    type: APIReference
+    note: Video asset creation is a REST POST with bearer auth.
+  - url: https://docs.gumlet.com/reference/create-live-asset
+    type: APIReference
+    note: Live asset creation returns RTMP ingest details; playback via HLS/DASH, not WebSocket.
+  - url: https://docs.gumlet.com/docs/advanced-video-analytics
+    type: Documentation
+    note: Analytics exposed via aggregated/breakdown/chart REST APIs, not a streaming WebSocket.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: false
+  reason: |
+    No documented WebSocket application surface exists, and the event-driven
+    surface that does exist (HTTP webhooks) plus media protocols (RTMP ingest,
+    HLS/DASH delivery) are outside the AsyncAPI modeling scope applied here.
+    No AsyncAPI document was authored and no apis.yml AsyncAPI property was
+    added.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
