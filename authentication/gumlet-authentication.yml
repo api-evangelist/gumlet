@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/gumlet-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: 'Pass your Gumlet API key as a bearer token in the Authorization header: `Authorization:
+    Bearer <API_KEY>`.'
+  sources:
+  - openapi/gumlet-openapi.yml

@@ -160,6 +160,12 @@ apis:
   description: Request signed direct-upload URLs and complete multipart uploads to
     ingest local video files into Gumlet for processing.
 common:
+- type: VulnerabilityDisclosure
+  url: security/gumlet-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/gumlet-domain-security.yml
+- type: Authentication
+  url: authentication/gumlet-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/gumlet
 - type: LinkedIn
@@ -174,6 +180,8 @@ common:
   url: rate-limits/gumlet-rate-limits.yml
 - type: FinOps
   url: finops/gumlet-finops.yml
+- type: Blog
+  url: https://www.gumlet.com/blog/rss/
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
