@@ -160,6 +160,8 @@ apis:
   description: Request signed direct-upload URLs and complete multipart uploads to
     ingest local video files into Gumlet for processing.
 common:
+- type: AgenticAccess
+  url: agentic-access/gumlet-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/gumlet-vulnerability-disclosure.yml
 - type: DomainSecurity
