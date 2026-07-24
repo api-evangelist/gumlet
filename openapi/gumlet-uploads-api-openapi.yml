@@ -1,0 +1,86 @@
+openapi: 3.0.3
+info:
+  title: Gumlet Analytics Uploads API
+  version: '1.0'
+  description: Representative OpenAPI description of the Gumlet REST API for video hosting, streaming, and image optimization. Covers video assets, video collections (sources), live streaming, image sources, analytics, and direct uploads. All requests are authenticated with a bearer API key in the Authorization header and are served from https://api.gumlet.com/v1. Endpoint shapes follow the public documentation at https://docs.gumlet.com/reference; request and response schemas are simplified representative models.
+  contact:
+    name: Gumlet
+    url: https://www.gumlet.com/
+  license:
+    name: Proprietary
+    url: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+  description: Gumlet production API
+security:
+- bearerAuth: []
+tags:
+- name: Uploads
+  description: Direct and multipart uploads of local media.
+paths:
+  /video/assets/upload:
+    post:
+      tags:
+      - Uploads
+      summary: Create Asset Direct Upload
+      description: Create a video asset and receive a signed upload URL to upload a local file directly into Gumlet for processing.
+      operationId: createAssetDirectUpload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DirectUploadRequest'
+      responses:
+        '200':
+          description: Direct upload created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DirectUploadResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    DirectUploadRequest:
+      type: object
+      required:
+      - collection_id
+      - format
+      properties:
+        collection_id:
+          type: string
+        format:
+          type: string
+          enum:
+          - ABR
+          - MP4
+        title:
+          type: string
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+    DirectUploadResponse:
+      type: object
+      properties:
+        asset_id:
+          type: string
+        upload_url:
+          type: string
+          description: Signed URL to PUT the local file to.
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Pass your Gumlet API key as a bearer token in the Authorization header: `Authorization: Bearer <API_KEY>`.'

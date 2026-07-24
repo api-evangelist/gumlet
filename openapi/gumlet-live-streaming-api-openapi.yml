@@ -1,0 +1,131 @@
+openapi: 3.0.3
+info:
+  title: Gumlet Analytics Live Streaming API
+  version: '1.0'
+  description: Representative OpenAPI description of the Gumlet REST API for video hosting, streaming, and image optimization. Covers video assets, video collections (sources), live streaming, image sources, analytics, and direct uploads. All requests are authenticated with a bearer API key in the Authorization header and are served from https://api.gumlet.com/v1. Endpoint shapes follow the public documentation at https://docs.gumlet.com/reference; request and response schemas are simplified representative models.
+  contact:
+    name: Gumlet
+    url: https://www.gumlet.com/
+  license:
+    name: Proprietary
+    url: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+  description: Gumlet production API
+security:
+- bearerAuth: []
+tags:
+- name: Live Streaming
+  description: Create and manage live streaming assets.
+paths:
+  /video/live/assets:
+    post:
+      tags:
+      - Live Streaming
+      summary: Create Live Asset
+      description: Create a live streaming asset with an RTMP ingest endpoint and stream key, with optional live-to-VOD recording.
+      operationId: createLiveAsset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLiveAssetRequest'
+      responses:
+        '200':
+          description: Live asset created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveAsset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /video/live/assets/{live_asset_id}:
+    get:
+      tags:
+      - Live Streaming
+      summary: Get Live Asset
+      description: Retrieve the status and details of a live asset.
+      operationId: getLiveAsset
+      parameters:
+      - name: live_asset_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Live asset details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveAsset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      tags:
+      - Live Streaming
+      summary: Delete Live Asset
+      description: Delete a live streaming asset.
+      operationId: deleteLiveAsset
+      parameters:
+      - name: live_asset_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Live asset deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    LiveAsset:
+      type: object
+      properties:
+        live_asset_id:
+          type: string
+        status:
+          type: string
+          enum:
+          - idle
+          - active
+          - completed
+        rtmp_url:
+          type: string
+        stream_key:
+          type: string
+        playback_url:
+          type: string
+    CreateLiveAssetRequest:
+      type: object
+      required:
+      - collection_id
+      properties:
+        collection_id:
+          type: string
+        title:
+          type: string
+        record:
+          type: boolean
+          description: Whether to record the live stream to VOD.
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Pass your Gumlet API key as a bearer token in the Authorization header: `Authorization: Bearer <API_KEY>`.'

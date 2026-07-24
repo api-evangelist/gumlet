@@ -1,0 +1,157 @@
+openapi: 3.0.3
+info:
+  title: Gumlet Analytics Image Sources API
+  version: '1.0'
+  description: Representative OpenAPI description of the Gumlet REST API for video hosting, streaming, and image optimization. Covers video assets, video collections (sources), live streaming, image sources, analytics, and direct uploads. All requests are authenticated with a bearer API key in the Authorization header and are served from https://api.gumlet.com/v1. Endpoint shapes follow the public documentation at https://docs.gumlet.com/reference; request and response schemas are simplified representative models.
+  contact:
+    name: Gumlet
+    url: https://www.gumlet.com/
+  license:
+    name: Proprietary
+    url: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+  description: Gumlet production API
+security:
+- bearerAuth: []
+tags:
+- name: Image Sources
+  description: Connect cloud storage to Gumlet image optimization.
+paths:
+  /sources:
+    get:
+      tags:
+      - Image Sources
+      summary: List Sources
+      description: List the image sources configured for the account.
+      operationId: listSources
+      responses:
+        '200':
+          description: A list of image sources.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageSource'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      tags:
+      - Image Sources
+      summary: Create Source
+      description: Create an image source that connects an origin cloud storage bucket (S3, GCS, Spaces, Wasabi) or web folder to Gumlet optimization.
+      operationId: createSource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateImageSourceRequest'
+      responses:
+        '200':
+          description: Image source created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageSource'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /sources/{source_id}:
+    get:
+      tags:
+      - Image Sources
+      summary: Get Source
+      description: Retrieve an image source configuration.
+      operationId: getSource
+      parameters:
+      - name: source_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Image source details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageSource'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      tags:
+      - Image Sources
+      summary: Delete Source
+      description: Delete an image source.
+      operationId: deleteSource
+      parameters:
+      - name: source_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Image source deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ImageSource:
+      type: object
+      properties:
+        source_id:
+          type: string
+        name:
+          type: string
+        base_url:
+          type: string
+        type:
+          type: string
+          enum:
+          - web_folder
+          - s3
+          - gcp
+          - digitalocean
+          - wasabi
+    CreateImageSourceRequest:
+      type: object
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - web_folder
+          - s3
+          - gcp
+          - digitalocean
+          - wasabi
+        base_url:
+          type: string
+        default_params:
+          type: object
+          additionalProperties: true
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Pass your Gumlet API key as a bearer token in the Authorization header: `Authorization: Bearer <API_KEY>`.'

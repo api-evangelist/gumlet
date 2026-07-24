@@ -1,0 +1,115 @@
+openapi: 3.0.3
+info:
+  title: Gumlet Analytics API
+  version: '1.0'
+  description: Representative OpenAPI description of the Gumlet REST API for video hosting, streaming, and image optimization. Covers video assets, video collections (sources), live streaming, image sources, analytics, and direct uploads. All requests are authenticated with a bearer API key in the Authorization header and are served from https://api.gumlet.com/v1. Endpoint shapes follow the public documentation at https://docs.gumlet.com/reference; request and response schemas are simplified representative models.
+  contact:
+    name: Gumlet
+    url: https://www.gumlet.com/
+  license:
+    name: Proprietary
+    url: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+  description: Gumlet production API
+security:
+- bearerAuth: []
+tags:
+- name: Analytics
+  description: Query video and image analytics and insights.
+paths:
+  /analytics/videos:
+    get:
+      tags:
+      - Analytics
+      summary: Video Analytics
+      description: Query aggregated video analytics such as views, unique viewers, watch time, and engagement over a selected time range.
+      operationId: getVideoAnalytics
+      parameters:
+      - name: from
+        in: query
+        required: false
+        description: Start of the time range (ISO 8601).
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        required: false
+        description: End of the time range (ISO 8601).
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: Video analytics data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/images:
+    get:
+      tags:
+      - Analytics
+      summary: Image Analytics
+      description: Query aggregated image delivery and optimization analytics.
+      operationId: getImageAnalytics
+      parameters:
+      - name: from
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: Image analytics data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    AnalyticsResult:
+      type: object
+      properties:
+        total_views:
+          type: integer
+        unique_viewers:
+          type: integer
+        watch_time_hours:
+          type: number
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Pass your Gumlet API key as a bearer token in the Authorization header: `Authorization: Bearer <API_KEY>`.'

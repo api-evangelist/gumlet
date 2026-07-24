@@ -1,0 +1,254 @@
+openapi: 3.0.3
+info:
+  title: Gumlet Analytics Video Assets API
+  version: '1.0'
+  description: Representative OpenAPI description of the Gumlet REST API for video hosting, streaming, and image optimization. Covers video assets, video collections (sources), live streaming, image sources, analytics, and direct uploads. All requests are authenticated with a bearer API key in the Authorization header and are served from https://api.gumlet.com/v1. Endpoint shapes follow the public documentation at https://docs.gumlet.com/reference; request and response schemas are simplified representative models.
+  contact:
+    name: Gumlet
+    url: https://www.gumlet.com/
+  license:
+    name: Proprietary
+    url: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+  description: Gumlet production API
+security:
+- bearerAuth: []
+tags:
+- name: Video Assets
+  description: Ingest, encode, and manage video-on-demand assets.
+paths:
+  /video/assets:
+    post:
+      tags:
+      - Video Assets
+      summary: Create Asset
+      description: Ingest a remote media file and create a video asset for processing (ABR HLS/DASH or MP4), with optional per-title encoding, DRM, overlays, trimming, and subtitle generation.
+      operationId: createAsset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAssetRequest'
+      responses:
+        '200':
+          description: Asset created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /video/assets/list/{collection_id}:
+    get:
+      tags:
+      - Video Assets
+      summary: List Assets
+      description: List the assets contained in a video collection.
+      operationId: listAssets
+      parameters:
+      - name: collection_id
+        in: path
+        required: true
+        description: The ID of the collection whose assets to list.
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: A list of assets.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /video/assets/{asset_id}:
+    get:
+      tags:
+      - Video Assets
+      summary: Get Asset
+      description: Retrieve the details and processing status of a video asset.
+      operationId: getAsset
+      parameters:
+      - $ref: '#/components/parameters/AssetId'
+      responses:
+        '200':
+          description: Asset details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags:
+      - Video Assets
+      summary: Update Asset
+      description: Update the metadata or settings of a video asset.
+      operationId: updateAsset
+      parameters:
+      - $ref: '#/components/parameters/AssetId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAssetRequest'
+      responses:
+        '200':
+          description: Updated asset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      tags:
+      - Video Assets
+      summary: Delete Asset
+      description: Delete a video asset.
+      operationId: deleteAsset
+      parameters:
+      - $ref: '#/components/parameters/AssetId'
+      responses:
+        '200':
+          description: Asset deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    AssetId:
+      name: asset_id
+      in: path
+      required: true
+      description: The ID of the video asset.
+      schema:
+        type: string
+  schemas:
+    CreateAssetRequest:
+      type: object
+      required:
+      - input
+      - collection_id
+      - format
+      properties:
+        input:
+          type: string
+          description: URL of the source media file to ingest.
+        collection_id:
+          type: string
+          description: The Gumlet collection (workspace) ID.
+        format:
+          type: string
+          enum:
+          - ABR
+          - MP4
+          description: Output format; ABR delivers HLS + DASH.
+        title:
+          type: string
+        description:
+          type: string
+        tag:
+          type: array
+          items:
+            type: string
+        per_title_encoding:
+          type: boolean
+        enable_drm:
+          type: boolean
+        generate_subtitles:
+          type: boolean
+        mp4_access:
+          type: boolean
+        profile_id:
+          type: string
+        folder:
+          type: string
+        playlist_id:
+          type: string
+    UpdateAssetRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tag:
+          type: array
+          items:
+            type: string
+        folder:
+          type: string
+    Asset:
+      type: object
+      properties:
+        asset_id:
+          type: string
+        collection_id:
+          type: string
+        status:
+          type: string
+          enum:
+          - upload
+          - queued
+          - processing
+          - ready
+          - errored
+        format:
+          type: string
+        title:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        output:
+          type: object
+          properties:
+            playback_url:
+              type: string
+            thumbnail_url:
+              type: string
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Pass your Gumlet API key as a bearer token in the Authorization header: `Authorization: Bearer <API_KEY>`.'
