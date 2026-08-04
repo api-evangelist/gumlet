@@ -1,0 +1,24 @@
+{
+  "provider": "gumlet",
+  "sources": [
+    "gumlet-analytics-api-openapi.yml",
+    "gumlet-image-sources-api-openapi.yml",
+    "gumlet-live-streaming-api-openapi.yml",
+    "gumlet-uploads-api-openapi.yml",
+    "gumlet-video-assets-api-openapi.yml",
+    "gumlet-video-collections-api-openapi.yml"
+  ],
+  "outputs": [
+    "gumlet-analytics-api-openapi.yml",
+    "gumlet-image-sources-api-openapi.yml",
+    "gumlet-live-streaming-api-openapi.yml",
+    "gumlet-uploads-api-openapi.yml",
+    "gumlet-video-assets-api-openapi.yml",
+    "gumlet-video-collections-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

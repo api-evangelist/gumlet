@@ -1,0 +1,693 @@
+openapi: 3.0.3
+info:
+  title: Gumlet API
+  version: '1.0'
+  description: >-
+    Representative OpenAPI description of the Gumlet REST API for video hosting,
+    streaming, and image optimization. Covers video assets, video collections
+    (sources), live streaming, image sources, analytics, and direct uploads. All
+    requests are authenticated with a bearer API key in the Authorization header
+    and are served from https://api.gumlet.com/v1. Endpoint shapes follow the
+    public documentation at https://docs.gumlet.com/reference; request and
+    response schemas are simplified representative models.
+  contact:
+    name: Gumlet
+    url: https://www.gumlet.com/
+  license:
+    name: Proprietary
+    url: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+  description: Gumlet production API
+security:
+- bearerAuth: []
+tags:
+- name: Video Assets
+  description: Ingest, encode, and manage video-on-demand assets.
+- name: Video Collections
+  description: Manage video collections (sources) and organization.
+- name: Live Streaming
+  description: Create and manage live streaming assets.
+- name: Image Sources
+  description: Connect cloud storage to Gumlet image optimization.
+- name: Analytics
+  description: Query video and image analytics and insights.
+- name: Uploads
+  description: Direct and multipart uploads of local media.
+paths:
+  /video/assets:
+    post:
+      tags:
+      - Video Assets
+      summary: Create Asset
+      description: >-
+        Ingest a remote media file and create a video asset for processing
+        (ABR HLS/DASH or MP4), with optional per-title encoding, DRM, overlays,
+        trimming, and subtitle generation.
+      operationId: createAsset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAssetRequest'
+      responses:
+        '200':
+          description: Asset created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /video/assets/list/{collection_id}:
+    get:
+      tags:
+      - Video Assets
+      summary: List Assets
+      description: List the assets contained in a video collection.
+      operationId: listAssets
+      parameters:
+      - name: collection_id
+        in: path
+        required: true
+        description: The ID of the collection whose assets to list.
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: A list of assets.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Asset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /video/assets/{asset_id}:
+    get:
+      tags:
+      - Video Assets
+      summary: Get Asset
+      description: Retrieve the details and processing status of a video asset.
+      operationId: getAsset
+      parameters:
+      - $ref: '#/components/parameters/AssetId'
+      responses:
+        '200':
+          description: Asset details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags:
+      - Video Assets
+      summary: Update Asset
+      description: Update the metadata or settings of a video asset.
+      operationId: updateAsset
+      parameters:
+      - $ref: '#/components/parameters/AssetId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAssetRequest'
+      responses:
+        '200':
+          description: Updated asset.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      tags:
+      - Video Assets
+      summary: Delete Asset
+      description: Delete a video asset.
+      operationId: deleteAsset
+      parameters:
+      - $ref: '#/components/parameters/AssetId'
+      responses:
+        '200':
+          description: Asset deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /video/assets/upload:
+    post:
+      tags:
+      - Uploads
+      summary: Create Asset Direct Upload
+      description: >-
+        Create a video asset and receive a signed upload URL to upload a local
+        file directly into Gumlet for processing.
+      operationId: createAssetDirectUpload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DirectUploadRequest'
+      responses:
+        '200':
+          description: Direct upload created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DirectUploadResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /video/sources:
+    get:
+      tags:
+      - Video Collections
+      summary: List Collections
+      description: List the video collections (sources) available to the token.
+      operationId: listCollections
+      responses:
+        '200':
+          description: A list of collections.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Collection'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      tags:
+      - Video Collections
+      summary: Create Collection
+      description: Create a new video collection (source).
+      operationId: createCollection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCollectionRequest'
+      responses:
+        '200':
+          description: Collection created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /video/sources/{video_source_id}:
+    get:
+      tags:
+      - Video Collections
+      summary: Get Collection
+      description: Retrieve the full details of a video collection.
+      operationId: getCollection
+      parameters:
+      - name: video_source_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Collection details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /video/live/assets:
+    post:
+      tags:
+      - Live Streaming
+      summary: Create Live Asset
+      description: >-
+        Create a live streaming asset with an RTMP ingest endpoint and stream
+        key, with optional live-to-VOD recording.
+      operationId: createLiveAsset
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLiveAssetRequest'
+      responses:
+        '200':
+          description: Live asset created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveAsset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /video/live/assets/{live_asset_id}:
+    get:
+      tags:
+      - Live Streaming
+      summary: Get Live Asset
+      description: Retrieve the status and details of a live asset.
+      operationId: getLiveAsset
+      parameters:
+      - name: live_asset_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Live asset details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LiveAsset'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      tags:
+      - Live Streaming
+      summary: Delete Live Asset
+      description: Delete a live streaming asset.
+      operationId: deleteLiveAsset
+      parameters:
+      - name: live_asset_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Live asset deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /sources:
+    get:
+      tags:
+      - Image Sources
+      summary: List Sources
+      description: List the image sources configured for the account.
+      operationId: listSources
+      responses:
+        '200':
+          description: A list of image sources.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageSource'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      tags:
+      - Image Sources
+      summary: Create Source
+      description: >-
+        Create an image source that connects an origin cloud storage bucket
+        (S3, GCS, Spaces, Wasabi) or web folder to Gumlet optimization.
+      operationId: createSource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateImageSourceRequest'
+      responses:
+        '200':
+          description: Image source created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageSource'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /sources/{source_id}:
+    get:
+      tags:
+      - Image Sources
+      summary: Get Source
+      description: Retrieve an image source configuration.
+      operationId: getSource
+      parameters:
+      - name: source_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Image source details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageSource'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      tags:
+      - Image Sources
+      summary: Delete Source
+      description: Delete an image source.
+      operationId: deleteSource
+      parameters:
+      - name: source_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Image source deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/videos:
+    get:
+      tags:
+      - Analytics
+      summary: Video Analytics
+      description: >-
+        Query aggregated video analytics such as views, unique viewers, watch
+        time, and engagement over a selected time range.
+      operationId: getVideoAnalytics
+      parameters:
+      - name: from
+        in: query
+        required: false
+        description: Start of the time range (ISO 8601).
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        required: false
+        description: End of the time range (ISO 8601).
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: Video analytics data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /analytics/images:
+    get:
+      tags:
+      - Analytics
+      summary: Image Analytics
+      description: Query aggregated image delivery and optimization analytics.
+      operationId: getImageAnalytics
+      parameters:
+      - name: from
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: Image analytics data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Pass your Gumlet API key as a bearer token in the Authorization header:
+        `Authorization: Bearer <API_KEY>`.
+  parameters:
+    AssetId:
+      name: asset_id
+      in: path
+      required: true
+      description: The ID of the video asset.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    CreateAssetRequest:
+      type: object
+      required:
+      - input
+      - collection_id
+      - format
+      properties:
+        input:
+          type: string
+          description: URL of the source media file to ingest.
+        collection_id:
+          type: string
+          description: The Gumlet collection (workspace) ID.
+        format:
+          type: string
+          enum:
+          - ABR
+          - MP4
+          description: Output format; ABR delivers HLS + DASH.
+        title:
+          type: string
+        description:
+          type: string
+        tag:
+          type: array
+          items:
+            type: string
+        per_title_encoding:
+          type: boolean
+        enable_drm:
+          type: boolean
+        generate_subtitles:
+          type: boolean
+        mp4_access:
+          type: boolean
+        profile_id:
+          type: string
+        folder:
+          type: string
+        playlist_id:
+          type: string
+    UpdateAssetRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tag:
+          type: array
+          items:
+            type: string
+        folder:
+          type: string
+    Asset:
+      type: object
+      properties:
+        asset_id:
+          type: string
+        collection_id:
+          type: string
+        status:
+          type: string
+          enum:
+          - upload
+          - queued
+          - processing
+          - ready
+          - errored
+        format:
+          type: string
+        title:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        output:
+          type: object
+          properties:
+            playback_url:
+              type: string
+            thumbnail_url:
+              type: string
+    DirectUploadRequest:
+      type: object
+      required:
+      - collection_id
+      - format
+      properties:
+        collection_id:
+          type: string
+        format:
+          type: string
+          enum:
+          - ABR
+          - MP4
+        title:
+          type: string
+    DirectUploadResponse:
+      type: object
+      properties:
+        asset_id:
+          type: string
+        upload_url:
+          type: string
+          description: Signed URL to PUT the local file to.
+    Collection:
+      type: object
+      properties:
+        collection_id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    CreateCollectionRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+    CreateLiveAssetRequest:
+      type: object
+      required:
+      - collection_id
+      properties:
+        collection_id:
+          type: string
+        title:
+          type: string
+        record:
+          type: boolean
+          description: Whether to record the live stream to VOD.
+    LiveAsset:
+      type: object
+      properties:
+        live_asset_id:
+          type: string
+        status:
+          type: string
+          enum:
+          - idle
+          - active
+          - completed
+        rtmp_url:
+          type: string
+        stream_key:
+          type: string
+        playback_url:
+          type: string
+    ImageSource:
+      type: object
+      properties:
+        source_id:
+          type: string
+        name:
+          type: string
+        base_url:
+          type: string
+        type:
+          type: string
+          enum:
+          - web_folder
+          - s3
+          - gcp
+          - digitalocean
+          - wasabi
+    CreateImageSourceRequest:
+      type: object
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - web_folder
+          - s3
+          - gcp
+          - digitalocean
+          - wasabi
+        base_url:
+          type: string
+        default_params:
+          type: object
+          additionalProperties: true
+    AnalyticsResult:
+      type: object
+      properties:
+        total_views:
+          type: integer
+        unique_viewers:
+          type: integer
+        watch_time_hours:
+          type: number
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    Error:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
