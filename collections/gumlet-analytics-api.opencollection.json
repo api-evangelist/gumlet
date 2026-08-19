@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gumlet Analytics API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Video Analytics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/analytics/videos",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start of the time range (ISO 8601)."
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End of the time range (ISO 8601)."
+              }
+            ]
+          },
+          "docs": "Query aggregated video analytics such as views, unique viewers, watch time, and engagement over a selected time range."
+        },
+        {
+          "info": {
+            "name": "Image Analytics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/analytics/images",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Query aggregated image delivery and optimization analytics."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

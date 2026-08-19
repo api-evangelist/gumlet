@@ -1,0 +1,349 @@
+{
+  "item": [
+    {
+      "id": "a17e55a0-e5df-4b49-8131-80a0a53e1103",
+      "name": "Analytics",
+      "description": {
+        "content": "Query video and image analytics and insights.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "369753e9-e7a9-492f-95f3-5059c2d0de7b",
+          "name": "Video Analytics",
+          "request": {
+            "name": "Video Analytics",
+            "description": {
+              "content": "Query aggregated video analytics such as views, unique viewers, watch time, and engagement over a selected time range.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "analytics",
+                "videos"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<dateTime>",
+                  "description": "Start of the time range (ISO 8601)."
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<dateTime>",
+                  "description": "End of the time range (ISO 8601)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "70da6589-4f24-4882-91e5-28ab1f2c428e",
+              "name": "Video analytics data.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "videos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total_views\": 2874,\n  \"unique_viewers\": 295,\n  \"watch_time_hours\": 6193.034448158309,\n  \"data\": [\n    {\n      \"key_0\": false,\n      \"key_1\": false\n    },\n    {\n      \"key_0\": 5810\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6728f791-ac23-40bf-bca5-67279675ed17",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "videos"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1584,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9c8654e3-e01e-4bf5-8208-9a0b302b3a6a",
+          "name": "Image Analytics",
+          "request": {
+            "name": "Image Analytics",
+            "description": {
+              "content": "Query aggregated image delivery and optimization analytics.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "analytics",
+                "images"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<dateTime>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b35e4df0-48ff-4a3c-9919-4d8e5ce71b38",
+              "name": "Image analytics data.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "images"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"total_views\": 8492,\n  \"unique_viewers\": 531,\n  \"watch_time_hours\": 7514.954422089832,\n  \"data\": [\n    {\n      \"key_0\": \"string\",\n      \"key_1\": false,\n      \"key_2\": \"string\",\n      \"key_3\": true\n    },\n    {\n      \"key_0\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02113fa3-41ba-4eeb-921b-d458bdb3d9e1",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "analytics",
+                    "images"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1584,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.gumlet.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "45c203e9-cec8-4926-b728-89375bd1a27f",
+    "name": "Gumlet Analytics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Representative OpenAPI description of the Gumlet REST API for video hosting, streaming, and image optimization. Covers video assets, video collections (sources), live streaming, image sources, analytics, and direct uploads. All requests are authenticated with a bearer API key in the Authorization header and are served from https://api.gumlet.com/v1. Endpoint shapes follow the public documentation at https://docs.gumlet.com/reference; request and response schemas are simplified representative models.\n\nContact Support:\n Name: Gumlet",
+      "type": "text/plain"
+    }
+  }
+}

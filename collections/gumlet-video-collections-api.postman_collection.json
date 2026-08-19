@@ -1,0 +1,522 @@
+{
+  "item": [
+    {
+      "id": "211b0f71-67f1-4d31-90d6-b67453529da0",
+      "name": "Video Collections",
+      "description": {
+        "content": "Manage video collections (sources) and organization.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "09d7c1be-f6bf-4199-9027-529e7333cce8",
+          "name": "List Collections",
+          "request": {
+            "name": "List Collections",
+            "description": {
+              "content": "List the video collections (sources) available to the token.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "video",
+                "sources"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1d936a4c-23ab-4848-a52f-fe868b97b2d6",
+              "name": "A list of collections.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"collection_id\": \"string\",\n    \"name\": \"string\",\n    \"type\": \"string\",\n    \"created_at\": \"1995-01-06T01:27:12.513Z\"\n  },\n  {\n    \"collection_id\": \"string\",\n    \"name\": \"string\",\n    \"type\": \"string\",\n    \"created_at\": \"1950-11-19T15:07:42.533Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "12acbe8e-0671-4335-99ee-96923d7420be",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1304,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8bb6958c-cd25-4327-89d3-426edc52e375",
+          "name": "Create Collection",
+          "request": {
+            "name": "Create Collection",
+            "description": {
+              "content": "Create a new video collection (source).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "video",
+                "sources"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e882395a-4239-4bce-8203-c984eb4b0640",
+              "name": "Collection created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"collection_id\": \"string\",\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"created_at\": \"1987-05-16T20:40:42.034Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9e67b6a1-37b0-4dfc-a679-07f88b9c57c7",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1304,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fea4bb08-b217-4d3c-8302-c72e90caf3a9",
+          "name": "Get Collection",
+          "request": {
+            "name": "Get Collection",
+            "description": {
+              "content": "Retrieve the full details of a video collection.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "video",
+                "sources",
+                ":video_source_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "video_source_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ba2d9a81-6e2e-4b28-9d66-0c70015c2eac",
+              "name": "Collection details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "sources",
+                    ":video_source_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "video_source_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"collection_id\": \"string\",\n  \"name\": \"string\",\n  \"type\": \"string\",\n  \"created_at\": \"1987-05-16T20:40:42.034Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "318f9883-a720-4c61-b743-bc17c57a316a",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "sources",
+                    ":video_source_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "video_source_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1304,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c786fad-50c3-4330-afea-987e6d4124e4",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "sources",
+                    ":video_source_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "video_source_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 1304,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.gumlet.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2703c4fe-524c-42b3-9229-e6a809f69951",
+    "name": "Gumlet Analytics Video Collections API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Representative OpenAPI description of the Gumlet REST API for video hosting, streaming, and image optimization. Covers video assets, video collections (sources), live streaming, image sources, analytics, and direct uploads. All requests are authenticated with a bearer API key in the Authorization header and are served from https://api.gumlet.com/v1. Endpoint shapes follow the public documentation at https://docs.gumlet.com/reference; request and response schemas are simplified representative models.\n\nContact Support:\n Name: Gumlet",
+      "type": "text/plain"
+    }
+  }
+}

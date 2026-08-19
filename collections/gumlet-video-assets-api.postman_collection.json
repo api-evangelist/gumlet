@@ -1,0 +1,908 @@
+{
+  "item": [
+    {
+      "id": "e8ffa673-4a19-416f-9883-5f09c4457aa9",
+      "name": "Video Assets",
+      "description": {
+        "content": "Ingest, encode, and manage video-on-demand assets.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4f7b7a35-ac75-4696-b250-6f001eecff30",
+          "name": "Create Asset",
+          "request": {
+            "name": "Create Asset",
+            "description": {
+              "content": "Ingest a remote media file and create a video asset for processing (ABR HLS/DASH or MP4), with optional per-title encoding, DRM, overlays, trimming, and subtitle generation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "video",
+                "assets"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"input\": \"<string>\",\n  \"collection_id\": \"<string>\",\n  \"format\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"per_title_encoding\": \"<boolean>\",\n  \"enable_drm\": \"<boolean>\",\n  \"generate_subtitles\": \"<boolean>\",\n  \"mp4_access\": \"<boolean>\",\n  \"profile_id\": \"<string>\",\n  \"folder\": \"<string>\",\n  \"playlist_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b6ecd475-6268-493d-b990-a2064a08cdaf",
+              "name": "Asset created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<string>\",\n  \"collection_id\": \"<string>\",\n  \"format\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"per_title_encoding\": \"<boolean>\",\n  \"enable_drm\": \"<boolean>\",\n  \"generate_subtitles\": \"<boolean>\",\n  \"mp4_access\": \"<boolean>\",\n  \"profile_id\": \"<string>\",\n  \"folder\": \"<string>\",\n  \"playlist_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"asset_id\": \"string\",\n  \"collection_id\": \"string\",\n  \"status\": \"processing\",\n  \"format\": \"string\",\n  \"title\": \"string\",\n  \"created_at\": \"1995-12-20T22:56:25.953Z\",\n  \"output\": {\n    \"playback_url\": \"string\",\n    \"thumbnail_url\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e83f90fa-a1cf-40ac-8970-b7ebaeadd356",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "assets"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"input\": \"<string>\",\n  \"collection_id\": \"<string>\",\n  \"format\": \"<string>\",\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"per_title_encoding\": \"<boolean>\",\n  \"enable_drm\": \"<boolean>\",\n  \"generate_subtitles\": \"<boolean>\",\n  \"mp4_access\": \"<boolean>\",\n  \"profile_id\": \"<string>\",\n  \"folder\": \"<string>\",\n  \"playlist_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 8237,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9772d851-7d5f-4dfb-8728-42cecf04649c",
+          "name": "List Assets",
+          "request": {
+            "name": "List Assets",
+            "description": {
+              "content": "List the assets contained in a video collection.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "video",
+                "assets",
+                "list",
+                ":collection_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "collection_id",
+                  "description": "(Required) The ID of the collection whose assets to list."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e9d64d34-b238-44a3-81aa-8bf9e5799c9e",
+              "name": "A list of assets.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "assets",
+                    "list",
+                    ":collection_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_id",
+                      "description": "(Required) The ID of the collection whose assets to list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"asset_id\": \"string\",\n      \"collection_id\": \"string\",\n      \"status\": \"upload\",\n      \"format\": \"string\",\n      \"title\": \"string\",\n      \"created_at\": \"1950-12-22T07:25:01.368Z\",\n      \"output\": {\n        \"playback_url\": \"string\",\n        \"thumbnail_url\": \"string\"\n      }\n    },\n    {\n      \"asset_id\": \"string\",\n      \"collection_id\": \"string\",\n      \"status\": \"errored\",\n      \"format\": \"string\",\n      \"title\": \"string\",\n      \"created_at\": \"2014-05-16T15:51:54.798Z\",\n      \"output\": {\n        \"playback_url\": \"string\",\n        \"thumbnail_url\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "05488ceb-2ced-4220-8892-5e1a7a921278",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "assets",
+                    "list",
+                    ":collection_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "collection_id",
+                      "description": "(Required) The ID of the collection whose assets to list."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 8237,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ff7f36fa-8b46-4b78-92b1-801bd3acb8d3",
+          "name": "Get Asset",
+          "request": {
+            "name": "Get Asset",
+            "description": {
+              "content": "Retrieve the details and processing status of a video asset.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "video",
+                "assets",
+                ":asset_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "asset_id",
+                  "description": "(Required) The ID of the video asset."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "457caf04-d9c3-4907-bebf-1f8dd5d77de7",
+              "name": "Asset details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "assets",
+                    ":asset_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "asset_id",
+                      "description": "(Required) The ID of the video asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"asset_id\": \"string\",\n  \"collection_id\": \"string\",\n  \"status\": \"processing\",\n  \"format\": \"string\",\n  \"title\": \"string\",\n  \"created_at\": \"1995-12-20T22:56:25.953Z\",\n  \"output\": {\n    \"playback_url\": \"string\",\n    \"thumbnail_url\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "881fd0b6-20f5-4e67-af8b-fef86ef79991",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "assets",
+                    ":asset_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "asset_id",
+                      "description": "(Required) The ID of the video asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 8237,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77d49951-fded-4a00-9f2b-163b839079f2",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "assets",
+                    ":asset_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "asset_id",
+                      "description": "(Required) The ID of the video asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 8237,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9c233a9b-1c45-4608-a73f-287cf7ae8d44",
+          "name": "Update Asset",
+          "request": {
+            "name": "Update Asset",
+            "description": {
+              "content": "Update the metadata or settings of a video asset.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "video",
+                "assets",
+                ":asset_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "asset_id",
+                  "description": "(Required) The ID of the video asset."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"folder\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a668cca3-b552-4e25-ab80-d844fac2425a",
+              "name": "Updated asset.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "assets",
+                    ":asset_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "asset_id",
+                      "description": "(Required) The ID of the video asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"folder\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"asset_id\": \"string\",\n  \"collection_id\": \"string\",\n  \"status\": \"processing\",\n  \"format\": \"string\",\n  \"title\": \"string\",\n  \"created_at\": \"1995-12-20T22:56:25.953Z\",\n  \"output\": {\n    \"playback_url\": \"string\",\n    \"thumbnail_url\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "560a9bc2-b37e-423b-b180-59bf17a5e63a",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "assets",
+                    ":asset_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "asset_id",
+                      "description": "(Required) The ID of the video asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"description\": \"<string>\",\n  \"tag\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"folder\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 8237,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9753963a-1899-47b4-8c84-95d2e269fc0c",
+          "name": "Delete Asset",
+          "request": {
+            "name": "Delete Asset",
+            "description": {
+              "content": "Delete a video asset.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "video",
+                "assets",
+                ":asset_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "asset_id",
+                  "description": "(Required) The ID of the video asset."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "557c706e-2462-454b-8242-401eb26bc213",
+              "name": "Asset deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "assets",
+                    ":asset_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "asset_id",
+                      "description": "(Required) The ID of the video asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3a6c6bb7-6476-4fbf-af13-ed98d752fbcc",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "assets",
+                    ":asset_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "asset_id",
+                      "description": "(Required) The ID of the video asset."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 8237,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.gumlet.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9b6d8bd7-9db6-4cc0-8f69-ee99477a9677",
+    "name": "Gumlet Analytics Video Assets API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Representative OpenAPI description of the Gumlet REST API for video hosting, streaming, and image optimization. Covers video assets, video collections (sources), live streaming, image sources, analytics, and direct uploads. All requests are authenticated with a bearer API key in the Authorization header and are served from https://api.gumlet.com/v1. Endpoint shapes follow the public documentation at https://docs.gumlet.com/reference; request and response schemas are simplified representative models.\n\nContact Support:\n Name: Gumlet",
+      "type": "text/plain"
+    }
+  }
+}

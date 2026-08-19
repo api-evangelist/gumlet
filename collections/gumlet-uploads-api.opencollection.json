@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gumlet Analytics Uploads API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Uploads",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Asset Direct Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gumlet.com/v1/video/assets/upload",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a video asset and receive a signed upload URL to upload a local file directly into Gumlet for processing."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

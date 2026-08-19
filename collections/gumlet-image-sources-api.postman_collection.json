@@ -1,0 +1,604 @@
+{
+  "item": [
+    {
+      "id": "5c3f5443-6610-491c-92aa-9669968eeaf2",
+      "name": "Image Sources",
+      "description": {
+        "content": "Connect cloud storage to Gumlet image optimization.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4eaffc15-6fdc-48fa-8fab-6144e772d350",
+          "name": "List Sources",
+          "request": {
+            "name": "List Sources",
+            "description": {
+              "content": "List the image sources configured for the account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sources"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d5025130-b82a-41aa-bae5-4e9e259fe1a9",
+              "name": "A list of image sources.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"source_id\": \"string\",\n    \"name\": \"string\",\n    \"base_url\": \"string\",\n    \"type\": \"s3\"\n  },\n  {\n    \"source_id\": \"string\",\n    \"name\": \"string\",\n    \"base_url\": \"string\",\n    \"type\": \"wasabi\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ccf117bc-e67c-49a6-815e-f0b8524a5227",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 8415,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0164b7f8-d959-4515-a140-67dc01f73cb4",
+          "name": "Create Source",
+          "request": {
+            "name": "Create Source",
+            "description": {
+              "content": "Create an image source that connects an origin cloud storage bucket (S3, GCS, Spaces, Wasabi) or web folder to Gumlet optimization.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sources"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"base_url\": \"<string>\",\n  \"default_params\": {\n    \"key_0\": \"string\",\n    \"key_1\": false\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "188ee02a-14cd-4b83-b6b4-611dc127991e",
+              "name": "Image source created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"base_url\": \"<string>\",\n  \"default_params\": {\n    \"key_0\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"source_id\": \"string\",\n  \"name\": \"string\",\n  \"base_url\": \"string\",\n  \"type\": \"gcp\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b372196d-c745-44a4-a9e6-2e66b4ee9baa",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"base_url\": \"<string>\",\n  \"default_params\": {\n    \"key_0\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 8415,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d42a1a7d-ea41-449d-9c23-06b6ccae8c58",
+          "name": "Get Source",
+          "request": {
+            "name": "Get Source",
+            "description": {
+              "content": "Retrieve an image source configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sources",
+                ":source_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "source_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4fc62250-b902-49c6-b78d-58e087bd0c01",
+              "name": "Image source details.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sources",
+                    ":source_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "source_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"source_id\": \"string\",\n  \"name\": \"string\",\n  \"base_url\": \"string\",\n  \"type\": \"gcp\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7cc94eb2-80c0-42c2-b8cc-3b7db3eb7a1f",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sources",
+                    ":source_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "source_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 8415,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3ef40e5d-37cb-4106-a0f5-a924df39eb98",
+          "name": "Delete Source",
+          "request": {
+            "name": "Delete Source",
+            "description": {
+              "content": "Delete an image source.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sources",
+                ":source_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "source_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "848808d8-5ff0-47e0-980c-c8e466a2eaae",
+              "name": "Image source deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sources",
+                    ":source_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "source_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ebe5f82a-2159-4fa7-82b7-77918df86615",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sources",
+                    ":source_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "source_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 8415,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.gumlet.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c31c3826-ed80-4b35-9a7e-b83c23ee9983",
+    "name": "Gumlet Analytics Image Sources API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Representative OpenAPI description of the Gumlet REST API for video hosting, streaming, and image optimization. Covers video assets, video collections (sources), live streaming, image sources, analytics, and direct uploads. All requests are authenticated with a bearer API key in the Authorization header and are served from https://api.gumlet.com/v1. Endpoint shapes follow the public documentation at https://docs.gumlet.com/reference; request and response schemas are simplified representative models.\n\nContact Support:\n Name: Gumlet",
+      "type": "text/plain"
+    }
+  }
+}

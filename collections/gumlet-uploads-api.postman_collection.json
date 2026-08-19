@@ -1,0 +1,197 @@
+{
+  "item": [
+    {
+      "id": "3d19d65e-a62a-491b-b14f-079c50463e88",
+      "name": "Uploads",
+      "description": {
+        "content": "Direct and multipart uploads of local media.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f8b90d42-0080-4b17-8e7b-6f0dc389438d",
+          "name": "Create Asset Direct Upload",
+          "request": {
+            "name": "Create Asset Direct Upload",
+            "description": {
+              "content": "Create a video asset and receive a signed upload URL to upload a local file directly into Gumlet for processing.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "video",
+                "assets",
+                "upload"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"collection_id\": \"<string>\",\n  \"format\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f8115a67-1be4-44f0-8a91-0cfcf1af16ac",
+              "name": "Direct upload created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "assets",
+                    "upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"collection_id\": \"<string>\",\n  \"format\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"asset_id\": \"string\",\n  \"upload_url\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "510632a9-5c18-4048-a23e-78165fb739d2",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "video",
+                    "assets",
+                    "upload"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"collection_id\": \"<string>\",\n  \"format\": \"<string>\",\n  \"title\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 7183,\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.gumlet.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "9ad9fc06-93f7-4eab-8c2b-2aa7c74e57bb",
+    "name": "Gumlet Analytics Uploads API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Representative OpenAPI description of the Gumlet REST API for video hosting, streaming, and image optimization. Covers video assets, video collections (sources), live streaming, image sources, analytics, and direct uploads. All requests are authenticated with a bearer API key in the Authorization header and are served from https://api.gumlet.com/v1. Endpoint shapes follow the public documentation at https://docs.gumlet.com/reference; request and response schemas are simplified representative models.\n\nContact Support:\n Name: Gumlet",
+      "type": "text/plain"
+    }
+  }
+}

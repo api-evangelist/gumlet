@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gumlet Analytics Video Collections API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Video Collections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Collections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/video/sources"
+          },
+          "docs": "List the video collections (sources) available to the token."
+        },
+        {
+          "info": {
+            "name": "Create Collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gumlet.com/v1/video/sources",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new video collection (source)."
+        },
+        {
+          "info": {
+            "name": "Get Collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/video/sources/:video_source_id",
+            "params": [
+              {
+                "name": "video_source_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve the full details of a video collection."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,129 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Gumlet Analytics Video Assets API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Video Assets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.gumlet.com/v1/video/assets",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Ingest a remote media file and create a video asset for processing (ABR HLS/DASH or MP4), with optional per-title encoding, DRM, overlays, trimming, and subtitle generation."
+        },
+        {
+          "info": {
+            "name": "List Assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/video/assets/list/:collection_id",
+            "params": [
+              {
+                "name": "collection_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the collection whose assets to list."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List the assets contained in a video collection."
+        },
+        {
+          "info": {
+            "name": "Get Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.gumlet.com/v1/video/assets/:asset_id",
+            "params": [
+              {
+                "name": "asset_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the video asset."
+              }
+            ]
+          },
+          "docs": "Retrieve the details and processing status of a video asset."
+        },
+        {
+          "info": {
+            "name": "Update Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.gumlet.com/v1/video/assets/:asset_id",
+            "params": [
+              {
+                "name": "asset_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the video asset."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the metadata or settings of a video asset."
+        },
+        {
+          "info": {
+            "name": "Delete Asset",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.gumlet.com/v1/video/assets/:asset_id",
+            "params": [
+              {
+                "name": "asset_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the video asset."
+              }
+            ]
+          },
+          "docs": "Delete a video asset."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
