@@ -1,0 +1,599 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Image Usage Analytics API
+  version: '1.4'
+  description: Image Usage Analytics operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Image Usage Analytics
+paths:
+  /image/analytics:
+    post:
+      summary: Image Usage Analytics
+      description: This endpoint helps you get image analytics data like bandwidth consumption, request
+        count, CDN hit ratio, etc.
+      operationId: retrieve-image-analytics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - metrics
+              - date_range
+              properties:
+                metrics:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - bandwidth_consumption
+                    - requests_count
+                    - transformations_count
+                    - bandwidth_savings
+                    - origin_hit_rate
+                    - avg_transformation_response_time
+                    - status_4xx
+                    - status_5xx
+                    - cdn_hit_rate
+                    - content_type
+                    - status_2xx
+                    - avg_response_time
+                    - top_assets
+                    - bandwidth_consumption_by_source
+                    - ai_credit_usage
+                    x-apidog-enum:
+                    - value: bandwidth_consumption
+                      name: ''
+                      description: ''
+                    - value: requests_count
+                      name: ''
+                      description: ''
+                    - value: transformations_count
+                      name: ''
+                      description: ''
+                    - value: bandwidth_savings
+                      name: ''
+                      description: ''
+                    - value: origin_hit_rate
+                      name: ''
+                      description: ''
+                    - value: avg_transformation_response_time
+                      name: ''
+                      description: ''
+                    - value: status_4xx
+                      name: ''
+                      description: ''
+                    - value: status_5xx
+                      name: ''
+                      description: ''
+                    - value: cdn_hit_rate
+                      name: ''
+                      description: ''
+                    - value: content_type
+                      name: ''
+                      description: ''
+                    - value: status_2xx
+                      name: ''
+                      description: ''
+                    - value: avg_response_time
+                      name: ''
+                      description: ''
+                    - value: top_assets
+                      name: ''
+                      description: ''
+                    - value: bandwidth_consumption_by_source
+                      name: ''
+                      description: ''
+                    - value: ai_credit_usage
+                      name: ''
+                      description: ''
+                  description: Define the metric you need the data for. Currently we support `bandwidth_consumption`,
+                    `requests_count`, `status_4xx`, `status_5xx`, and `avg_response_time`.
+                date_range:
+                  type: object
+                  description: The timeframe to get the data for. Currently we only support a maximum
+                    of 30 days between `start_at` and `end_at`.
+                  properties:
+                    start_at:
+                      type: string
+                      description: The starting date to consider
+                      format: date
+                    end_at:
+                      type: string
+                      description: The ending date to consider
+                      format: date
+                  x-apidog-orders:
+                  - start_at
+                  - end_at
+                  required:
+                  - start_at
+                  - end_at
+                group_by:
+                  type: string
+                  enum:
+                  - daily
+                  - weekly
+                  - monthly
+                  - hourly
+                  x-apidog-enum:
+                  - value: daily
+                    name: ''
+                    description: ''
+                  - value: weekly
+                    name: ''
+                    description: ''
+                  - value: monthly
+                    name: ''
+                    description: ''
+                  - value: hourly
+                    name: ''
+                    description: ''
+                  default: daily
+                filters:
+                  type: object
+                  properties:
+                    source_id:
+                      type: string
+                      description: Source ID
+                  x-apidog-orders:
+                  - source_id
+              x-apidog-orders:
+              - metrics
+              - date_range
+              - group_by
+              - filters
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples: {}
+              schema:
+                type: object
+                properties:
+                  bandwidth_consumption:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: number
+                          description: Value of bandwidth consumption in bytes.
+                        timestamp:
+                          type: number
+                          description: Seconds since epoch for the unit given.
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                  requests_count:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: number
+                          description: Count of requests.
+                        timestamp:
+                          type: number
+                          description: Seconds since epoch for the unit given.
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                  status_2xx:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: number
+                          description: Value between 0 and 1 depicting percentage of 2xx requests.
+                          format: float
+                          minimum: 0
+                          maximum: 1
+                        timestamp:
+                          type: number
+                          description: Seconds since epoch for the unit given.
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                  status_4xx:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: number
+                          description: Value between 0 and 1 depicting percentage of 4xx requests.
+                          format: float
+                          minimum: 0
+                          maximum: 1
+                        timestamp:
+                          type: number
+                          description: Seconds since epoch for the unit given.
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                  status_5xx:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: number
+                          description: Value between 0 and 1 depicting percentage of 5xx requests.
+                          format: float
+                          minimum: 0
+                          maximum: 1
+                        timestamp:
+                          type: number
+                          description: Seconds since epoch for the unit given.
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                  avg_response_time:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: number
+                          description: Response time in seconds.
+                          format: float
+                          minimum: 0
+                        timestamp:
+                          type: number
+                          description: Seconds since epoch for the unit given.
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                  cdn_hit_rate:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: number
+                          description: Number between 0 and 1 depicting CDN hit ratio percentage.
+                          format: float
+                          minimum: 0
+                          maximum: 1
+                        timestamp:
+                          type: number
+                          description: Seconds since epoch for the unit given.
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                  transformations_count:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: number
+                          description: Number of transformations
+                        timestamp:
+                          type: number
+                          description: Seconds since epoch for the unit given.
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                  origin_hit_rate:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: number
+                          description: Number between 0 and 1 depicting Origin Cache hit ratio.
+                          format: float
+                          minimum: 0
+                          maximum: 1
+                        timestamp:
+                          type: number
+                          description: Seconds since epoch for the unit given.
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                  avg_transformation_response_time:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        timestamp:
+                          type: number
+                          description: Seconds since epoch for the unit given.
+                        fetch_time:
+                          type: number
+                          description: Seconds it took to fetch image from origin
+                          format: float
+                          minimum: 0
+                        response_time:
+                          type: number
+                          format: float
+                          description: Seconds it took to prepare final image and send response.
+                      x-apidog-orders:
+                      - fetch_time
+                      - timestamp
+                      - response_time
+                      required:
+                      - fetch_time
+                      - timestamp
+                      - response_time
+                  content_type:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        avif:
+                          type: integer
+                          description: Total count of AVIF images delivered
+                        png:
+                          type: integer
+                          description: Total count of PNG images delivered
+                        jpeg:
+                          type: integer
+                          description: Total count of JPEG images delivered
+                        gif:
+                          type: integer
+                          description: Total count of GIF images delivered
+                        webp:
+                          type: integer
+                          description: Total count of WEBP images delivered
+                        jxl:
+                          type: integer
+                          description: Total count of JPEG-XL images delivered
+                        mp4:
+                          type: integer
+                          description: Total count of MP4 videos delivered
+                        timestamp:
+                          type: integer
+                          description: Seconds since epoch.
+                      x-apidog-orders:
+                      - avif
+                      - png
+                      - jpeg
+                      - gif
+                      - webp
+                      - jxl
+                      - mp4
+                      - timestamp
+                      required:
+                      - avif
+                      - png
+                      - jpeg
+                      - gif
+                      - webp
+                      - jxl
+                      - mp4
+                      - timestamp
+                  bandwidth_savings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: number
+                          format: float
+                          minimum: 0
+                          maximum: 1
+                          description: Number between 0 and 1 depicting bandwidth savings percentage.
+                        timestamp:
+                          type: integer
+                          description: Timestamp of data point in seconds since epoch.
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - timestamp
+                      - units
+                  bandwidth_consumption_by_source:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        bytes:
+                          type: number
+                          description: Bandwidth usage by the source.
+                        domain:
+                          type: string
+                          description: Domain name of the source.
+                      x-apidog-orders:
+                      - bytes
+                      - domain
+                      required:
+                      - bytes
+                      - domain
+                  ai_credit_usage:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        timestamp:
+                          type: integer
+                          description: Timestamp of data point in seconds since epoch.
+                        bg_removal:
+                          type: integer
+                          description: Background removal credits used.
+                        shadow_gen:
+                          type: integer
+                          description: Shadow generation credits used.
+                      x-apidog-orders:
+                      - timestamp
+                      - shadow_gen
+                      - bg_removal
+                      required:
+                      - timestamp
+                x-apidog-orders:
+                - bandwidth_consumption
+                - requests_count
+                - status_2xx
+                - status_4xx
+                - status_5xx
+                - avg_response_time
+                - cdn_hit_rate
+                - transformations_count
+                - origin_hit_rate
+                - avg_transformation_response_time
+                - content_type
+                - bandwidth_savings
+                - bandwidth_consumption_by_source
+                - ai_credit_usage
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: image_source_not_found
+                      message: Could not find any image source with the specified source_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: image_source_not_found
+                      message:
+                        type: string
+                        example: Could not find any image source with the specified source_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Image Usage Analytics
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst imageUsageAnalytic = await client.imageUsageAnalytics.retrieve({\n\
+          \  metrics: ['bandwidth_consumption'],\n  date_range: {\n    start_at: '2024-01-01',\n    end_at:\
+          \ '2024-01-01',\n  },\n  group_by: 'daily',\n});\n\nconsole.log(imageUsageAnalytic);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nimage_usage_analytic = client.image_usage_analytics.retrieve(\n    metrics=[\"\
+          bandwidth_consumption\"],\n    date_range={\"start_at\": \"2024-01-01\", \"end_at\": \"2024-01-01\"\
+          },\n    group_by=\"daily\",\n)\n\nprint(image_usage_analytic)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

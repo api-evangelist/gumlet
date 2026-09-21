@@ -1,0 +1,543 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Global Search API
+  version: '1.4'
+  description: Global Search operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Global Search
+paths:
+  /entities/global-search:
+    get:
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  all_folders:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Folder ID
+                        created_at:
+                          type: integer
+                          format: int64
+                          description: Created at timestamp in milliseconds since epoch
+                        updated_at:
+                          type: integer
+                          format: int64
+                          description: Updated at timestamp in milliseconds since epoch
+                        workspace_id:
+                          type: string
+                          description: Workspace ID in which the folder resides
+                        highlight:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              score:
+                                type: number
+                                description: Search ranking score
+                              path:
+                                type: string
+                                description: Which field to highlight
+                              texts:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    value:
+                                      type: string
+                                      description: The word to highlight or not
+                                    type:
+                                      type: string
+                                      enum:
+                                      - hit
+                                      - text
+                                      x-apidog-enum:
+                                      - value: hit
+                                        name: ''
+                                        description: ''
+                                      - value: text
+                                        name: ''
+                                        description: ''
+                                      description: Whether this word needs highlight
+                                  x-apidog-orders:
+                                  - value
+                                  - type
+                                  required:
+                                  - value
+                                  - type
+                            x-apidog-orders:
+                            - score
+                            - path
+                            - texts
+                            required:
+                            - score
+                            - path
+                            - texts
+                      x-apidog-orders:
+                      - id
+                      - created_at
+                      - updated_at
+                      - workspace_id
+                      - highlight
+                      required:
+                      - id
+                      - created_at
+                      - updated_at
+                      - workspace_id
+                      - highlight
+                    description: Result array of all folders
+                  all_assets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Asset ID
+                        title:
+                          type: string
+                          description: Asset Title
+                        tags:
+                          type: array
+                          items:
+                            type: string
+                          description: List of tags applied to this asset
+                        workspace_id:
+                          type: string
+                          description: Workspace ID on in which this asset resides
+                        created_at:
+                          type: integer
+                          description: Created at timestamp in milliseconds since epoch
+                          format: int64
+                        updated_at:
+                          type: integer
+                          description: Updated at timestamp in milliseconds since epoch
+                          format: int64
+                        highlight:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              score:
+                                type: number
+                                description: Search ranking score
+                              path:
+                                type: string
+                                description: Which field to highlight
+                              texts:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    value:
+                                      type: string
+                                      description: The word to highlight or not
+                                    type:
+                                      type: string
+                                      enum:
+                                      - hit
+                                      - text
+                                      x-apidog-enum:
+                                      - value: hit
+                                        name: ''
+                                        description: ''
+                                      - value: text
+                                        name: ''
+                                        description: ''
+                                      description: Whether this word needs highlight
+                                  x-apidog-orders:
+                                  - value
+                                  - type
+                                  required:
+                                  - value
+                                  - type
+                            x-apidog-orders:
+                            - score
+                            - path
+                            - texts
+                            required:
+                            - score
+                            - path
+                            - texts
+                      x-apidog-orders:
+                      - id
+                      - title
+                      - tags
+                      - workspace_id
+                      - created_at
+                      - updated_at
+                      - highlight
+                      required:
+                      - id
+                      - title
+                      - tags
+                      - workspace_id
+                      - created_at
+                      - updated_at
+                      - highlight
+                    description: Result array of all assets
+                  all_playlists:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Playlist ID
+                        title:
+                          type: string
+                          description: Playlist title
+                        description:
+                          type: string
+                          description: Playlist description
+                        created_at:
+                          type: integer
+                          description: Created at timestamp in milliseconds since epoch
+                          format: int64
+                        updated_at:
+                          type: integer
+                          description: Updated at timestamp in milliseconds since epoch
+                          format: int64
+                        workspace_id:
+                          type: string
+                          description: Workspace ID on in which this playlist resides
+                        highlight:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              score:
+                                type: number
+                                description: Search ranking score
+                              path:
+                                type: string
+                                description: Which field to highlight
+                              texts:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    value:
+                                      type: string
+                                      description: The word to highlight or not
+                                    type:
+                                      type: string
+                                      enum:
+                                      - hit
+                                      - text
+                                      x-apidog-enum:
+                                      - value: hit
+                                        name: ''
+                                        description: ''
+                                      - value: text
+                                        name: ''
+                                        description: ''
+                                      description: Whether this word needs highlight
+                                  x-apidog-orders:
+                                  - value
+                                  - type
+                                  required:
+                                  - value
+                                  - type
+                            x-apidog-orders:
+                            - score
+                            - path
+                            - texts
+                            required:
+                            - score
+                            - path
+                            - texts
+                      x-apidog-orders:
+                      - id
+                      - title
+                      - description
+                      - created_at
+                      - updated_at
+                      - workspace_id
+                      - highlight
+                      required:
+                      - id
+                      - title
+                      - description
+                      - created_at
+                      - updated_at
+                      - workspace_id
+                      - highlight
+                    description: Result array of all playlists
+                  all_channels:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                          description: Channel title
+                        description:
+                          type: string
+                          description: Channel description
+                        created_at:
+                          type: integer
+                          description: Created at timestamp in milliseconds since epoch
+                          format: int64
+                        updated_at:
+                          type: integer
+                          description: Updated at timestamp in milliseconds since epoch
+                          format: int64
+                        workspace_id:
+                          type: string
+                          description: Workspace ID on in which this channel resides
+                        highlight:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              score:
+                                type: number
+                                description: Search ranking score
+                              path:
+                                type: string
+                                description: Which field to highlight
+                              texts:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    value:
+                                      type: string
+                                      description: The word to highlight or not
+                                    type:
+                                      type: string
+                                      enum:
+                                      - hit
+                                      - text
+                                      x-apidog-enum:
+                                      - value: hit
+                                        name: ''
+                                        description: ''
+                                      - value: text
+                                        name: ''
+                                        description: ''
+                                      description: Whether this word needs highlight
+                                  x-apidog-orders:
+                                  - value
+                                  - type
+                                  required:
+                                  - value
+                                  - type
+                            x-apidog-orders:
+                            - score
+                            - path
+                            - texts
+                            required:
+                            - score
+                            - path
+                            - texts
+                      x-apidog-orders:
+                      - title
+                      - description
+                      - created_at
+                      - updated_at
+                      - workspace_id
+                      - highlight
+                      required:
+                      - title
+                      - description
+                      - created_at
+                      - updated_at
+                      - workspace_id
+                      - highlight
+                    description: Result array of all channels
+                x-apidog-orders:
+                - all_folders
+                - all_assets
+                - all_playlists
+                - all_channels
+                required:
+                - all_folders
+                - all_assets
+                - all_playlists
+                - all_channels
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: parameter_missing
+                      message: One or more required values are missing.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: parameter_missing
+                      message:
+                        type: string
+                        example: One or more required values are missing.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      summary: Global Search
+      tags:
+      - Global Search
+      operationId: global-search
+      description: Search all video assets / playlists / folders etc across workspaces.
+      parameters:
+      - in: query
+        name: search_query
+        schema:
+          type: string
+        required: true
+        description: Search query term
+      - in: query
+        name: collection_id
+        schema:
+          type: string
+        description: Workspace ID if you want to limit search to a specific workspace
+      - in: query
+        name: size
+        schema:
+          type: integer
+          default: 20
+        description: Number of results to return
+      - in: query
+        name: assets_offset
+        schema:
+          type: integer
+          default: 0
+        description: Offset for assets
+      - in: query
+        name: folders_offset
+        schema:
+          type: integer
+          default: 0
+        description: Offset for folders
+      - in: query
+        name: playlists_offset
+        schema:
+          type: integer
+          default: 0
+        description: Offset for playlists
+      - in: query
+        name: channels_offset
+        schema:
+          type: integer
+          default: 0
+        description: Offset for channels
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst globalSearch = await client.globalSearch.search({\n\
+          \  search_query: 'searchQuery',\n  size: 20,\n  assets_offset: 0,\n  folders_offset: 0,\n  playlists_offset:\
+          \ 0,\n  channels_offset: 0,\n});\n\nconsole.log(globalSearch);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nglobal_search = client.global_search.search(\n    search_query=\"search_query\"\
+          ,\n    size=20,\n    assets_offset=0,\n    folders_offset=0,\n    playlists_offset=0,\n    channels_offset=0,\n\
+          )\n\nprint(global_search)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

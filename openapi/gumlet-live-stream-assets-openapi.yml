@@ -1,0 +1,1481 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Live Stream Assets API
+  version: '1.4'
+  description: Live Stream Assets operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Live Stream Assets
+paths:
+  /video/live/assets:
+    post:
+      summary: Create Live Asset
+      description: A live asset refers to media content/video that is live-streamed through Gumlet. This
+        endpoint creates a live streaming asset allowing users to live stream a video that will be pushed
+        to Gumlet.
+      operationId: create-live-asset
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - live_source_id
+              - resolution
+              properties:
+                live_source_id:
+                  type: string
+                  description: Gumlet live video source/collection id.
+                resolution:
+                  type: string
+                  description: 'Required resolutions in HLS delivery format for live stream. Can be an
+                    array of string out of the following values: `240p`, `360p`, `480p`, `540p`, `720p`,
+                    and `1080p`. Resized rendition will retain the input aspect ratio.'
+                title:
+                  type: string
+                  description: Your live stream asset title
+                mp4_access:
+                  type: boolean
+                  description: Creates <code>MP4</code> version for download purpose.
+                orientation:
+                  type: string
+                  enum:
+                  - landscape
+                  - potrait
+                start_at:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    status: created
+                    stream_key: 68c3da5947f9ad0c0d513fe3
+                    live_asset_id: 68c3da5947f9ad0c0d513fe2
+                    live_video_source_id: 67e4ecea403562dbea654269
+                    input:
+                      resolution:
+                      - 360p
+                      - 480p
+                      - 720p
+                      - 240p
+                      - 1080p
+                      title: gumlet-stream
+                    stream_url: rtmp://44.245.28.195:1935/app/68c3da5947f9ad0c0d513fe3
+                    output:
+                      playback_url: https://stream.gumlet.io/67e4ecea403562dbea654269/68c3da5947f9ad0c0d513fe2/main.m3u8
+                      recording_playback_url: https://video.gumlet.io/6867815b6410daa283f85532/68c3da5947f9ad0c0d513fe4/main.m3u8
+                      recording_dash_playback_url: https://video.gumlet.io/6867815b6410daa283f85532/68c3da5947f9ad0c0d513fe4/main.mpd
+                    vod_asset_id: 68c3da5947f9ad0c0d513fe4
+                    created_at: 1757665882451
+                    updated_at: 1757665882451
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: created
+                  stream_key:
+                    type: string
+                    example: 619231610822a81d955d22f4
+                  live_asset_id:
+                    type: string
+                    example: 619231610822a81d955d22f3
+                  live_video_source_id:
+                    type: string
+                    example: 6165247368d80232d28d4379
+                  input:
+                    type: object
+                    properties:
+                      resolution:
+                        type: array
+                        items:
+                          type: string
+                          example: 720p
+                      title:
+                        type: string
+                  stream_url:
+                    type: string
+                    example: rtmp://livestream-ingest.gumlet.io:1935/app/619231610822a81d955d22f4
+                  output:
+                    type: object
+                    properties:
+                      playback_url:
+                        type: string
+                        example: https://video.gumlet.io/6165247368d80232d28d4379/619231610822a81d955d22f3/master.m3u8
+                      recording_playback_url:
+                        type: string
+                      recording_dash_playback_url:
+                        type: string
+                  thumbnail:
+                    type: object
+                    properties:
+                      preparing:
+                        type: string
+                        example: https://stream.gumlet.io/67e4ecea403562dbea654269/68c3da5947f9ad0c0d513fe2/thumbnail-preparing.png
+                      disconnected:
+                        type: string
+                        example: https://stream.gumlet.io/67e4ecea403562dbea654269/68c3da5947f9ad0c0d513fe2/thumbnail-disconnected.png
+                      end:
+                        type: string
+                        example: https://stream.gumlet.io/67e4ecea403562dbea654269/68c3da5947f9ad0c0d513fe2/thumbnail-end.png
+                  created_at:
+                    type: integer
+                    example: 1636970849188
+                    default: 0
+                  updated_at:
+                    type: integer
+                    example: 1636970849188
+                    default: 0
+                  vod_asset_id:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: parameter_missing
+                      message: One or more required values are missing.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: parameter_missing
+                      message:
+                        type: string
+                        example: One or more required values are missing.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any video source with specified source ID.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any video source with specified source ID.
+        '403':
+          description: Forbidden — monthly live streaming quota exceeded
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: live_stream_monthly_usage_quota_exceeded
+                      message: You have already exceeded your monthly quota for live streaming usage.
+                        Please upgrade your plan.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: live_stream_monthly_usage_quota_exceeded
+                      message:
+                        type: string
+                        example: You have already exceeded your monthly quota for live streaming usage.
+                          Please upgrade your plan.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '422':
+          $ref: '#/components/responses/ValidationError'
+      deprecated: false
+      tags:
+      - Live Stream Assets
+      x-stoplight:
+        id: cka42lfc4c8hf
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst liveStreamAsset = await client.liveStreamAssets.create({\n\
+          \  live_source_id: '',\n  resolution: '',\n});\n\nconsole.log(liveStreamAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.create(\n    live_source_id=\"\
+          \",\n    resolution=\"\",\n)\n\nprint(live_stream_asset)"
+  /video/live/assets/update:
+    post:
+      summary: Update Live Asset
+      description: A live asset refers to media content/video that is live-streamed through Gumlet. This
+        endpoint allows users to update a live streaming asset.
+      operationId: create-live-asset-copy
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - live_asset_id
+              properties:
+                live_asset_id:
+                  type: string
+                  description: Gumlet live video asset id.
+                title:
+                  type: string
+                  description: Your live stream asset title
+                start_at:
+                  type: string
+                  format: date-time
+                  description: ''
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    status: created
+                    stream_key: 68c6d4b8d2b638a10ef3e044
+                    live_asset_id: 68c6d4b8d2b638a10ef3e043
+                    live_video_source_id: 67e4ecea403562dbea654269
+                    input:
+                      resolution:
+                      - 360p
+                      - 480p
+                      - 720p
+                      title: gumlet-stream-1-edited
+                    stream_url: rtmp://52.11.39.160:1935/app/68c6d4b8d2b638a10ef3e044
+                    output:
+                      playback_url: https://stream.gumlet.io/67e4ecea403562dbea654269/68c6d4b8d2b638a10ef3e043/main.m3u8
+                      recording_playback_url: https://video.gumlet.io/6867815b6410daa283f85532/68c6d4b8d2b638a10ef3e045/main.m3u8
+                      recording_dash_playback_url: https://video.gumlet.io/6867815b6410daa283f85532/68c6d4b8d2b638a10ef3e045/main.mpd
+                    vod_asset_id: 68c6d4b8d2b638a10ef3e045
+                    created_at: 1757861049778
+                    updated_at: 1757861101257
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: created
+                  stream_key:
+                    type: string
+                    example: 619231610822a81d955d22f4
+                  live_asset_id:
+                    type: string
+                    example: 619231610822a81d955d22f3
+                  live_video_source_id:
+                    type: string
+                    example: 6165247368d80232d28d4379
+                  input:
+                    type: object
+                    properties:
+                      resolution:
+                        type: array
+                        items:
+                          type: string
+                          example: 720p
+                      title:
+                        type: string
+                  stream_url:
+                    type: string
+                    example: rtmp://livestream-ingest.gumlet.io:1935/app/619231610822a81d955d22f4
+                  output:
+                    type: object
+                    properties:
+                      playback_url:
+                        type: string
+                        example: https://video.gumlet.io/6165247368d80232d28d4379/619231610822a81d955d22f3/master.m3u8
+                      recording_playback_url:
+                        type: string
+                      recording_dash_playback_url:
+                        type: string
+                  thumbnail:
+                    type: object
+                    properties:
+                      preparing:
+                        type: string
+                        example: https://stream.gumlet.io/67e4ecea403562dbea654269/68c6d4b8d2b638a10ef3e043/thumbnail-preparing.png
+                      disconnected:
+                        type: string
+                        example: https://stream.gumlet.io/67e4ecea403562dbea654269/68c6d4b8d2b638a10ef3e043/thumbnail-disconnected.png
+                      end:
+                        type: string
+                        example: https://stream.gumlet.io/67e4ecea403562dbea654269/68c6d4b8d2b638a10ef3e043/thumbnail-end.png
+                  created_at:
+                    type: integer
+                    example: 1636970849188
+                    default: 0
+                  updated_at:
+                    type: integer
+                    example: 1636970849188
+                    default: 0
+                  vod_asset_id:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: parameter_missing
+                      message: One or more required values are missing.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: parameter_missing
+                      message:
+                        type: string
+                        example: One or more required values are missing.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any video source with specified source ID.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any video source with specified source ID.
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: live_asset_not_found
+                      message: Live Video Asset not found.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: live_asset_not_found
+                      message:
+                        type: string
+                        example: Live Video Asset not found.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      deprecated: false
+      tags:
+      - Live Stream Assets
+      x-stoplight:
+        id: 5728lo8oym6rd
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst liveStreamAsset = await client.liveStreamAssets.update({\n\
+          \  live_asset_id: '',\n});\n\nconsole.log(liveStreamAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.update(\n    live_asset_id=\"\
+          \",\n)\n\nprint(live_stream_asset)"
+  /video/live/assets/{live_asset_id}:
+    get:
+      summary: Get Live Asset Status
+      description: This endpoint retrieves the details of a live video asset that has previously been
+        created.
+      operationId: get-live-asset-status
+      parameters:
+      - name: live_asset_id
+        in: path
+        description: A live asset id for the previously created asset.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    status: disconnected
+                    stream_key: 68c406b147f9ad0c0d584ce3
+                    live_asset_id: 68c406b147f9ad0c0d584ce2
+                    live_video_source_id: 67e4ecea403562dbea654269
+                    input:
+                      resolution:
+                      - 720p
+                      title: gumlet-stream
+                    stream_url: rtmp://44.231.82.146:1935/app/68c406b147f9ad0c0d584ce3
+                    output:
+                      playback_url: https://stream.gumlet.io/67e4ecea403562dbea654269/68c406b147f9ad0c0d584ce2/main.m3u8
+                      recording_playback_url: https://video.gumlet.io/6867815b6410daa283f85532/68c406b147f9ad0c0d584ce4/main.m3u8
+                      recording_dash_playback_url: https://video.gumlet.io/6867815b6410daa283f85532/68c406b147f9ad0c0d584ce4/main.mpd
+                    thumbnail:
+                      disconnected: https://stream.gumlet.io/67e4ecea403562dbea654269/68c406b147f9ad0c0d584ce2/thumbnail-disconnected.png
+                    vod_asset_id: 68c406b147f9ad0c0d584ce4
+                    created_at: 1757677234093
+                    updated_at: 1757677327882
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: created
+                  stream_key:
+                    type: string
+                    example: 619231610822a81d955d22f4
+                  live_asset_id:
+                    type: string
+                    example: 619231610822a81d955d22f3
+                  live_video_source_id:
+                    type: string
+                    example: 6165247368d80232d28d4379
+                  input:
+                    type: object
+                    properties:
+                      resolution:
+                        type: array
+                        items:
+                          type: string
+                          example: 720p
+                      title:
+                        type: string
+                  stream_url:
+                    type: string
+                    example: rtmp://livestream-ingest.gumlet.io:1935/app/619231610822a81d955d22f4
+                  output:
+                    type: object
+                    properties:
+                      playback_url:
+                        type: string
+                        example: https://video.gumlet.io/6165247368d80232d28d4379/619231610822a81d955d22f3/master.m3u8
+                      recording_playback_url:
+                        type: string
+                      recording_dash_playback_url:
+                        type: string
+                  thumbnail:
+                    type: object
+                    properties:
+                      preparing:
+                        type: string
+                        example: https://stream.gumlet.io/67e4ecea403562dbea654269/68c406b147f9ad0c0d584ce2/thumbnail-preparing.png
+                      disconnected:
+                        type: string
+                        example: https://stream.gumlet.io/67e4ecea403562dbea654269/68c406b147f9ad0c0d584ce2/thumbnail-disconnected.png
+                      end:
+                        type: string
+                        example: https://stream.gumlet.io/67e4ecea403562dbea654269/68c406b147f9ad0c0d584ce2/thumbnail-end.png
+                  created_at:
+                    type: integer
+                    example: 1636970849188
+                    default: 0
+                  updated_at:
+                    type: integer
+                    example: 1636970849188
+                    default: 0
+                  vod_asset_id:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: live_asset_not_found
+                      message: Live Video Asset not found.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: live_asset_not_found
+                      message:
+                        type: string
+                        example: Live Video Asset not found.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: live_asset_not_found
+                      message: Could not find any live video asset with specified asset_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: live_asset_not_found
+                      message:
+                        type: string
+                        example: Could not find any live video asset with specified asset_id.
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Live Stream Assets
+      x-stoplight:
+        id: 29sodii3xa4fn
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst liveStreamAsset = await client.liveStreamAssets.retrieveStatus('liveAssetId');\n\
+          \nconsole.log(liveStreamAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.retrieve_status(\n    live_asset_id=\"\
+          liveAssetId\",\n)\n\nprint(live_stream_asset)"
+    delete:
+      summary: Delete Live Asset
+      description: This endpoint removes a live asset given its unique live asset id. The live asset will
+        be removed from storage as well, associated URLs will be inaccessible.
+      operationId: delete-live-asset
+      parameters:
+      - name: live_asset_id
+        in: path
+        description: Live asset id of the live asset which needs to be deleted.
+        schema:
+          type: string
+        required: true
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: {}
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request — invalid live asset
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: live_asset_not_found
+                      message: Live Video Asset not found.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: live_asset_not_found
+                      message:
+                        type: string
+                        example: Live Video Asset not found.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: Unauthorized — live stream cannot be deleted in preparing state
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: livestream_can_not_be_deleted
+                      message: The live stream cannot be deleted while in the preparing state.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: livestream_can_not_be_deleted
+                      message:
+                        type: string
+                        example: The live stream cannot be deleted while in the preparing state.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Live Stream Assets
+      x-stoplight:
+        id: ual1t8bmdt647
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst liveStreamAsset = await client.liveStreamAssets.delete('liveAssetId');\n\
+          \nconsole.log(liveStreamAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.delete(\n    live_asset_id=\"\
+          liveAssetId\",\n)\n\nprint(live_stream_asset)"
+  /video/live/assets/{live_asset_id}/complete:
+    post:
+      summary: Complete Live Stream
+      description: This endpoint allows marking live assets complete. Once the live asset is marked complete,
+        it can no longer be used to ingest the live stream on Gumlet.
+      operationId: complete-live-stream
+      parameters:
+      - name: live_asset_id
+        in: path
+        description: Live asset id of the live stream which needs to be completed.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: {}
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request — invalid live asset
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: live_asset_not_found
+                      message: Live Video Asset not found.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: live_asset_not_found
+                      message:
+                        type: string
+                        example: Live Video Asset not found.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: Unauthorized — live stream cannot be completed in preparing state
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: livestream_can_not_be_completed
+                      message: The live stream cannot be completed while in the preparing state.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: livestream_can_not_be_completed
+                      message:
+                        type: string
+                        example: The live stream cannot be completed while in the preparing state.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Live Stream Assets
+      x-stoplight:
+        id: pe5lhtkmzix7d
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst liveStreamAsset = await client.liveStreamAssets.complete('liveAssetId');\n\
+          \nconsole.log(liveStreamAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.complete(\n    live_asset_id=\"\
+          liveAssetId\",\n)\n\nprint(live_stream_asset)"
+  /video/live/assets/list/{live_source_id}:
+    get:
+      summary: Filter Live Assets
+      description: This endpoint lists live assets on the basis of `status` for the given `live_source_id`.
+      operationId: filter-live-assets
+      parameters:
+      - name: live_source_id
+        in: path
+        description: Gumlet live source/collection id.
+        schema:
+          type: string
+        required: true
+      - name: status
+        in: query
+        description: To filter live assets on the basis of their current status. Can be specified as a
+          single status value string or comma-separated status values. The status value can be one of
+          `created`, `active`, `complete`, `disconnected`, `errored`, and `deleted`.
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Offset value for a paginated list of assets.
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        description: Page size for the paginated list.
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    all_live_assets:
+                    - status: complete
+                      stream_key: 68b671c1373a93b5103e1f9b
+                      live_asset_id: 68b671c1373a93b5103e1f9a
+                      live_video_source_id: 68678418fc386bd77fd5c689
+                      input:
+                        resolution:
+                        - 360p
+                        - 480p
+                        - 720p
+                        - 1080p
+                        title: gumlet-stream
+                      stream_url: rtmp://44.241.193.188:1935/app/68b671c1373a93b5103e1f9b
+                      output:
+                        playback_url: https://stream.gumlet.io/68678418fc386bd77fd5c689/68b671c1373a93b5103e1f9a/main.m3u8
+                        recording_playback_url: https://video.gumlet.io/68678419fc386bd77fd5c69c/68b671c1373a93b5103e1f9c/main.m3u8
+                        recording_dash_playback_url: https://video.gumlet.io/68678419fc386bd77fd5c69c/68b671c1373a93b5103e1f9c/main.mpd
+                      vod_asset_id: 68b671c1373a93b5103e1f9c
+                      start_at: 1756787280000
+                      created_at: 1756787138405
+                      updated_at: 1756787392403
+                    - status: deleted
+                      stream_key: 686784192f7f889f3d149bdb
+                      live_asset_id: 686784192f7f889f3d149bda
+                      live_video_source_id: 68678418fc386bd77fd5c689
+                      input:
+                        resolution:
+                        - 240p
+                        - 360p
+                        - 480p
+                        - 720p
+                        - 1080p
+                        title: gumlet-live-stream
+                      stream_url: rtmp://44.250.15.141:1935/app/686784192f7f889f3d149bdb
+                      created_at: 1751614490873
+                      updated_at: 1751700918544
+                      deleted_at: 1751700918543
+                    total_live_asset_count: 2
+                    current_offset: 2
+              schema:
+                type: object
+                properties:
+                  all_live_assets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                          example: created
+                        stream_key:
+                          type: string
+                          example: 619231610822a81d955d22f4
+                        live_asset_id:
+                          type: string
+                          example: 619231610822a81d955d22f3
+                        live_video_source_id:
+                          type: string
+                          example: 6165247368d80232d28d4379
+                        input:
+                          type: object
+                          properties:
+                            resolution:
+                              type: array
+                              items:
+                                type: string
+                                example: 720p
+                            title:
+                              type: string
+                        stream_url:
+                          type: string
+                          example: rtmp://livestream-ingest.gumlet.io:1935/app/619231610822a81d955d22f4
+                        output:
+                          type: object
+                          properties:
+                            playback_url:
+                              type: string
+                              example: https://video.gumlet.io/6165247368d80232d28d4379/619231610822a81d955d22f3/master.m3u8
+                            recording_playback_url:
+                              type: string
+                            recording_dash_playback_url:
+                              type: string
+                        thumbnail:
+                          type: object
+                          properties:
+                            preparing:
+                              type: string
+                              example: https://stream.gumlet.io/68678418fc386bd77fd5c689/68b671c1373a93b5103e1f9a/thumbnail-preparing.png
+                            disconnected:
+                              type: string
+                              example: https://stream.gumlet.io/68678418fc386bd77fd5c689/68b671c1373a93b5103e1f9a/thumbnail-disconnected.png
+                            end:
+                              type: string
+                              example: https://stream.gumlet.io/68678418fc386bd77fd5c689/68b671c1373a93b5103e1f9a/thumbnail-end.png
+                        created_at:
+                          type: integer
+                          example: 1636970849188
+                          default: 0
+                        updated_at:
+                          type: integer
+                          example: 1636970849188
+                          default: 0
+                        deleted_at:
+                          type: integer
+                  total_live_asset_count:
+                    type: integer
+                    example: 5
+                    default: 0
+                  current_offset:
+                    type: integer
+                    example: 5
+                    default: 0
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any video source with the specified source_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any video source with the specified source_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: live_source_not_found
+                      message: Could not find any live video source with specified source ID.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: live_source_not_found
+                      message:
+                        type: string
+                        example: Could not find any live video source with specified source ID.
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Live Stream Assets
+      x-stoplight:
+        id: v569z8svqfd5g
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst liveStreamAsset = await client.liveStreamAssets.filter('liveSourceId');\n\
+          \nconsole.log(liveStreamAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.filter(\n    live_source_id=\"\
+          liveSourceId\",\n)\n\nprint(live_stream_asset)"
+  /video/live/assets/{live_asset_id}/start:
+    post:
+      description: Start a live stream.
+      operationId: start-live
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              examples:
+                New Example:
+                  summary: New Example
+                  value:
+                    status: preparing
+                    stream_key: 684aaf3179ee5275ba12c684
+                    live_asset_id: 684caf2179ee5277ba13c683
+                    live_video_source_id: 654c7d41f5f3302c85dd7bc3
+                    input:
+                      resolution:
+                      - 360p
+                      - 480p
+                      title: demo
+                    stream_url: rtmp://14.23.65.56:1935/app/684aaf3179ee5275ba12c684
+                    output:
+                      playback_url: https://stream.gumlet.io/654c7d41f5f3302c85dd7bc3/684caf2179ee5277ba13c683/main.m3u8
+                      recording_playback_url: https://video.gumlet.io/654c7d41f5f3302c85dd7bc3/684aaf3179ee5255ba13c685/main.m3u8
+                      recording_dash_playback_url: https://video.gumlet.io/654c7d41f5f3302c85dd7bc3/684aaf3179ee5255ba13c685/main.mpd
+                    thumbnail:
+                      preparing: https://stream.gumlet.io/654c7d41f5f3302c85dd7bc3/684caf2179ee5277ba13c683/thumbnail-preparing.png
+                    vod_asset_id: 684aaf3179ee5255ba13c685
+                    created_at: 1749724978564
+                    updated_at: 1749725090495
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: unable_to_start_live_asset
+                      message: Could not start live asset.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: unable_to_start_live_asset
+                      message:
+                        type: string
+                        example: Could not start live asset.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      parameters:
+      - in: path
+        name: live_asset_id
+        description: List asset id for which the stream needs to start.
+        schema:
+          type: string
+        required: true
+      tags:
+      - Live Stream Assets
+      x-stoplight:
+        id: 1bk7v7srb4xnu
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nawait client.liveStreamAssets.start('liveAssetId');"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nclient.live_stream_assets.start(\n    live_asset_id=\"liveAssetId\",\n)"
+  /video/live/assets/thumbnail/upload:
+    post:
+      summary: Upload Live Thumbnails
+      description: Generate presigned upload URLs for live stream thumbnails. Supported thumbnail states
+        are `preparing`, `disconnected`, and `end`.
+      operationId: thumbnail-upload-live
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - live_asset_id
+              - statuses
+              properties:
+                live_asset_id:
+                  type: string
+                  description: Gumlet live video asset id.
+                statuses:
+                  description: Thumbnail states to upload. You can send an array or a comma-separated
+                    string.
+                  oneOf:
+                  - type: array
+                    items:
+                      type: string
+                      enum:
+                      - preparing
+                      - disconnected
+                      - end
+                  - type: string
+                    example: preparing,disconnected
+            examples:
+              Request Example:
+                value:
+                  live_asset_id: 68c406b147f9ad0c0d584ce2
+                  statuses:
+                  - preparing
+                  - disconnected
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    message: Upload URLs issued.
+                    presigned_upload_urls:
+                      preparing: https://gumlet-live-user-uploads.s3.amazonaws.com/live/67e4ecea403562dbea654269/68c406b147f9ad0c0d584ce2/thumbnail-preparing.png?signature=...
+                      disconnected: https://gumlet-live-user-uploads.s3.amazonaws.com/live/67e4ecea403562dbea654269/68c406b147f9ad0c0d584ce2/thumbnail-disconnected.png?signature=...
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Upload URLs issued.
+                  presigned_upload_urls:
+                    type: object
+                    properties:
+                      preparing:
+                        type: string
+                      disconnected:
+                        type: string
+                      end:
+                        type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_parameter
+                      message: 'Provide at least one valid status in "statuses". Allowed: preparing, disconnected,
+                        end.'
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_parameter
+                      message:
+                        type: string
+                        example: 'Provide at least one valid status in "statuses". Allowed: preparing,
+                          disconnected, end.'
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: '403'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: live_asset_not_found
+                      message: Live Video Asset not found.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: live_asset_not_found
+                      message:
+                        type: string
+                        example: Live Video Asset not found.
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: not_found
+                      message: Live Video Asset not found.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: not_found
+                      message:
+                        type: string
+                        example: Live Video Asset not found.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: false
+      tags:
+      - Live Stream Assets
+      x-stoplight:
+        id: 63zbin0vn1ydw
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst liveStreamAsset = await client.liveStreamAssets.upload({\n\
+          \  live_asset_id: '68c406b147f9ad0c0d584ce2',\n  statuses: ['preparing', 'disconnected'],\n\
+          });\n\nconsole.log(liveStreamAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.upload(\n    live_asset_id=\"\
+          68c406b147f9ad0c0d584ce2\",\n    statuses=\"preparing\",\n)\n\nprint(live_stream_asset)"
+  /video/live/assets/{live_asset_id}/history:
+    get:
+      summary: Get Live Asset Status History
+      description: This endpoint retrieves the history of a live video asset that has previously been
+        created.
+      operationId: asset-status-history
+      parameters:
+      - name: live_asset_id
+        in: path
+        description: A live asset id for the previously created asset.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    status: created
+                    stream_key: 619231610822a81d955d22f4
+                    live_asset_id: 619231610822a81d955d22f3
+                    live_video_source_id: 6165247368d80232d28d4379
+                    input:
+                      resolution:
+                      - 720p
+                    stream_url: rtmp://livestream-ingest.gumlet.io:1935/app/619231610822a81d955d22f4
+                    output:
+                      playback_url: https://video.gumlet.io/6165247368d80232d28d4379/619231610822a81d955d22f3/master.m3u8
+                    created_at: 1636970849188
+                    updated_at: 1636970849188
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: created
+                  stream_key:
+                    type: string
+                    example: 619231610822a81d955d22f4
+                  live_asset_id:
+                    type: string
+                    example: 619231610822a81d955d22f3
+                  live_video_source_id:
+                    type: string
+                    example: 6165247368d80232d28d4379
+                  input:
+                    type: object
+                    properties:
+                      resolution:
+                        type: array
+                        items:
+                          type: string
+                          example: 720p
+                  stream_url:
+                    type: string
+                    example: rtmp://livestream-ingest.gumlet.io:1935/app/619231610822a81d955d22f4
+                  output:
+                    type: object
+                    properties:
+                      playback_url:
+                        type: string
+                        example: https://video.gumlet.io/6165247368d80232d28d4379/619231610822a81d955d22f3/master.m3u8
+                  created_at:
+                    type: integer
+                    example: 1636970849188
+                    default: 0
+                  updated_at:
+                    type: integer
+                    example: 1636970849188
+                    default: 0
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: asset_history_not_found
+                      message: Could not find status history for the specified live asset.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: asset_history_not_found
+                      message:
+                        type: string
+                        example: Could not find status history for the specified live asset.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: live_asset_not_found
+                      message: Could not find any live video asset with specified asset_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: live_asset_not_found
+                      message:
+                        type: string
+                        example: Could not find any live video asset with specified asset_id.
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Live Stream Assets
+      x-stoplight:
+        id: x23u8u11y6gic
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst liveStreamAsset = await client.liveStreamAssets.statusHistory('liveAssetId');\n\
+          \nconsole.log(liveStreamAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.status_history(\n    live_asset_id=\"\
+          liveAssetId\",\n)\n\nprint(live_stream_asset)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

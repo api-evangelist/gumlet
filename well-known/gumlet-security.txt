@@ -1,0 +1,4 @@
+Contact: https://www.gumlet.com/contact/
+Expires: 2028-11-01T06:30:00.000Z
+Preferred-Languages: en
+Hiring: https://www.gumlet.com/careers/

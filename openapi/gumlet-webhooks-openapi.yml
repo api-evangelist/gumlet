@@ -1,0 +1,641 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Webhooks API
+  version: '1.4'
+  description: Webhooks operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Webhooks
+paths:
+  /org/webhooks:
+    post:
+      summary: Create Webhook
+      description: Creates a new webhook listener.
+      operationId: create-webhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - url
+              - secret_token
+              - triggers
+              - sources
+              properties:
+                url:
+                  type: string
+                  description: URL from the application you want to send data to.
+                secret_token:
+                  type: string
+                  description: Authentication token to ensure legitimacy of Gumlet Webhook request on
+                    your application.
+                triggers:
+                  type: array
+                  description: Triggers for the invocation of webhookos, supported option is `status`.
+                  items:
+                    type: string
+                sources:
+                  type: array
+                  description: List of video collection identifiers for which webhooks are needed to be
+                    invoked.
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    id: 65eed75eadeea8478f14ebd4
+                    url: https://webhook.site/16df065a-b398-48bc-b825-b0804979c5f1
+                    triggers:
+                    - status
+                    created_at: '2024-03-11T10:05:18.316Z'
+                    updated_at: '2024-03-11T10:05:18.316Z'
+                    sources:
+                    - 5f462c1561cf8a766464ffc4
+                    secret_token: rnVNfIKgnH
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 65eed75eadeea8478f14ebd4
+                  url:
+                    type: string
+                    example: https://webhook.site/16df065a-b398-48bc-b825-b0804979c5f1
+                  triggers:
+                    type: array
+                    items:
+                      type: string
+                      example: status
+                  created_at:
+                    type: string
+                    example: '2024-03-11T10:05:18.316Z'
+                  updated_at:
+                    type: string
+                    example: '2024-03-11T10:05:18.316Z'
+                  sources:
+                    type: array
+                    items:
+                      type: string
+                      example: 5f462c1561cf8a766464ffc4
+                  secret_token:
+                    type: string
+                    example: rnVNfIKgnH
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_parameter_value
+                      message: The parameter value you have provided is not valid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_parameter_value
+                      message:
+                        type: string
+                        example: The parameter value you have provided is not valid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+      deprecated: false
+      tags:
+      - Webhooks
+      x-stoplight:
+        id: 73fyyktivlvzj
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst webhook = await client.webhooksResource.create({\n\
+          \  url: '',\n  secret_token: '',\n  triggers: [''],\n  sources: [''],\n});\n\nconsole.log(webhook);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nwebhook = client.webhooks.create(\n    url=\"\",\n    secret_token=\"\",\n\
+          \    triggers=[\"\"],\n    sources=[\"\"],\n)\n\nprint(webhook)"
+    get:
+      summary: List Webhooks
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Webhook ID
+                  url:
+                    type: string
+                    description: Webhook URL
+                  triggers:
+                    type: array
+                    items:
+                      type: string
+                    description: List of triggers configured for this webhook
+                  created_at:
+                    type: string
+                    description: Creation timestamp in ISO 8601 format
+                  updated_at:
+                    type: string
+                    description: Update timestamp in ISO 8601 format
+                  sources:
+                    type: array
+                    items:
+                      type: string
+                    description: List of workspace IDs for which the webhook is enabled.
+                  secret_token:
+                    type: string
+                    description: The token which you must validate when you receive the webhook. It's
+                      given by you when you create the webhook.
+                x-apidog-orders:
+                - id
+                - url
+                - triggers
+                - created_at
+                - updated_at
+                - sources
+                - secret_token
+                required:
+                - id
+                - url
+                - triggers
+                - created_at
+                - updated_at
+                - sources
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      operationId: list-webhooks
+      tags:
+      - Webhooks
+      description: List all webhooks.
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst webhook = await client.webhooksResource.list();\n\
+          \nconsole.log(webhook);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nwebhook = client.webhooks.list()\n\nprint(webhook)"
+  /org/webhooks/{webhook_id}:
+    post:
+      summary: Update Webhook
+      description: Update a webhook listener.
+      operationId: update-webhook
+      parameters:
+      - name: webhook_id
+        in: path
+        description: Unique identifier for the Gumlet Webhook which needs to be updated.
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: URL from the application you want to send data to.
+                secret_token:
+                  type: string
+                  description: Authentication token to ensure legitimacy of Gumlet Webhook request on
+                    your application.
+                triggers:
+                  type: string
+                  description: Triggers for the invocation of webhookos, supported option is `status`.
+                sources:
+                  type: string
+                  description: List of video collection identifiers for which webhooks are needed to be
+                    invoked.
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    id: 65eed75eadeea8478f14ebd4
+                    url: https://webhook.site/16df065a-b398-48bc-b825-b0804979c5f2
+                    triggers:
+                    - status
+                    created_at: '2024-03-11T10:05:18.316Z'
+                    updated_at: '2024-03-11T10:10:37.461Z'
+                    sources:
+                    - 5f462c1561cf8a766464ffc4
+                    secret_token: rnVNfIKgnH
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 65eed75eadeea8478f14ebd4
+                  url:
+                    type: string
+                    example: https://webhook.site/16df065a-b398-48bc-b825-b0804979c5f2
+                  triggers:
+                    type: array
+                    items:
+                      type: string
+                      example: status
+                  created_at:
+                    type: string
+                    example: '2024-03-11T10:05:18.316Z'
+                  updated_at:
+                    type: string
+                    example: '2024-03-11T10:10:37.461Z'
+                  sources:
+                    type: array
+                    items:
+                      type: string
+                      example: 5f462c1561cf8a766464ffc4
+                  secret_token:
+                    type: string
+                    example: rnVNfIKgnH
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: webhook_not_found
+                      message: Could not find any webhook with the specified webhook_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: webhook_not_found
+                      message:
+                        type: string
+                        example: Could not find any webhook with the specified webhook_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Webhooks
+      x-stoplight:
+        id: cj3d5p1p3xcxm
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst webhook = await client.webhooksResource.update('webhookId');\n\
+          \nconsole.log(webhook);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nwebhook = client.webhooks.update(\n    webhook_id=\"webhookId\",\n)\n\nprint(webhook)"
+    delete:
+      summary: Delete Webhook
+      description: Delete webhook listener endpoint.
+      operationId: delete-webhook
+      parameters:
+      - name: webhook_id
+        in: path
+        description: Unique identifier for the Gumlet Webhook which needs to be deleted.
+        schema:
+          type: string
+        required: true
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: {}
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: webhook_id_not_valid
+                      message: The webhook is not valid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: webhook_id_not_valid
+                      message:
+                        type: string
+                        example: The webhook is not valid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: webhook_not_found
+                      message: Could not find any webhook with the specified webhook_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: webhook_not_found
+                      message:
+                        type: string
+                        example: Could not find any webhook with the specified webhook_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      deprecated: false
+      tags:
+      - Webhooks
+      x-stoplight:
+        id: 62i31r1exgnzy
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst webhook = await client.webhooksResource.delete('webhookId');\n\
+          \nconsole.log(webhook);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nwebhook = client.webhooks.delete(\n    webhook_id=\"webhookId\",\n)\n\nprint(webhook)"
+  /org/webhook/{webhook_id}/history:
+    get:
+      parameters:
+      - in: path
+        name: webhook_id
+        description: Webhook ID. You can get it using list webhook endpoint.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: Webhook event ID
+                    status:
+                      type: string
+                      description: Status of webhook event
+                    retry_count:
+                      type: integer
+                      description: Number of retries it needed to deliver webhook.
+                    event:
+                      type: string
+                      description: Name of the webhook event
+                    asset_id:
+                      type: string
+                      description: Asset ID for which the event was fired
+                    created_at:
+                      type: string
+                      description: Event timestamp in ISO 8601 format
+                  x-apidog-orders:
+                  - id
+                  - status
+                  - retry_count
+                  - event
+                  - asset_id
+                  - created_at
+                  required:
+                  - id
+                  - status
+                  - retry_count
+                  - event
+                  - asset_id
+                  - created_at
+              examples:
+                Example 1:
+                  value:
+                  - id: 6aabc4d9b44b963242be835e
+                    status: success
+                    retry_count: 1
+                    event: video.status.stream_ready
+                    asset_id: 6aabc4144b9588fb8c4bd235
+                    created_at: '2026-09-17T10:45:50.470Z'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: webhook_id_not_valid
+                      message: The webhook is not valid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: webhook_id_not_valid
+                      message:
+                        type: string
+                        example: The webhook is not valid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: webhook_not_found
+                      message: Could not find any webhook with the specified webhook_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: webhook_not_found
+                      message:
+                        type: string
+                        example: Could not find any webhook with the specified webhook_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      summary: Get History
+      tags:
+      - Webhooks
+      operationId: webhook-history
+      description: Get logs history for a given webhook.
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst webhook = await client.webhooksResource.history('webhookId');\n\
+          \nconsole.log(webhook);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nwebhook = client.webhooks.history(\n    webhook_id=\"webhookId\",\n)\n\nprint(webhook)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

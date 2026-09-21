@@ -1,0 +1,1627 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Video Profiles API
+  version: '1.4'
+  description: Video Profiles operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Video Profiles
+paths:
+  /video/profiles:
+    post:
+      summary: Create Profile
+      description: Gumlet provides the functionality of creating multiple video assets using the same
+        set of parameters. A Video profile is a set of parameters that can be referenced/used while creating
+        a video as a single parameter.
+      operationId: create-profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - format
+              properties:
+                name:
+                  type: string
+                  description: Profile name or identifier.
+                  default: Gumlet-Profile-1
+                format:
+                  type: string
+                  description: Transcode and deliver the asset in the requested format. The options can
+                    be one of `ABR` (HLS + DASH) and `MP4`.
+                  default: ABR
+                  enum:
+                  - ABR
+                  - MP4
+                width:
+                  type: string
+                  description: Resize video with the given width. Can be an absolute value in pixels or
+                    a percentage value with the `%` suffix. Specified values greater than the original
+                    asset width will be ignored. Only applicable when specified `format` is `MP4`.
+                height:
+                  type: string
+                  description: Resize video with the given height. Can be an absolute value in pixels
+                    or a percentage value with the `%` suffix. Specified values greater than the original
+                    asset height will be ignored. Only applicable when specified `format` is `MP4`.
+                resolution:
+                  type: string
+                  description: 'Required resolutions of the transformed asset in case of HLS or MPEG-DASH
+                    delivery format. Can be a comma-separated string out of the following values: `240p`,
+                    `360p`, `480p`, `540p`, `720p`, and `1080p `. Resized rendition will retain the input
+                    aspect ratio.'
+                crop:
+                  type: object
+                  description: This transformation can be used to crop the video by defining a rectangular
+                    area within the dimensions of the output video.
+                  required:
+                  - width
+                  - height
+                  properties:
+                    horizontal_margin:
+                      type: string
+                      description: 'This parameter defines the horizontal coordinate value of the upper-left
+                        corner of the cropping area. Values can be an absolute number of pixels or a percentage
+                        value relative to the video width. **Default: `0`**'
+                    vertical_margin:
+                      type: string
+                      description: 'This parameter defines the vertical coordinate value of the upper-left
+                        corner of the cropping area. Values can be an absolute number of pixels or a percentage
+                        value relative to the video height. **Default: `0`**'
+                    width:
+                      type: string
+                      description: Width of the cropping area in pixels.
+                    height:
+                      type: string
+                      description: Height of the cropping area in pixels.
+                pad:
+                  type: object
+                  description: This transformation can be used to add padding to the video.
+                  properties:
+                    top:
+                      type: string
+                      description: 'Width of padding on the top side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video height. **Default: `%5`**'
+                    left:
+                      type: string
+                      description: 'Width of padding on the left side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video width. **Default: `0`**'
+                    bottom:
+                      type: string
+                      description: 'Width of padding on the bottom side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video height. **Default: `%5`**'
+                    right:
+                      type: string
+                      description: 'Width of padding on the right side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video width. **Default: `0`**'
+                    color:
+                      type: string
+                      description: 'Color of padding area. **Default: `black`**'
+                trim:
+                  type: object
+                  description: Trim transformation can be used to trim videos based on time duration.
+                  required:
+                  - start_offset
+                  - end_offset
+                  properties:
+                    start_offset:
+                      type: number
+                      description: Start offset in number of seconds or in `HH:MM:SS` format.
+                      format: float
+                    end_offset:
+                      type: number
+                      description: End offset in number of seconds or in `HH:MM:SS` format.
+                      format: float
+                    duration:
+                      type: number
+                      description: Duration can be used in conjunction with `start_offset` parameter,
+                        can be specified in number of seconds.
+                      format: float
+                image_overlay:
+                  type: object
+                  description: Image overlay can be used to brand a video or add a visual label in the
+                    form of an image.
+                  required:
+                  - url
+                  properties:
+                    url:
+                      type: string
+                      description: This is the required parameter for image overlay; it can be a URL to
+                        an image that needs to be overlaid.
+                    horizontal_margin:
+                      type: string
+                      description: 'This parameter defines the horizontal coordinate value of the corner
+                        (determined by `horizontal_align`) of the overlay area. Values can be an absolute
+                        number of pixels or a percentage value relative to the video width. **Default:
+                        `0`**'
+                    vertical_margin:
+                      type: string
+                      description: 'This parameter defines the vertical coordinate value of the corner
+                        (determined by `vertical_align`) of the overlay area. Values can be an absolute
+                        number of pixels or a percentage value relative to the video height. **Default:
+                        `0`**'
+                    horizontal_align:
+                      type: string
+                      description: 'This parameter specifies the horizontal alignment of the overlaid
+                        image and can be either `left` or `right`. **Default: `right`**'
+                    vertical_align:
+                      type: string
+                      description: 'This parameter specifies the vertical alignment of the overlaid image
+                        and can be either `top` or `bottom`. **Default: `bottom`**'
+                    width:
+                      type: string
+                      description: 'Width of the overlaid image. **Default: `image width`**'
+                    height:
+                      type: string
+                      description: 'Height of the overlaid image. **Default: `image height`**'
+                text_overlay:
+                  type: object
+                  description: Text overlay can be used to brand a video or add a label in the form of
+                    text.
+                  required:
+                  - text
+                  properties:
+                    text:
+                      type: string
+                      description: Text to be overlaid on video.
+                    horizontal_align:
+                      type: string
+                      description: 'This parameter specifies the horizontal alignment of the overlaid
+                        text and can be either `left` or `right`. **Default: `right`**'
+                    vertical_align:
+                      type: string
+                      description: 'This parameter specifies the vertical alignment of the overlaid text
+                        and can be either `top` or `bottom`. **Default: `bottom`**'
+                    horizontal_margin:
+                      type: string
+                      description: 'This parameter defines the horizontal coordinate value of the corner
+                        (determined by `horizontal_align`) of the overlay area. Values can be an absolute
+                        number of pixels relative to the video width. **Default: `0`**'
+                    vertical_margin:
+                      type: string
+                      description: 'This parameter defines the vertical coordinate value of the corner
+                        (determined by vertical_align) of the overlay area. Values can be an absolute
+                        number of pixels relative to the video height. **Default: `0`**'
+                    color:
+                      type: string
+                      description: 'Font color for text. **Default: `black`**'
+                    font:
+                      type: string
+                      description: 'Font family type for text. **Default: `sans`**'
+                    font_size:
+                      type: string
+                      description: 'Font size in pixels. **Default: `16`**'
+                    opacity:
+                      type: string
+                      description: 'Overlay text opacity can be specified with opacity parameter where
+                        value can be between `0` and `100` where `0` is considered completely transparent
+                        and `100` is considered completely opaque. **Default: `100`**'
+                    box:
+                      type: boolean
+                      description: 'This parameter allows drawing a rectangular box over the overlaid
+                        text. **Default: `false`**'
+                    box_color:
+                      type: string
+                      description: 'Box color can be specified with this parameter. **Default: `white`**'
+                    box_opacity:
+                      type: string
+                      description: 'Box opacity can be specified with this parameter. **Default: `100`**'
+                    box_border:
+                      type: string
+                      description: 'Padding between the box border and the text can be specified with
+                        this parameter in pixels. **Default: `0`**'
+                animated_gif:
+                  type: object
+                  description: Create an animated GIF from a video.
+                  properties:
+                    start_offset:
+                      type: string
+                      description: 'The time (in seconds or `HH:MM:SS` format) of the video timeline where
+                        the animated gif should begin. **Default: `0`**'
+                    end_offset:
+                      type: string
+                      description: The time (in seconds or `HH:MM:SS` format) of the video timeline where
+                        the GIF ends. Defaults to `10` seconds after the start_offset. Maximum duration
+                        of GIF is limited to `10` seconds.
+                    width:
+                      type: string
+                      description: The width in pixels (or in percentage value of asset width) of the
+                        animated GIF. Max width is `640px`.
+                    height:
+                      type: string
+                      description: The height in pixels (or in percentage value of asset height) of the
+                        animated GIF. Max height is `640px`.
+                    fps:
+                      type: string
+                      description: The frame rate of the generated GIF. Defaults to `15` fps. Max `30`
+                        fps.
+                generate_subtitles:
+                  type: object
+                  description: Gumlet allows you to generate subtitles from the audio stream (use <a href='https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes'>
+                    ISO 639-1 </a> Language Codes). Remove this object if you do not want to generate
+                    AI subtitles.
+                  properties:
+                    transcribe:
+                      type: boolean
+                      description: This will generate the subtitles in the native audio.
+                      default: true
+                    subtitle_languages:
+                      type: string
+                      description: Array of string of language codes for which subtitle needs to be generated.
+                        Maximum four language codes are allowed.
+                mp4_access:
+                  type: boolean
+                  description: 'Creates `mp4` version for download purpose in case of `MPEG-DASH` or `HLS`
+                    delivery format. **Default: `false`**'
+                per_title_encoding:
+                  type: boolean
+                  description: 'Gumlet analyzes each input video on a wide range of visual aspects. Based
+                    on the analysis, it chooses a unique set of transcoding options for processing the
+                    video. This ensures that the output video is of optimal size and best quality. **Default:
+                    `true`**'
+                process_low_resolution_input:
+                  type: boolean
+                  description: 'Currently, the minimum supported frame size is `57600` (`240x240`) pixels
+                    for `HLS/DASH` and `21025` (`145x145`) pixels for `MP4` format. However, enabling
+                    this flag will allow Gumlet to simply put your video asset into the specified delivery
+                    format without transcoding and optimization. Enabling this flag will cause any kind
+                    of specified video transformation to be ignored if you input video asset frame size
+                    is lower than the minimum supported frame size for the specified format. **Default:
+                    `false`**'
+                audio_only:
+                  type: boolean
+                  description: 'This flag allows Gumlet to transcode and deliver audio-only in the specified
+                    format. In this case,This flag allows Gumlet to transcode and deliver audio-only in
+                    the specified format. In this case, video transformation and thumbnails/animated GIFs
+                    would not be created. **Default: `false`**'
+                enable_drm:
+                  type: boolean
+                  description: Enable DRM encryption for transcoded videos. Gumlet supports Widevine and
+                    FairPlay DRMs.
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    profile_id: 61921fb10822a81d955d1730
+                    name: Gumlet-Profile-1
+                    transformations:
+                      format: hls
+                      audio_codec:
+                      - aac
+                      video_codec:
+                      - libx264
+                      thumbnail:
+                      - auto
+                      thumbnail_format: png
+                      mp4_access: false
+                      per_title_encoding: true
+                    created_at: 1636966321742
+              schema:
+                type: object
+                properties:
+                  profile_id:
+                    type: string
+                    example: 61921fb10822a81d955d1730
+                  name:
+                    type: string
+                    example: Gumlet-Profile-1
+                  transformations:
+                    type: object
+                    properties:
+                      format:
+                        type: string
+                        example: hls
+                      audio_codec:
+                        type: array
+                        items:
+                          type: string
+                          example: aac
+                      video_codec:
+                        type: array
+                        items:
+                          type: string
+                          example: libx264
+                      thumbnail:
+                        type: array
+                        items:
+                          type: string
+                          example: auto
+                      thumbnail_format:
+                        type: string
+                        example: png
+                      mp4_access:
+                        type: boolean
+                        example: false
+                        default: true
+                      per_title_encoding:
+                        type: boolean
+                        example: true
+                        default: true
+                  created_at:
+                    type: integer
+                    example: 1636966321742
+                    default: 0
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: parameter_missing
+                      message: video output format (format) and profile name (name) are required to create
+                        profile.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: parameter_missing
+                      message:
+                        type: string
+                        example: video output format (format) and profile name (name) are required to
+                          create profile.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: profile_not_found
+                      message: Could not find any video profile with specified profile_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: profile_not_found
+                      message:
+                        type: string
+                        example: Could not find any video profile with specified profile_id.
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: false
+      tags:
+      - Video Profiles
+      x-stoplight:
+        id: c17cjdbbio5um
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoProfile = await client.videoProfiles.create({\n\
+          \  name: 'Gumlet-Profile-1',\n  format: 'ABR',\n});\n\nconsole.log(videoProfile);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_profile = client.video_profiles.create(\n    name=\"Gumlet-Profile-1\"\
+          ,\n    format=\"ABR\",\n)\n\nprint(video_profile)"
+    get:
+      summary: List Profiles
+      description: This endpoint retrieves the details of all profiles that have previously been created.
+      operationId: list-profiles
+      parameters:
+      - name: offset
+        in: query
+        description: Offset value for a paginated list of profiles. Can be zero for the first time and
+          `current_offset` value received from the last request afterwards.
+        schema:
+          type: integer
+          format: int32
+      - name: size
+        in: query
+        description: 'Page size for the paginated list. **Default: `10`**'
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    all_profiles:
+                    - profile_id: 61921fb10822a81d955d1730
+                      name: Gumlet-Profile-1
+                      transformations:
+                        format: hls
+                        audio_codec:
+                        - aac
+                        video_codec:
+                        - libx264
+                        thumbnail:
+                        - auto
+                        thumbnail_format: png
+                        mp4_access: false
+                        per_title_encoding: true
+                      created_at: 1636966321742
+                      updated_at: 1636966321742
+                    - profile_id: 619206f80822a81d955cb2b1
+                      name: Gumlet Video Profile-1
+                      transformations:
+                        format: hls
+                        audio_codec:
+                        - aac
+                        video_codec:
+                        - libx264
+                        thumbnail:
+                        - auto
+                        thumbnail_format: png
+                        mp4_access: false
+                        per_title_encoding: true
+                      created_at: 1636959992966
+                      updated_at: 1636959992966
+                    - profile_id: 61666fce68d8028cdd8e3417
+                      name: new-staging-1
+                      transformations:
+                        format: hls
+                        resolution:
+                        - 240p
+                        - 360p
+                        - 480p
+                        - 540p
+                        - 720p
+                        - 1080p
+                        video_codec:
+                        - libx264
+                        audio_codec:
+                        - aac
+                        thumbnail:
+                        - auto
+                        thumbnail_format: png
+                        mp4_access: false
+                        per_title_encoding: true
+                      created_at: 1634103246666
+                      updated_at: 1634103246666
+                    - profile_id: 615db3e70ba15d66354583c2
+                      name: new-staging-p
+                      transformations:
+                        resolution:
+                        - 240p
+                        - 360p
+                        - 480p
+                        - 540p
+                        - 720p
+                        format: hls
+                        audio_codec:
+                        - aac
+                        video_codec:
+                        - libx264
+                        thumbnail:
+                        - auto
+                        thumbnail_format: png
+                        mp4_access: false
+                        per_title_encoding: true
+                      created_at: 1633530855475
+                      updated_at: 1633530855475
+                    - profile_id: 615d84e80ba15d66354534fe
+                      name: new-profile-test
+                      transformations:
+                        resolution:
+                        - 240p
+                        - 360p
+                        - 480p
+                        - 540p
+                        - 720p
+                        - 1080p
+                        format: hls
+                        audio_codec:
+                        - aac
+                        video_codec:
+                        - libx264
+                        thumbnail:
+                        - auto
+                        thumbnail_format: png
+                        mp4_access: true
+                        per_title_encoding: true
+                      created_at: 1633518824278
+                      updated_at: 1633518824278
+                    - profile_id: 60a3f690687a6ca9aad205dc
+                      name: staging-profile
+                      transformations:
+                        format: hls
+                        resolution:
+                          '0': 240p
+                          '1': 360p
+                          '2': 480p
+                          '3': 540p
+                        video_codec:
+                        - libx264
+                        audio_codec:
+                        - aac
+                        thumbnail:
+                        - auto
+                        thumbnail_format: png
+                        mp4_access: true
+                        per_title_encoding: true
+                        trim: {}
+                      created_at: 1621358224338
+                      updated_at: 1633517722412
+                    - profile_id: 609cf385fb00af2de13f8b3f
+                      name: non-pte-test-profile
+                      transformations:
+                        format: hls
+                        resolution:
+                        - 240p
+                        - 360p
+                        - 480p
+                        - 540p
+                        - 720p
+                        - 1080p
+                        video_codec:
+                        - libx264
+                        audio_codec:
+                        - aac
+                        thumbnail:
+                        - auto
+                        thumbnail_format: png
+                        mp4_access: false
+                        per_title_encoding: false
+                      created_at: 1620898693836
+                      updated_at: 1620898693836
+                    - profile_id: 5feaf9a22e3cb37e8417174e
+                      name: Gumlet Video Profile-1
+                      transformations:
+                        format: hls
+                        video_codec:
+                        - libx264
+                        audio_codec:
+                        - aac
+                        text_overlay:
+                          text: Gumlet
+                          vertical_align: top
+                          horizontal_align: left
+                          vertical_margin: 10%
+                          horizontal_margin: 10%
+                          font_color: black
+                          font: sans
+                          font_size: 45
+                          box: true
+                          box_color: white
+                          box_border: 10
+                        thumbnail:
+                        - auto
+                        thumbnail_format: png
+                        mp4_access: false
+                        image_overlay:
+                          url: https://assets.gumlet.io/assets/logo.svg?format=png
+                          vertical_align: top
+                          horizontal_align: left
+                          vertical_margin: 5%
+                          horizontal_margin: 5%
+                          width: 10%
+                          height: 10%
+                      created_at: 1609234850093
+                      updated_at: 1609235119156
+                    total_profile_count: 8
+                    current_offset: 8
+              schema:
+                type: object
+                properties:
+                  all_profiles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        profile_id:
+                          type: string
+                          example: 61921fb10822a81d955d1730
+                        name:
+                          type: string
+                          example: Gumlet-Profile-1
+                        transformations:
+                          type: object
+                          properties:
+                            format:
+                              type: string
+                              example: hls
+                            audio_codec:
+                              type: array
+                              items:
+                                type: string
+                                example: aac
+                            video_codec:
+                              type: array
+                              items:
+                                type: string
+                                example: libx264
+                            thumbnail:
+                              type: array
+                              items:
+                                type: string
+                                example: auto
+                            thumbnail_format:
+                              type: string
+                              example: png
+                            mp4_access:
+                              type: boolean
+                              example: false
+                              default: true
+                            per_title_encoding:
+                              type: boolean
+                              example: true
+                              default: true
+                        created_at:
+                          type: integer
+                          example: 1636966321742
+                          default: 0
+                        updated_at:
+                          type: integer
+                          example: 1636966321742
+                          default: 0
+                  total_profile_count:
+                    type: integer
+                    example: 8
+                    default: 0
+                  current_offset:
+                    type: integer
+                    example: 8
+                    default: 0
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Video Profiles
+      x-stoplight:
+        id: pagbl35gzdirz
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoProfile = await client.videoProfiles.list();\n\
+          \nconsole.log(videoProfile);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_profile = client.video_profiles.list()\n\nprint(video_profile)"
+  /video/profiles/{profile_id}:
+    post:
+      summary: Update Profile
+      description: Update an existing profile. Settings provided in body parameters will only be updated
+        in the existing profile.
+      operationId: update-profile
+      parameters:
+      - name: profile_id
+        in: path
+        description: Profile id of the profile which need to be updated.
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - profile_id
+              properties:
+                profile_id:
+                  type: string
+                  description: Profile id of the profile which needs to be deleted.
+                name:
+                  type: string
+                  description: Profile name or identifier.
+                format:
+                  type: string
+                  description: Transcode and deliver the asset in the requested format. The options can
+                    be one of `ABR` (HLS + DASH) and `MP4`.
+                  default: ABR
+                  enum:
+                  - ABR
+                  - MP4
+                width:
+                  type: string
+                  description: Resize video with the given width. Can be an absolute value in pixels or
+                    a percentage value with the `%` suffix. Specified values greater than the original
+                    asset width will be ignored. Only applicable when specified `format` is `MP4`.
+                height:
+                  type: string
+                  description: Resize video with the given height. Can be an absolute value in pixels
+                    or a percentage value with the `%` suffix. Specified values greater than the original
+                    asset height will be ignored. Only applicable when specified `format` is `MP4`.
+                resolution:
+                  type: string
+                  description: Resize video with the given height. Can be an absolute value in pixels
+                    or a percentage value with the `%` suffix. Specified values greater than the original
+                    asset height will be ignored. Only applicable when specified `format` is `MP4`.
+                crop:
+                  type: object
+                  description: This transformation can be used to crop the video by defining a rectangular
+                    area within the dimensions of the output video.
+                  required:
+                  - width
+                  - height
+                  properties:
+                    horizontal_margin:
+                      type: string
+                      description: 'This parameter defines the horizontal coordinate value of the upper-left
+                        corner of the cropping area. Values can be an absolute number of pixels or a percentage
+                        value relative to the video width. **Default: `0`**'
+                    vertical_margin:
+                      type: string
+                      description: 'This parameter defines the vertical coordinate value of the upper-left
+                        corner of the cropping area. Values can be an absolute number of pixels or a percentage
+                        value relative to the video height. **Default: `0`**'
+                    width:
+                      type: string
+                      description: Width of the cropping area in pixels.
+                    height:
+                      type: string
+                      description: Height of the cropping area in pixels.
+                  x-apidog-orders:
+                  - horizontal_margin
+                  - vertical_margin
+                  - width
+                  - height
+                pad:
+                  type: object
+                  description: This transformation can be used to add padding to the video.
+                  properties:
+                    top:
+                      type: string
+                      description: 'Width of padding on the top side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video height. **Default: `%5`**'
+                    left:
+                      type: string
+                      description: 'Width of padding on the left side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video width. **Default: `0`**'
+                    bottom:
+                      type: string
+                      description: 'Width of padding on the bottom side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video height. **Default: `%5`**'
+                    right:
+                      type: string
+                      description: 'Width of padding on the right side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video width. **Default: `0`**'
+                    color:
+                      type: string
+                      description: 'Color of padding area. **Default: `black`**'
+                  x-apidog-orders:
+                  - top
+                  - left
+                  - bottom
+                  - right
+                  - color
+                trim:
+                  type: object
+                  description: Trim transformation can be used to trim videos based on time duration.
+                  required:
+                  - start_offset
+                  - end_offset
+                  properties:
+                    start_offset:
+                      type: number
+                      description: Start offset in number of seconds or in `HH:MM:SS` format.
+                      format: float
+                    end_offset:
+                      type: number
+                      description: End offset in number of seconds or in `HH:MM:SS` format.
+                      format: float
+                    duration:
+                      type: number
+                      description: Duration can be used in conjunction with `start_offset` parameter,
+                        can be specified in number of seconds.
+                      format: float
+                  x-apidog-orders:
+                  - start_offset
+                  - end_offset
+                  - duration
+                image_overlay:
+                  type: object
+                  description: Image overlay can be used to brand a video or add a visual label in the
+                    form of an image.
+                  required:
+                  - url
+                  properties:
+                    url:
+                      type: string
+                      description: This is the required parameter for image overlay; it can be a URL to
+                        an image that needs to be overlaid.
+                    horizontal_margin:
+                      type: string
+                      description: 'This parameter defines the horizontal coordinate value of the corner
+                        (determined by `horizontal_align`) of the overlay area. Values can be an absolute
+                        number of pixels or a percentage value relative to the video width. **Default:
+                        `0`**'
+                    vertical_margin:
+                      type: string
+                      description: 'This parameter defines the vertical coordinate value of the corner
+                        (determined by `vertical_align`) of the overlay area. Values can be an absolute
+                        number of pixels or a percentage value relative to the video height. **Default:
+                        `0`**'
+                    horizontal_align:
+                      type: string
+                      description: 'This parameter specifies the horizontal alignment of the overlaid
+                        image and can be either `left` or `right`. **Default: `right`**'
+                    vertical_align:
+                      type: string
+                      description: 'This parameter specifies the vertical alignment of the overlaid image
+                        and can be either `top` or `bottom`. **Default: `bottom`**'
+                    width:
+                      type: string
+                      description: 'Width of the overlaid image. **Default: `image width`**'
+                    height:
+                      type: string
+                      description: 'Height of the overlaid image. **Default: `image height`**'
+                  x-apidog-orders:
+                  - url
+                  - horizontal_margin
+                  - vertical_margin
+                  - horizontal_align
+                  - vertical_align
+                  - width
+                  - height
+                text_overlay:
+                  type: object
+                  description: Text overlay can be used to brand a video or add a label in the form of
+                    text.
+                  required:
+                  - text
+                  properties:
+                    text:
+                      type: string
+                      description: Text to be overlaid on video.
+                    horizontal_align:
+                      type: string
+                      description: 'This parameter specifies the horizontal alignment of the overlaid
+                        text and can be either `left` or `right`. **Default: `right`**'
+                    vertical_align:
+                      type: string
+                      description: 'This parameter specifies the vertical alignment of the overlaid text
+                        and can be either `top` or `bottom`. **Default: `bottom`**'
+                    horizontal_margin:
+                      type: string
+                      description: 'This parameter defines the horizontal coordinate value of the corner
+                        (determined by `horizontal_align`) of the overlay area. Values can be an absolute
+                        number of pixels relative to the video width. **Default: `0`**'
+                    vertical_margin:
+                      type: string
+                      description: 'This parameter defines the vertical coordinate value of the corner
+                        (determined by vertical_align) of the overlay area. Values can be an absolute
+                        number of pixels relative to the video height. **Default: `0`**'
+                    color:
+                      type: string
+                      description: 'Font color for text. **Default: `black`**'
+                    font:
+                      type: string
+                      description: 'Font family type for text. **Default: `sans`**'
+                    font_size:
+                      type: string
+                      description: 'Font size in pixels. **Default: `16`**'
+                    opacity:
+                      type: string
+                      description: 'Overlay text opacity can be specified with opacity parameter where
+                        value can be between `0` and `100` where `0` is considered completely transparent
+                        and `100` is considered completely opaque. **Default: `100`**'
+                    box:
+                      type: boolean
+                      description: 'This parameter allows drawing a rectangular box over the overlaid
+                        text. **Default: `false`**'
+                    box_color:
+                      type: string
+                      description: 'Box color can be specified with this parameter. **Default: `white`**'
+                    box_opacity:
+                      type: string
+                      description: 'Box opacity can be specified with this parameter. **Default: `100`**'
+                    box_border:
+                      type: string
+                      description: 'Padding between the box border and the text can be specified with
+                        this parameter in pixels. **Default: `0`**'
+                  x-apidog-orders:
+                  - text
+                  - horizontal_align
+                  - vertical_align
+                  - horizontal_margin
+                  - vertical_margin
+                  - color
+                  - font
+                  - font_size
+                  - opacity
+                  - box
+                  - box_color
+                  - box_opacity
+                  - box_border
+                animated_gif:
+                  type: object
+                  description: Create an animated GIF from a video.
+                  properties:
+                    start_offset:
+                      type: string
+                      description: 'The time (in seconds or `HH:MM:SS` format) of the video timeline where
+                        the animated gif should begin. **Default: `0`**'
+                    end_offset:
+                      type: string
+                      description: The time (in seconds or `HH:MM:SS` format) of the video timeline where
+                        the GIF ends. Defaults to `10` seconds after the start_offset. Maximum duration
+                        of GIF is limited to `10` seconds.
+                    width:
+                      type: string
+                      description: The width in pixels (or in percentage value of asset width) of the
+                        animated GIF. Max width is `640px`.
+                    height:
+                      type: string
+                      description: The height in pixels (or in percentage value of asset height) of the
+                        animated GIF. Max height is `640px`.
+                    fps:
+                      type: string
+                      description: The frame rate of the generated GIF. Defaults to `15` fps. Max `30`
+                        fps.
+                  x-apidog-orders:
+                  - start_offset
+                  - end_offset
+                  - width
+                  - height
+                  - fps
+                generate_subtitles:
+                  type: object
+                  description: Gumlet allows you to generate subtitles from the audio stream (use <a href='https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes'>
+                    ISO 639-1 </a> Language Codes). You can remove this object if you don't want to generate
+                    AI subtitles.
+                  properties:
+                    subtitle_languages:
+                      type: array
+                      description: Array of string of language codes for which subtitle needs to be generated.
+                        Maximum four language codes are allowed.
+                      items:
+                        type: string
+                    transcribe:
+                      type: boolean
+                      default: true
+                      description: This is by default true to generate the subtitles in the native audio.
+                  x-apidog-orders:
+                  - subtitle_languages
+                  - transcribe
+                mp4_access:
+                  type: boolean
+                  description: 'Creates `mp4` version for download purpose in case of `MPEG-DASH` or `HLS`
+                    delivery format. **Default: `false`**'
+                per_title_encoding:
+                  type: boolean
+                  description: 'Gumlet analyzes each input video on a wide range of visual aspects. Based
+                    on the analysis, it chooses a unique set of transcoding options for processing the
+                    video. This ensures that the output video is of optimal size and best quality. **Default:
+                    `true`**'
+                process_low_resolution_input:
+                  type: boolean
+                  description: 'Currently, the minimum supported frame size is `57600` (`240x240`) pixels
+                    for `HLS/DASH` and `21025` (`145x145`) pixels for `MP4` format. However, enabling
+                    this flag will allow Gumlet to simply put your video asset into the specified delivery
+                    format without transcoding and optimization. Enabling this flag will cause any kind
+                    of specified video transformation to be ignored if you input video asset frame size
+                    is lower than the minimum supported frame size for the specified format. **Default:
+                    `false`**'
+                audio_only:
+                  type: boolean
+                  description: 'This flag allows Gumlet to transcode and deliver audio-only in the specified
+                    format. In this case,This flag allows Gumlet to transcode and deliver audio-only in
+                    the specified format. In this case, video transformation and thumbnails/animated GIFs
+                    would not be created. **Default: `false`**'
+                enable_drm:
+                  type: boolean
+                  description: Enable DRM encryption for transcoded videos. Gumlet supports Widevine and
+                    FairPlay DRMs.
+                vc:
+                  type: array
+                  items:
+                    type: string
+                  description: Video Codecs
+                generate_chapters:
+                  type: boolean
+                  description: Whether Gumlet should generate chapters.
+                generate_description:
+                  type: boolean
+                  description: Whether Gumlet should generate descriptions.
+              x-apidog-orders:
+              - profile_id
+              - name
+              - format
+              - width
+              - height
+              - resolution
+              - vc
+              - crop
+              - pad
+              - trim
+              - image_overlay
+              - text_overlay
+              - animated_gif
+              - generate_subtitles
+              - mp4_access
+              - per_title_encoding
+              - process_low_resolution_input
+              - audio_only
+              - enable_drm
+              - generate_chapters
+              - generate_description
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    profile_id: 61921fb10822a81d955d1730
+                    name: Gumlet-Profile-2
+                    transformations:
+                      resolution: 240p,360p
+                      format: hls
+                      audio_codec:
+                      - aac
+                      video_codec:
+                      - libx264
+                      thumbnail:
+                      - auto
+                      thumbnail_format: png
+                      mp4_access: false
+                      per_title_encoding: true
+                    created_at: 1636966321742
+                    updated_at: 1636975593082
+              schema:
+                type: object
+                properties:
+                  profile_id:
+                    type: string
+                    example: 61921fb10822a81d955d1730
+                  name:
+                    type: string
+                    example: Gumlet-Profile-2
+                  transformations:
+                    type: object
+                    properties:
+                      resolution:
+                        type: string
+                        example: 240p,360p
+                      format:
+                        type: string
+                        example: hls
+                      audio_codec:
+                        type: array
+                        items:
+                          type: string
+                          example: aac
+                      video_codec:
+                        type: array
+                        items:
+                          type: string
+                          example: libx264
+                      thumbnail:
+                        type: array
+                        items:
+                          type: string
+                          example: auto
+                      thumbnail_format:
+                        type: string
+                        example: png
+                      mp4_access:
+                        type: boolean
+                        example: false
+                        default: true
+                      per_title_encoding:
+                        type: boolean
+                        example: true
+                        default: true
+                  created_at:
+                    type: integer
+                    example: 1636966321742
+                    default: 0
+                  updated_at:
+                    type: integer
+                    example: 1636975593082
+                    default: 0
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: parameter_missing
+                      message: One or more required values are missing.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: parameter_missing
+                      message:
+                        type: string
+                        example: One or more required values are missing.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: profile_not_found
+                      message: Could not find any video profile with specified profile_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: profile_not_found
+                      message:
+                        type: string
+                        example: Could not find any video profile with specified profile_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: false
+      tags:
+      - Video Profiles
+      x-stoplight:
+        id: 4z7lrir87xi3k
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoProfile = await client.videoProfiles.update('profileId',\
+          \ {\n  profile_id: '',\n  format: 'ABR',\n});\n\nconsole.log(videoProfile);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_profile = client.video_profiles.update(\n    path_profile_id=\"profileId\"\
+          ,\n    body_profile_id=\"\",\n    format=\"ABR\",\n)\n\nprint(video_profile)"
+    get:
+      summary: Get Profile
+      description: This endpoint retrieves the details of a video profile that has previously been created.
+      operationId: get-profile
+      parameters:
+      - name: profile_id
+        in: path
+        description: Profile id of the profile which needs to be retrieved.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    profile_id: 61921fb10822a81d955d1730
+                    name: Gumlet-Profile-2
+                    transformations:
+                      format: hls
+                      audio_codec:
+                      - aac
+                      video_codec:
+                      - libx264
+                      thumbnail:
+                      - auto
+                      thumbnail_format: png
+                      mp4_access: false
+                      per_title_encoding: true
+                      resolution: 240p,360p
+                    created_at: 1636966321742
+                    updated_at: 1636975593082
+              schema:
+                type: object
+                properties:
+                  profile_id:
+                    type: string
+                    examples:
+                    - 61921fb10822a81d955d1730
+                  name:
+                    type: string
+                    examples:
+                    - Gumlet-Profile-2
+                  transformations:
+                    type: object
+                    properties:
+                      format:
+                        type: string
+                        examples:
+                        - hls
+                      audio_codec:
+                        type: array
+                        items:
+                          type: string
+                          examples:
+                          - aac
+                      video_codec:
+                        type: array
+                        items:
+                          type: string
+                          examples:
+                          - libx264
+                      thumbnail:
+                        type: array
+                        items:
+                          type: string
+                          examples:
+                          - auto
+                      thumbnail_format:
+                        type: string
+                        examples:
+                        - png
+                      mp4_access:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      per_title_encoding:
+                        type: boolean
+                        default: true
+                        examples:
+                        - true
+                      resolution:
+                        type: string
+                        examples:
+                        - 240p,360p
+                      generate_chapters:
+                        type: boolean
+                        description: Flag that shows if AI generated chapters are enabled
+                    x-apidog-orders:
+                    - format
+                    - audio_codec
+                    - video_codec
+                    - thumbnail
+                    - thumbnail_format
+                    - mp4_access
+                    - per_title_encoding
+                    - resolution
+                    - generate_chapters
+                  created_at:
+                    type: integer
+                    default: 0
+                    examples:
+                    - 1636966321742
+                  updated_at:
+                    type: integer
+                    default: 0
+                    examples:
+                    - 1636975593082
+                x-apidog-orders:
+                - profile_id
+                - name
+                - transformations
+                - created_at
+                - updated_at
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: profile_not_found
+                      message: Could not find any video profile with specified profile_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: profile_not_found
+                      message:
+                        type: string
+                        example: Could not find any video profile with specified profile_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: profile_not_found
+                      message: Could not find any video profile with specified profile_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: profile_not_found
+                      message:
+                        type: string
+                        example: Could not find any video profile with specified profile_id.
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: profile_not_found
+                      message: Could not find any video profile with specified profile_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: profile_not_found
+                      message:
+                        type: string
+                        example: Could not find any video profile with specified profile_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      deprecated: false
+      tags:
+      - Video Profiles
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoProfile = await client.videoProfiles.retrieve('profileId');\n\
+          \nconsole.log(videoProfile);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_profile = client.video_profiles.retrieve(\n    profile_id=\"profileId\"\
+          ,\n)\n\nprint(video_profile)"
+    delete:
+      summary: Delete Profile
+      description: This endpoint removes a profile given its unique `profile_id`. The profile will be
+        removed but video assets created using the profile will remain as it is.
+      operationId: delete-profile
+      parameters:
+      - name: profile_id
+        in: path
+        description: Profile id of the profile which needs to be deleted.
+        schema:
+          type: string
+        required: true
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: {}
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request — profile linked to workspace
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: profile_collection_link_found
+                      message: The profile is configured as default profile for one or multiple workspaces.
+                        Please remove it as default profile first.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: profile_collection_link_found
+                      message:
+                        type: string
+                        example: The profile is configured as default profile for one or multiple workspaces.
+                          Please remove it as default profile first.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: profile_not_found
+                      message: Could not find any video profile with specified profile_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: profile_not_found
+                      message:
+                        type: string
+                        example: Could not find any video profile with specified profile_id.
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: profile_not_found
+                      message: Could not find any video profile with specified profile_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: profile_not_found
+                      message:
+                        type: string
+                        example: Could not find any video profile with specified profile_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      deprecated: false
+      tags:
+      - Video Profiles
+      x-stoplight:
+        id: 0rf71da9mcxfb
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoProfile = await client.videoProfiles.delete('profileId');\n\
+          \nconsole.log(videoProfile);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_profile = client.video_profiles.delete(\n    profile_id=\"profileId\"\
+          ,\n)\n\nprint(video_profile)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

@@ -1,0 +1,2709 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Video Workspaces API
+  version: '1.4'
+  description: Video Workspaces operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Video Workspaces
+paths:
+  /video/workspaces:
+    get:
+      summary: List Workspaces
+      description: This endpoint list video workspace which are assigned to the user or token.
+      operationId: list-workspaces
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    all_sources:
+                    - id: 646df1c9173a4a2fcac180b4
+                      name: collection_name
+                      type: aws
+                      created_at: '2023-05-24T11:15:21.624Z'
+                      updated_at: '2024-01-24T11:57:48.744Z'
+                      video_protection:
+                        signed_url: true
+                        signed_url_secret: 47a3e2fbb1318f033b882c632bc103a8
+                      player_config:
+                        preload: false
+                        autoplay: false
+                        disable_seek: false
+                        disable_player_controls: false
+                        powered_by_gumlet_overlay: false
+                        allow_drm_protected_videos: false
+                        loop: false
+                        player_color: '#6658ea'
+                        include_seo: true
+                        subtitle_enabled: false
+                        pixel_tags: {}
+                        logo_width: 100
+                        logo_height: 100
+                        dynamic_watermark: false
+                        watermark_font_size: 20
+                        watermark_font_color: '#ff0000'
+                        watermark_bg_color: transparent
+                        watermark_interval: 1000
+                      default_profile_id: 646df1c9173a4a2fcac180b7
+                      insight_property_id: 646df0aa173a4a2fcac18009
+                      aws:
+                        bucket_name: asd
+                        bucket_region: ap-south-1
+                        access_key: Code@123
+                        secret: '****************'
+                      embed_details:
+                        pixel_tags: {}
+                        preload: false
+                        autoplay: false
+                        logo_width: 100
+                        logo_height: 100
+                        player_color: '#6658ea'
+                        is_seo: true
+                        dynamic_watermark: false
+                        disable_seek: false
+                        disable_player_controls: false
+                        allow_drm_protected_videos: false
+                        powered_by_gumlet_overlay: false
+                        loop: false
+                        subtitle_enabled: false
+                        watermark_bg_color: transparent
+                        watermark_font_color: '#ff0000'
+                        watermark_font_size: 20
+                        watermark_interval: 1000
+                      folders:
+                      - folder
+                      - folder 2
+                      - folder 27
+                      - folder 4
+                      channel_settings:
+                        title: my channel
+                        active: false
+                        description: desc
+                        privacy_type: private
+                        custom_logo: true
+                        logo_url: https://dev-video.gumlet.io/646df1c9172a4a2fcac180b4/channel/logo.png
+                        cname:
+                        - okj.com
+                        - sd.com
+                        - safd.com
+                        temp_cname:
+                        - okj.com
+                        - safd.com
+                        - sd.com
+                    - id: 65b016f4e99b77f116c0e381
+                      name: private uploads
+                      type: direct-upload
+                      created_at: '2024-01-23T19:43:48.267Z'
+                      updated_at: '2024-01-23T19:43:48.272Z'
+                      video_protection: {}
+                      player_config:
+                        preload: true
+                        autoplay: false
+                        disable_seek: false
+                        disable_player_controls: false
+                        powered_by_gumlet_overlay: true
+                        allow_drm_protected_videos: true
+                        loop: false
+                        player_color: '#6658ea'
+                        include_seo: true
+                        subtitle_enabled: false
+                        pixel_tags: {}
+                        logo_width: 100
+                        logo_height: 100
+                        dynamic_watermark: false
+                        watermark_font_size: 20
+                        watermark_font_color: '#ff0000'
+                        watermark_bg_color: transparent
+                        watermark_interval: 1000
+                      default_profile_id: 646df1c9173a4a2fcac180b7
+                      insight_property_id: 65b016f4e99b77f116c0e37f
+                      embed_details:
+                        pixel_tags: {}
+                        powered_by_gumlet_overlay: true
+                        allow_drm_protected_videos: true
+                        preload: true
+                        autoplay: false
+                        logo_width: 100
+                        logo_height: 100
+                        player_color: '#6658ea'
+                        is_seo: true
+                        dynamic_watermark: false
+                        watermark_font_size: 20
+                        watermark_font_color: '#ff0000'
+                        watermark_bg_color: transparent
+                        watermark_interval: 1000
+                        disable_seek: false
+                        disable_player_controls: false
+                        loop: false
+                        subtitle_enabled: false
+                      folders: []
+                      channel_settings:
+                        active: false
+                        privacy_type: private
+              schema:
+                type: object
+                properties:
+                  all_sources:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          examples:
+                          - 646df1c9173a4a2fcac180b4
+                        name:
+                          type: string
+                          examples:
+                          - collection_name
+                        type:
+                          type: string
+                          examples:
+                          - aws
+                        created_at:
+                          type: string
+                          examples:
+                          - '2023-05-24T11:15:21.624Z'
+                        updated_at:
+                          type: string
+                          examples:
+                          - '2024-01-24T11:57:48.744Z'
+                        video_protection:
+                          type: object
+                          properties:
+                            signed_url:
+                              type: boolean
+                              default: true
+                              examples:
+                              - true
+                            signed_url_secret:
+                              type: string
+                              examples:
+                              - 47a3e2fbb1318f033b882c632bc103a8
+                          x-apidog-orders:
+                          - signed_url
+                          - signed_url_secret
+                        player_config:
+                          type: object
+                          properties:
+                            preload:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            autoplay:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            disable_seek:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            disable_player_controls:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            powered_by_gumlet_overlay:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            allow_drm_protected_videos:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            loop:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            player_color:
+                              type: string
+                              examples:
+                              - '#6658ea'
+                            include_seo:
+                              type: boolean
+                              default: true
+                              examples:
+                              - true
+                            subtitle_enabled:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            pixel_tags:
+                              type: object
+                              properties: {}
+                              x-apidog-orders: []
+                            logo_width:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 100
+                            logo_height:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 100
+                            dynamic_watermark:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            watermark_font_size:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 20
+                            watermark_font_color:
+                              type: string
+                              examples:
+                              - '#ff0000'
+                            watermark_bg_color:
+                              type: string
+                              examples:
+                              - transparent
+                            watermark_interval:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 1000
+                          x-apidog-orders:
+                          - preload
+                          - autoplay
+                          - disable_seek
+                          - disable_player_controls
+                          - powered_by_gumlet_overlay
+                          - allow_drm_protected_videos
+                          - loop
+                          - player_color
+                          - include_seo
+                          - subtitle_enabled
+                          - pixel_tags
+                          - logo_width
+                          - logo_height
+                          - dynamic_watermark
+                          - watermark_font_size
+                          - watermark_font_color
+                          - watermark_bg_color
+                          - watermark_interval
+                        default_profile_id:
+                          type: string
+                          examples:
+                          - 646df1c9173a4a2fcac180b7
+                        insight_property_id:
+                          type: string
+                          examples:
+                          - 646df0aa173a4a2fcac18009
+                        aws:
+                          type: object
+                          properties:
+                            bucket_name:
+                              type: string
+                              examples:
+                              - asd
+                            bucket_region:
+                              type: string
+                              examples:
+                              - ap-south-1
+                            access_key:
+                              type: string
+                              examples:
+                              - Code@123
+                            secret:
+                              type: string
+                              examples:
+                              - '****************'
+                          x-apidog-orders:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                        embed_details:
+                          type: object
+                          properties:
+                            pixel_tags:
+                              type: object
+                              properties: {}
+                              x-apidog-orders: []
+                            preload:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            autoplay:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            logo_width:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 100
+                            logo_height:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 100
+                            player_color:
+                              type: string
+                              examples:
+                              - '#6658ea'
+                            is_seo:
+                              type: boolean
+                              default: true
+                              examples:
+                              - true
+                            dynamic_watermark:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            disable_seek:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            disable_player_controls:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            allow_drm_protected_videos:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            powered_by_gumlet_overlay:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            loop:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            subtitle_enabled:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            watermark_bg_color:
+                              type: string
+                              examples:
+                              - transparent
+                            watermark_font_color:
+                              type: string
+                              examples:
+                              - '#ff0000'
+                            watermark_font_size:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 20
+                            watermark_interval:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 1000
+                          x-apidog-orders:
+                          - pixel_tags
+                          - preload
+                          - autoplay
+                          - logo_width
+                          - logo_height
+                          - player_color
+                          - is_seo
+                          - dynamic_watermark
+                          - disable_seek
+                          - disable_player_controls
+                          - allow_drm_protected_videos
+                          - powered_by_gumlet_overlay
+                          - loop
+                          - subtitle_enabled
+                          - watermark_bg_color
+                          - watermark_font_color
+                          - watermark_font_size
+                          - watermark_interval
+                        folders:
+                          type: array
+                          items:
+                            type: string
+                            examples:
+                            - folder
+                        channel_settings:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                              examples:
+                              - my channel
+                            active:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            description:
+                              type: string
+                              examples:
+                              - desc
+                            privacy_type:
+                              type: string
+                              examples:
+                              - private
+                            custom_logo:
+                              type: boolean
+                              default: true
+                              examples:
+                              - true
+                            logo_url:
+                              type: string
+                              examples:
+                              - https://dev-video.gumlet.io/646df1c9172a4a2fcac180b4/channel/logo.png
+                            cname:
+                              type: array
+                              items:
+                                type: string
+                                examples:
+                                - okj.com
+                            temp_cname:
+                              type: array
+                              items:
+                                type: string
+                                examples:
+                                - okj.com
+                          x-apidog-orders:
+                          - title
+                          - active
+                          - description
+                          - privacy_type
+                          - custom_logo
+                          - logo_url
+                          - cname
+                          - temp_cname
+                        on_streaming_halt:
+                          type: boolean
+                          description: Whether the workspace is disabled for streaming. `true` means it's
+                            disabled.
+                      x-apidog-orders:
+                      - id
+                      - name
+                      - type
+                      - created_at
+                      - updated_at
+                      - video_protection
+                      - player_config
+                      - default_profile_id
+                      - insight_property_id
+                      - aws
+                      - embed_details
+                      - folders
+                      - channel_settings
+                      - on_streaming_halt
+                x-apidog-orders:
+                - all_sources
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Video Workspaces
+      parameters:
+      - name: offset
+        in: query
+        required: false
+        description: Number of workspaces to skip. For example if you need to list 11 to 20th workspaces,
+          pass offset as 10 and size as 10.
+        schema:
+          type: string
+          default: '0'
+      - name: size
+        in: query
+        required: false
+        description: Number of workspace to return in single response.
+        schema:
+          type: string
+          default: '10'
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoWorkspace = await client.videoWorkspaces.list({\n\
+          \  offset: '0',\n  size: '10',\n});\n\nconsole.log(videoWorkspace);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_workspace = client.video_workspaces.list(\n    offset=\"0\",\n    size=\"\
+          10\",\n)\n\nprint(video_workspace)"
+    post:
+      summary: Create Workspace
+      description: Video workspaces are top-level entities in Gumlet. You can use them to organize videos
+        for different teams/departments or use cases.
+      operationId: create-workspace
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - type
+              properties:
+                name:
+                  type: string
+                  description: Specify a text string or identifier for the workspace.
+                type:
+                  type: string
+                  description: Video workspaces are top-level entities in Gumlet. You can use them to
+                    organize videos for different teams/departments or use cases.
+                  default: direct-upload
+                  enum:
+                  - proxy
+                  - direct-upload
+                  - webfolder
+                  - aws
+                  - gcs
+                  - dostorage
+                  - wasabi
+                  - cloudinary
+                  - azure
+                  - linode
+                  - backblaze
+                  - cloudflare
+                  - zoom
+                default_profile_id:
+                  type: string
+                  description: Gumlet provides the functionality of creating multiple video assets using
+                    the same set of parameters.
+                insight_property_id:
+                  type: string
+                  description: The five to ten character unique identifier of the Gumlet Insight Property
+                    available on the dashboard.
+                video_protection:
+                  type: object
+                  description: Gumlet provides multiple options for securing your video playback.
+                  properties:
+                    signed_url:
+                      type: boolean
+                      default: false
+                    signed_url_secret:
+                      type: string
+                    blacklisted_countries:
+                      type: array
+                      description: 'Example: ["IN","USA"]'
+                      items:
+                        type: string
+                    whitelisted_referrers:
+                      type: string
+                aws:
+                  type: object
+                  description: This is a required field if workspace type is aws.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                    endpoint:
+                      type: string
+                proxy:
+                  type: object
+                  description: This is a required field if workspace type is proxy.
+                  required:
+                  - whitelisted_domains
+                  properties:
+                    whitelisted_domains:
+                      type: string
+                gcs:
+                  type: object
+                  description: This is a required field if workspace type is gcs.
+                  required:
+                  - bucket_name
+                  - service_account_key
+                  properties:
+                    bucket_name:
+                      type: string
+                    service_account_key:
+                      type: string
+                dostorage:
+                  type: object
+                  description: This is a required field if workspace type is dostorage.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                wasabi:
+                  type: object
+                  description: This is a required field if workspace type is wasabi.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                cloudinary:
+                  type: object
+                  description: This is a required field if workspace type is cloudinary.
+                  required:
+                  - host_name
+                  - cloud_name
+                  properties:
+                    host_name:
+                      type: string
+                    cloud_name:
+                      type: string
+                azure:
+                  type: object
+                  description: This is a required field if workspace type is azure.
+                  required:
+                  - azure_account_name
+                  - azure_container_name
+                  - azure_shared_token
+                  - azure_path
+                  properties:
+                    azure_account_name:
+                      type: string
+                    azure_container_name:
+                      type: string
+                    azure_shared_token:
+                      type: string
+                    azure_path:
+                      type: string
+                linode:
+                  type: object
+                  description: This is a required field if workspace type is linode.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                backblaze:
+                  type: object
+                  description: This is a required field if workspace type is backblaze.
+                  required:
+                  - bucket_name
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                      description: bucket_region or endpoint
+                    endpoint:
+                      type: string
+                      description: bucket_region or endpoint
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                cloudflare:
+                  type: object
+                  description: This is a required field if workspace type is cloudflare.
+                  required:
+                  - bucket_name
+                  - access_key
+                  - account_id
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    access_key:
+                      type: string
+                    account_id:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                zoom:
+                  type: object
+                  description: This is a required field if workspace type is zoom.
+                  required:
+                  - secret
+                  properties:
+                    secret:
+                      type: string
+            examples:
+              Request Example:
+                value:
+                  name: zoom-workspace
+                  type: zoom
+                  zoom:
+                    secret: yourSecret
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    id: 65b01610e99b77f116c0e32b
+                    name: zoom-workspace
+                    type: zoom
+                    created_at: '2024-01-23T19:40:00.447Z'
+                    updated_at: '2024-01-23T19:40:00.447Z'
+                    video_protection: {}
+                    player_config:
+                      preload: true
+                      autoplay: false
+                      disable_seek: false
+                      disable_player_controls: false
+                      powered_by_gumlet_overlay: true
+                      allow_drm_protected_videos: true
+                      loop: false
+                      player_color: '#6658ea'
+                      include_seo: true
+                      subtitle_enabled: false
+                      pixel_tags: {}
+                      logo_width: 100
+                      logo_height: 100
+                      dynamic_watermark: false
+                      watermark_font_size: 20
+                      watermark_font_color: '#ff0000'
+                      watermark_bg_color: transparent
+                      watermark_interval: 1000
+                    default_profile_id: 646df1c9173a4a2fcac180b7
+                    insight_property_id: 65b01610e99b77f116c0e329
+                    zoom:
+                      secret: yourSecret
+                    embed_details:
+                      powered_by_gumlet_overlay: true
+                      allow_drm_protected_videos: true
+                      preload: true
+                      autoplay: false
+                      logo_width: 100
+                      logo_height: 100
+                      player_color: '#6658ea'
+                      is_seo: true
+                      dynamic_watermark: false
+                      watermark_font_size: 20
+                      watermark_font_color: '#ff0000'
+                      watermark_bg_color: transparent
+                      watermark_interval: 1000
+                      disable_seek: false
+                      disable_player_controls: false
+                      loop: false
+                      subtitle_enabled: false
+                    folders: []
+                    channel_settings:
+                      active: false
+                      privacy_type: private
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 65b01610e99b77f116c0e32b
+                  name:
+                    type: string
+                    example: zoom-workspace
+                  type:
+                    type: string
+                    example: zoom
+                  created_at:
+                    type: string
+                    example: '2024-01-23T19:40:00.447Z'
+                  updated_at:
+                    type: string
+                    example: '2024-01-23T19:40:00.447Z'
+                  video_protection:
+                    type: object
+                    properties: {}
+                  player_config:
+                    type: object
+                    properties:
+                      preload:
+                        type: boolean
+                        example: true
+                        default: true
+                      autoplay:
+                        type: boolean
+                        example: false
+                        default: true
+                      disable_seek:
+                        type: boolean
+                        example: false
+                        default: true
+                      disable_player_controls:
+                        type: boolean
+                        example: false
+                        default: true
+                      powered_by_gumlet_overlay:
+                        type: boolean
+                        example: true
+                        default: true
+                      allow_drm_protected_videos:
+                        type: boolean
+                        example: true
+                        default: true
+                      loop:
+                        type: boolean
+                        example: false
+                        default: true
+                      player_color:
+                        type: string
+                        example: '#6658ea'
+                      include_seo:
+                        type: boolean
+                        example: true
+                        default: true
+                      subtitle_enabled:
+                        type: boolean
+                        example: false
+                        default: true
+                      pixel_tags:
+                        type: object
+                        properties: {}
+                      logo_width:
+                        type: integer
+                        example: 100
+                        default: 0
+                      logo_height:
+                        type: integer
+                        example: 100
+                        default: 0
+                      dynamic_watermark:
+                        type: boolean
+                        example: false
+                        default: true
+                      watermark_font_size:
+                        type: integer
+                        example: 20
+                        default: 0
+                      watermark_font_color:
+                        type: string
+                        example: '#ff0000'
+                      watermark_bg_color:
+                        type: string
+                        example: transparent
+                      watermark_interval:
+                        type: integer
+                        example: 1000
+                        default: 0
+                  default_profile_id:
+                    type: string
+                    example: 646df1c9173a4a2fcac180b7
+                  insight_property_id:
+                    type: string
+                    example: 65b01610e99b77f116c0e329
+                  zoom:
+                    type: object
+                    properties:
+                      secret:
+                        type: string
+                        example: yourSecret
+                  embed_details:
+                    type: object
+                    properties:
+                      powered_by_gumlet_overlay:
+                        type: boolean
+                        example: true
+                        default: true
+                      allow_drm_protected_videos:
+                        type: boolean
+                        example: true
+                        default: true
+                      preload:
+                        type: boolean
+                        example: true
+                        default: true
+                      autoplay:
+                        type: boolean
+                        example: false
+                        default: true
+                      logo_width:
+                        type: integer
+                        example: 100
+                        default: 0
+                      logo_height:
+                        type: integer
+                        example: 100
+                        default: 0
+                      player_color:
+                        type: string
+                        example: '#6658ea'
+                      is_seo:
+                        type: boolean
+                        example: true
+                        default: true
+                      dynamic_watermark:
+                        type: boolean
+                        example: false
+                        default: true
+                      watermark_font_size:
+                        type: integer
+                        example: 20
+                        default: 0
+                      watermark_font_color:
+                        type: string
+                        example: '#ff0000'
+                      watermark_bg_color:
+                        type: string
+                        example: transparent
+                      watermark_interval:
+                        type: integer
+                        example: 1000
+                        default: 0
+                      disable_seek:
+                        type: boolean
+                        example: false
+                        default: true
+                      disable_player_controls:
+                        type: boolean
+                        example: false
+                        default: true
+                      loop:
+                        type: boolean
+                        example: false
+                        default: true
+                      subtitle_enabled:
+                        type: boolean
+                        example: false
+                        default: true
+                  folders:
+                    type: array
+                    items:
+                      x-stoplight:
+                        id: mju7qgwlj4vva
+                      type: string
+                  channel_settings:
+                    type: object
+                    properties:
+                      active:
+                        type: boolean
+                        example: false
+                        default: true
+                      privacy_type:
+                        type: string
+                        example: private
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: parameter_missing
+                      message: One or more required values are missing.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: parameter_missing
+                      message:
+                        type: string
+                        example: One or more required values are missing.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden — feature not available on plan
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: unauthorised_feature_access
+                      message: Your plan doesn't have this feature, please upgrade your current plan to
+                        access this feature.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: unauthorised_feature_access
+                      message:
+                        type: string
+                        example: Your plan doesn't have this feature, please upgrade your current plan
+                          to access this feature.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '422':
+          $ref: '#/components/responses/ValidationError'
+      deprecated: false
+      tags:
+      - Video Workspaces
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoWorkspace = await client.videoWorkspaces.create({\n\
+          \  name: 'zoom-workspace',\n  type: 'zoom',\n  zoom: { secret: 'yourSecret' },\n});\n\nconsole.log(videoWorkspace);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_workspace = client.video_workspaces.create(\n    name=\"zoom-workspace\"\
+          ,\n    type=\"direct-upload\",\n    zoom={\"secret\": \"yourSecret\"},\n)\n\nprint(video_workspace)"
+  /video/workspaces/{workspace_id}:
+    post:
+      summary: Update Workspace
+      description: This endpoint allows users to update video workspace that has previously been created.
+      operationId: update-workspace
+      parameters:
+      - name: workspace_id
+        description: Gumlet workspace ID. You can get it on Gumlet dashboard or retrieve it using list
+          workspace API.
+        in: path
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: video workspace name
+                default_profile_id:
+                  type: string
+                  description: Gumlet provides the functionality of creating multiple video assets using
+                    the same set of parameters.
+                temp_cname:
+                  type: array
+                  description: cname for channel
+                  items:
+                    type: string
+                insight_property_id:
+                  type: string
+                  description: The five to ten character unique identifier of the Gumlet Insight Property
+                    available on the dashboard.
+                player_config:
+                  type: object
+                  description: Configure player settings for this playlist, it overrides the setting set
+                    on workspace.
+                  properties:
+                    preload:
+                      type: boolean
+                    autoplay:
+                      type: boolean
+                    disable_seek:
+                      type: boolean
+                    disable_player_controls:
+                      type: boolean
+                    powered_by_gumlet_overlay:
+                      type: boolean
+                    allow_drm_protected_videos:
+                      type: boolean
+                    loop:
+                      type: boolean
+                    player_color:
+                      type: string
+                    include_seo:
+                      type: boolean
+                    subtitle_enabled:
+                      type: boolean
+                    pixel_tags:
+                      type: object
+                      properties: {}
+                      x-apidog-orders: []
+                    logo_width:
+                      type: integer
+                      format: int32
+                    logo_height:
+                      type: integer
+                      format: int32
+                    dynamic_watermark:
+                      type: boolean
+                    watermark_font_size:
+                      type: integer
+                      format: int32
+                    watermark_font_color:
+                      type: string
+                    watermark_bg_color:
+                      type: string
+                    watermark_interval:
+                      type: integer
+                      format: int32
+                    cast:
+                      type: boolean
+                    show_video_title:
+                      type: boolean
+                  x-apidog-orders:
+                  - preload
+                  - autoplay
+                  - disable_seek
+                  - disable_player_controls
+                  - powered_by_gumlet_overlay
+                  - allow_drm_protected_videos
+                  - loop
+                  - player_color
+                  - include_seo
+                  - subtitle_enabled
+                  - pixel_tags
+                  - logo_width
+                  - logo_height
+                  - dynamic_watermark
+                  - watermark_font_size
+                  - watermark_font_color
+                  - watermark_bg_color
+                  - watermark_interval
+                  - cast
+                  - show_video_title
+                video_protection:
+                  type: object
+                  description: Gumlet provides multiple options for securing your video playback.
+                  properties:
+                    signed_url:
+                      type: boolean
+                      default: false
+                    signed_url_secret:
+                      type: string
+                    blacklisted_countries:
+                      type: array
+                      description: 'Example: ["IN","USA"]'
+                      items:
+                        type: string
+                    whitelisted_referrers:
+                      type: array
+                      items:
+                        type: string
+                  x-apidog-orders:
+                  - signed_url
+                  - signed_url_secret
+                  - blacklisted_countries
+                  - whitelisted_referrers
+                channel_settings:
+                  type: object
+                  description: Configurations to set various channel settings.
+                  properties:
+                    active:
+                      type: boolean
+                      default: false
+                    description:
+                      type: string
+                    title:
+                      type: string
+                    privacy_type:
+                      type: string
+                      enum:
+                      - '"public"'
+                      - '"private"'
+                      - '"password-protected"'
+                    featured_video:
+                      type: string
+                      description: Video asset id, the asset should be in the same workspace as channel
+                    password:
+                      type: string
+                      description: under channel_settings privacy_type must be "password-protected". Password
+                        length should be greater than 5 and lesser than 100 characters.
+                  x-apidog-orders:
+                  - active
+                  - description
+                  - title
+                  - privacy_type
+                  - featured_video
+                  - password
+                type:
+                  type: string
+                  description: Video workspaces are top-level entities in Gumlet. You can use them to
+                    organize videos for different teams/departments or use cases.
+                  enum:
+                  - proxy
+                  - direct-upload
+                  - webfolder
+                  - aws
+                  - gcs
+                  - dostorage
+                  - wasabi
+                  - cloudinary
+                  - azure
+                  - linode
+                  - backblaze
+                  - cloudflare
+                  - zoom
+                webfolder:
+                  type: object
+                  description: This is a required field if workspace type is webfolder.
+                  properties:
+                    base_url:
+                      type: string
+                  x-apidog-orders:
+                  - base_url
+                aws:
+                  type: object
+                  description: This is a required field if workspace type is aws.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                    endpoint:
+                      type: string
+                  x-apidog-orders:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  - base_path
+                  - endpoint
+                proxy:
+                  type: object
+                  description: This is a required field if workspace type is proxy.
+                  required:
+                  - whitelisted_domains
+                  properties:
+                    whitelisted_domains:
+                      type: string
+                  x-apidog-orders:
+                  - whitelisted_domains
+                gcs:
+                  type: object
+                  description: This is a required field if workspace type is gcs.
+                  required:
+                  - bucket_name
+                  - service_account_key
+                  properties:
+                    bucket_name:
+                      type: string
+                    service_account_key:
+                      type: string
+                  x-apidog-orders:
+                  - bucket_name
+                  - service_account_key
+                dostorage:
+                  type: object
+                  description: This is a required field if workspace type is dostorage.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                  x-apidog-orders:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  - base_path
+                wasabi:
+                  type: object
+                  description: This is a required field if workspace type is wasabi.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                  x-apidog-orders:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  - base_path
+                linode:
+                  type: object
+                  description: This is a required field if workspace type is linode.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                  x-apidog-orders:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                backblaze:
+                  type: object
+                  description: This is a required field if workspace type is backblaze.
+                  required:
+                  - bucket_name
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                      description: bucket_region or endpoint
+                    endpoint:
+                      type: string
+                      description: bucket_region or endpoint
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                  x-apidog-orders:
+                  - bucket_name
+                  - bucket_region
+                  - endpoint
+                  - access_key
+                  - secret
+                  - base_path
+                cloudflare:
+                  type: object
+                  description: This is a required field if workspace type is cloudflare.
+                  required:
+                  - bucket_name
+                  - access_key
+                  - account_id
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    access_key:
+                      type: string
+                    account_id:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                  x-apidog-orders:
+                  - bucket_name
+                  - access_key
+                  - account_id
+                  - secret
+                  - base_path
+                cloudinary:
+                  type: object
+                  description: This is a required field if workspace type is cloudinary.
+                  required:
+                  - host_name
+                  - cloud_name
+                  properties:
+                    host_name:
+                      type: string
+                    cloud_name:
+                      type: string
+                  x-apidog-orders:
+                  - host_name
+                  - cloud_name
+                azure:
+                  type: object
+                  description: This is a required field if workspace type is azure.
+                  required:
+                  - azure_account_name
+                  - azure_container_name
+                  - azure_shared_token
+                  - azure_path
+                  properties:
+                    azure_account_name:
+                      type: string
+                    azure_container_name:
+                      type: string
+                    azure_shared_token:
+                      type: string
+                    azure_path:
+                      type: string
+                  x-apidog-orders:
+                  - azure_account_name
+                  - azure_container_name
+                  - azure_shared_token
+                  - azure_path
+                zoom:
+                  type: object
+                  description: This is a required field if workspace type is zoom.
+                  required:
+                  - secret
+                  properties:
+                    secret:
+                      type: string
+                  x-apidog-orders:
+                  - secret
+              x-apidog-orders:
+              - name
+              - default_profile_id
+              - temp_cname
+              - insight_property_id
+              - player_config
+              - video_protection
+              - channel_settings
+              - type
+              - webfolder
+              - aws
+              - proxy
+              - gcs
+              - dostorage
+              - wasabi
+              - linode
+              - backblaze
+              - cloudflare
+              - cloudinary
+              - azure
+              - zoom
+            examples:
+              Request Example:
+                value:
+                  default_profile_id: 646df1c9173a4a2fcac180b7
+                  name: awsrename
+                  type: aws
+                  aws:
+                    bucket_name: my-bucket-test
+                    bucket_region: ap-southeast-1
+                    access_key: BQUA6QFXVWHAAB6IO2X1
+                    secret: aws_secret
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    id: 646df1c9173a4a2fcac180b4
+                    name: aws-source
+                    type: aws
+                    created_at: '2023-05-24T11:15:21.624Z'
+                    updated_at: '2024-01-24T11:24:16.003Z'
+                    video_protection:
+                      signed_url: true
+                      signed_url_secret: 87a2e2fbb2318f902b882c532bc703a8
+                    player_config:
+                      preload: false
+                      autoplay: false
+                      disable_seek: false
+                      disable_player_controls: false
+                      powered_by_gumlet_overlay: false
+                      allow_drm_protected_videos: false
+                      loop: false
+                      player_color: '#6658ea'
+                      include_seo: true
+                      subtitle_enabled: false
+                      pixel_tags: {}
+                      logo_width: 100
+                      logo_height: 100
+                      dynamic_watermark: false
+                      watermark_font_size: 20
+                      watermark_font_color: '#ff0000'
+                      watermark_bg_color: transparent
+                      watermark_interval: 1000
+                    default_profile_id: 646df1c9173a4a2fcac180b7
+                    insight_property_id: 646df0aa173a4a2fcac18009
+                    aws:
+                      bucket_name: my-bucket-test
+                      bucket_region: ap-southeast-1
+                      access_key: BQUA6QFXVWHAAB6IO2X1
+                      secret: '****************'
+                    embed_details:
+                      preload: false
+                      autoplay: false
+                      logo_width: 100
+                      logo_height: 100
+                      player_color: '#6658ea'
+                      is_seo: true
+                      dynamic_watermark: false
+                      watermark_font_size: 20
+                      watermark_font_color: '#ff0000'
+                      watermark_bg_color: transparent
+                      watermark_interval: 1000
+                      disable_seek: false
+                      disable_player_controls: false
+                      powered_by_gumlet_overlay: false
+                      allow_drm_protected_videos: false
+                      pixel_tags: {}
+                      loop: false
+                      subtitle_enabled: false
+                    folders:
+                    - folder
+                    - folder 2
+                    - folder 27
+                    - folder 4
+                    channel_settings:
+                      title: myTitle
+                      active: false
+                      description: desc
+                      privacy_type: private
+                      custom_logo: true
+                      logo_url: https://dev-video.gumlet.io/626d21c3473a4a2faac180b4/channel/logo.png
+                      cname:
+                      - okj.com
+                      - sd.com
+                      - safd.com
+                      temp_cname:
+                      - okj.com
+                      - safd.com
+                      - sd.com
+                    insights_enabled: true
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    examples:
+                    - 646df1c9173a4a2fcac180b4
+                  name:
+                    type: string
+                    examples:
+                    - aws-source
+                  type:
+                    type: string
+                    examples:
+                    - aws
+                  created_at:
+                    type: string
+                    examples:
+                    - '2023-05-24T11:15:21.624Z'
+                  updated_at:
+                    type: string
+                    examples:
+                    - '2024-01-24T11:24:16.003Z'
+                  video_protection:
+                    type: object
+                    properties:
+                      signed_url:
+                        type: boolean
+                        default: true
+                        examples:
+                        - true
+                      signed_url_secret:
+                        type: string
+                        examples:
+                        - 87a2e2fbb2318f902b882c532bc703a8
+                    x-apidog-orders:
+                    - signed_url
+                    - signed_url_secret
+                  player_config:
+                    type: object
+                    properties:
+                      preload:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      autoplay:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      disable_seek:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      disable_player_controls:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      powered_by_gumlet_overlay:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      allow_drm_protected_videos:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      loop:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      player_color:
+                        type: string
+                        examples:
+                        - '#6658ea'
+                      include_seo:
+                        type: boolean
+                        default: true
+                        examples:
+                        - true
+                      subtitle_enabled:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      pixel_tags:
+                        type: object
+                        properties: {}
+                        x-apidog-orders: []
+                      logo_width:
+                        type: integer
+                        default: 0
+                        examples:
+                        - 100
+                      logo_height:
+                        type: integer
+                        default: 0
+                        examples:
+                        - 100
+                      dynamic_watermark:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      watermark_font_size:
+                        type: integer
+                        default: 0
+                        examples:
+                        - 20
+                      watermark_font_color:
+                        type: string
+                        examples:
+                        - '#ff0000'
+                      watermark_bg_color:
+                        type: string
+                        examples:
+                        - transparent
+                      watermark_interval:
+                        type: integer
+                        default: 0
+                        examples:
+                        - 1000
+                    x-apidog-orders:
+                    - preload
+                    - autoplay
+                    - disable_seek
+                    - disable_player_controls
+                    - powered_by_gumlet_overlay
+                    - allow_drm_protected_videos
+                    - loop
+                    - player_color
+                    - include_seo
+                    - subtitle_enabled
+                    - pixel_tags
+                    - logo_width
+                    - logo_height
+                    - dynamic_watermark
+                    - watermark_font_size
+                    - watermark_font_color
+                    - watermark_bg_color
+                    - watermark_interval
+                  default_profile_id:
+                    type: string
+                    examples:
+                    - 646df1c9173a4a2fcac180b7
+                  insight_property_id:
+                    type: string
+                    examples:
+                    - 646df0aa173a4a2fcac18009
+                  aws:
+                    type: object
+                    properties:
+                      bucket_name:
+                        type: string
+                        examples:
+                        - my-bucket-test
+                      bucket_region:
+                        type: string
+                        examples:
+                        - ap-southeast-1
+                      access_key:
+                        type: string
+                        examples:
+                        - BQUA6QFXVWHAAB6IO2X1
+                      secret:
+                        type: string
+                        examples:
+                        - '****************'
+                    x-apidog-orders:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                  embed_details:
+                    type: object
+                    properties:
+                      preload:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      autoplay:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      logo_width:
+                        type: integer
+                        default: 0
+                        examples:
+                        - 100
+                      logo_height:
+                        type: integer
+                        default: 0
+                        examples:
+                        - 100
+                      player_color:
+                        type: string
+                        examples:
+                        - '#6658ea'
+                      is_seo:
+                        type: boolean
+                        default: true
+                        examples:
+                        - true
+                      dynamic_watermark:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      watermark_font_size:
+                        type: integer
+                        default: 0
+                        examples:
+                        - 20
+                      watermark_font_color:
+                        type: string
+                        examples:
+                        - '#ff0000'
+                      watermark_bg_color:
+                        type: string
+                        examples:
+                        - transparent
+                      watermark_interval:
+                        type: integer
+                        default: 0
+                        examples:
+                        - 1000
+                      disable_seek:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      disable_player_controls:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      powered_by_gumlet_overlay:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      allow_drm_protected_videos:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      pixel_tags:
+                        type: object
+                        properties: {}
+                        x-apidog-orders: []
+                      loop:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      subtitle_enabled:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                    x-apidog-orders:
+                    - preload
+                    - autoplay
+                    - logo_width
+                    - logo_height
+                    - player_color
+                    - is_seo
+                    - dynamic_watermark
+                    - watermark_font_size
+                    - watermark_font_color
+                    - watermark_bg_color
+                    - watermark_interval
+                    - disable_seek
+                    - disable_player_controls
+                    - powered_by_gumlet_overlay
+                    - allow_drm_protected_videos
+                    - pixel_tags
+                    - loop
+                    - subtitle_enabled
+                  folders:
+                    type: array
+                    items:
+                      type: string
+                      examples:
+                      - folder
+                  channel_settings:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                        examples:
+                        - myTitle
+                      active:
+                        type: boolean
+                        default: true
+                        examples:
+                        - false
+                      description:
+                        type: string
+                        examples:
+                        - desc
+                      privacy_type:
+                        type: string
+                        examples:
+                        - private
+                      custom_logo:
+                        type: boolean
+                        default: true
+                        examples:
+                        - true
+                      logo_url:
+                        type: string
+                        examples:
+                        - https://dev-video.gumlet.io/626d21c3473a4a2faac180b4/channel/logo.png
+                      cname:
+                        type: array
+                        items:
+                          type: string
+                          examples:
+                          - okj.com
+                      temp_cname:
+                        type: array
+                        items:
+                          type: string
+                          examples:
+                          - okj.com
+                    x-apidog-orders:
+                    - title
+                    - active
+                    - description
+                    - privacy_type
+                    - custom_logo
+                    - logo_url
+                    - cname
+                    - temp_cname
+                  insights_enabled:
+                    type: boolean
+                    description: Whether Gumlet video analytics is enabled for this workspace.
+                x-apidog-orders:
+                - id
+                - name
+                - type
+                - created_at
+                - updated_at
+                - video_protection
+                - player_config
+                - default_profile_id
+                - insight_property_id
+                - aws
+                - embed_details
+                - folders
+                - channel_settings
+                - insights_enabled
+                required:
+                - insights_enabled
+                - id
+                - name
+                - type
+                - created_at
+                - updated_at
+                - player_config
+                - folders
+                - channel_settings
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: collection_not_found
+                      message: Could not find any video workspace with specified workspace_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: collection_not_found
+                      message:
+                        type: string
+                        example: Could not find any video workspace with specified workspace_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Video Workspaces
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoWorkspace = await client.videoWorkspaces.update('workspaceId');\n\
+          \nconsole.log(videoWorkspace);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_workspace = client.video_workspaces.update(\n    workspace_id=\"workspaceId\"\
+          ,\n    name=\"awsrename\",\n    default_profile_id=\"646df1c9173a4a2fcac180b7\",\n    type=\"\
+          aws\",\n    aws={\n        \"bucket_name\": \"my-bucket-test\",\n        \"bucket_region\":\
+          \ \"ap-southeast-1\",\n        \"access_key\": \"BQUA6QFXVWHAAB6IO2X1\",\n        \"secret\"\
+          : \"aws_secret\",\n    },\n)\n\nprint(video_workspace)"
+    get:
+      summary: Get Workspace
+      description: This endpoint get all the data of video workspace that has previously been created.
+      operationId: get-workspace
+      parameters:
+      - name: workspace_id
+        description: Gumlet workspace ID. You can get it on Gumlet dashboard or retrieve it using list
+          workspace API.
+        in: path
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples: {}
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Workspace ID
+                  name:
+                    type: string
+                    description: Workspace Name
+                  type:
+                    type: string
+                    description: Workspace Type
+                  created_at:
+                    type: string
+                    description: ISO 8601 formatted creation timestamp of this workspace.
+                  updated_at:
+                    type: string
+                    description: ISO 8601 formatted update timestamp of this workspace.
+                  default_profile_id:
+                    type: string
+                    description: Profile ID for the default profile of this workspace
+                  default_profile_updated_at:
+                    type: string
+                    description: ISO 8601 formatted profile update timestamp
+                  insights_enabled:
+                    type: boolean
+                    description: Whether Gumlet video analytics is enabled for video embeds in this workspace.
+                  video_protection:
+                    type: object
+                    properties:
+                      signed_url_secret:
+                        type: string
+                        description: Secret that is to be used to sign URLs
+                      blacklisted_countries:
+                        type: array
+                        items:
+                          type: string
+                        description: Blacklist of 2 letter country codes.
+                      whitelisted_referrers:
+                        type: array
+                        items:
+                          type: string
+                        description: List of whitelisted domains which allow playback for the videos.
+                      whitelisted_countries:
+                        type: string
+                        description: List of whitelisted of 2 letter country codes.
+                      signed_url:
+                        type: boolean
+                        description: Boolean value indicating whether signed URL is enabled.
+                    x-apidog-orders:
+                    - signed_url_secret
+                    - signed_url
+                    - whitelisted_referrers
+                    - whitelisted_countries
+                    - blacklisted_countries
+                  player_config:
+                    type: object
+                    properties:
+                      autoplay:
+                        type: boolean
+                        description: Video autoplay enable flag. True means autoplay is enabled.
+                      disable_seek:
+                        type: boolean
+                        description: Seek bar enable / disable
+                      disable_player_controls:
+                        type: boolean
+                        description: Disable / enable all player controls
+                      powered_by_gumlet_overlay:
+                        type: boolean
+                        description: Whether Gumlet logo shows on player.
+                      loop:
+                        type: boolean
+                        description: Whether video should loop once it ends. `true` value means video
+                          will loop
+                      player_color:
+                        type: string
+                        description: Hex color string of video player color
+                      enable_download_button:
+                        type: boolean
+                        description: Enable / disable download button on player.
+                      caption_enabled:
+                        type: boolean
+                        description: Enable / disable video captions on player.
+                      logo_width:
+                        type: number
+                        description: Logo display width in pixels.
+                      logo_height:
+                        type: number
+                        description: Logo display height in pixels.
+                      dynamic_watermark:
+                        type: boolean
+                        description: Flag if dynamic watermark is enabled.
+                      watermark_font_size:
+                        type: number
+                        description: Dynamic watermark font size in pixels.
+                      watermark_font_color:
+                        type: string
+                        description: Hex color code of dynamic watermark text.
+                      watermark_bg_color:
+                        type: string
+                        description: Hex color code of background for dynamic watermark text.
+                      watermark_interval:
+                        type: integer
+                        description: Interval in milliseconds between dynamic watermark flashing.
+                      watermark_visiblity_duration:
+                        type: integer
+                        description: Duration for which the dynamic watermark will be visible on screen.
+                      show_video_title:
+                        type: boolean
+                        description: Enable / disable video title on player.
+                      cast:
+                        type: boolean
+                        description: Enable / disable cast button on player.
+                      resume_where_left:
+                        type: boolean
+                        description: Enable / disable playback from last viewed position. `true` means
+                          the playback will resume from last position.
+                      cc_color:
+                        type: string
+                        description: Closed captions / subtitle color.
+                      cc_bg_color:
+                        type: string
+                        description: Closed captions / subtitle background color.
+                      cc_font_size:
+                        type: string
+                        description: Font size of closed captions.
+                        enum:
+                        - small
+                        - medium
+                        - large
+                        x-apidog-enum:
+                        - value: small
+                          name: ''
+                          description: ''
+                        - value: medium
+                          name: ''
+                          description: ''
+                        - value: large
+                          name: ''
+                          description: ''
+                    x-apidog-orders:
+                    - autoplay
+                    - disable_seek
+                    - loop
+                    - powered_by_gumlet_overlay
+                    - disable_player_controls
+                    - logo_width
+                    - logo_height
+                    - caption_enabled
+                    - enable_download_button
+                    - player_color
+                    - dynamic_watermark
+                    - watermark_font_size
+                    - watermark_font_color
+                    - watermark_bg_color
+                    - watermark_interval
+                    - watermark_visiblity_duration
+                    - show_video_title
+                    - cast
+                    - resume_where_left
+                    - cc_color
+                    - cc_bg_color
+                    - cc_font_size
+                    description: Video player configuration
+                    required:
+                    - autoplay
+                    - disable_seek
+                    - disable_player_controls
+                    - powered_by_gumlet_overlay
+                    - loop
+                    - player_color
+                    - enable_download_button
+                    - caption_enabled
+                    - dynamic_watermark
+                    - show_video_title
+                    - cast
+                    - resume_where_left
+                  folders:
+                    type: array
+                    items:
+                      type: string
+                    description: List of folder names in this workspace.
+                  channel_settings:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                        description: Channel title.
+                      active:
+                        type: boolean
+                        description: Whether the channel is active.
+                      privacy_type:
+                        type: string
+                        description: Privacy type of videos in this workspace
+                        enum:
+                        - private
+                        - public
+                        - password
+                        - dashboardOnly
+                        x-apidog-enum:
+                        - value: private
+                          name: ''
+                          description: Videos are unlisted. Links can be shared but can't be indexed on
+                            search engines. This is the default.
+                        - value: public
+                          name: ''
+                          description: Videos can be accessed by anyone and can also be indexed by search
+                            engines.
+                        - value: password
+                          name: ''
+                          description: Videos are password protected.
+                        - value: dashboardOnly
+                          name: ''
+                          description: Videos can't be accessed by anyone except the person who has access
+                            granted on Gumlet dashboard.
+                      channel_access_control:
+                        type: string
+                        description: Whether channel can be accessed publicly or it's invite only channel.
+                        enum:
+                        - private
+                        - public
+                        x-apidog-enum:
+                        - value: private
+                          name: ''
+                          description: ''
+                        - value: public
+                          name: ''
+                          description: ''
+                      dynamic_watermark_type:
+                        type: string
+                        description: What to show in dynamic watermark.
+                      disable_invite_email:
+                        type: boolean
+                        description: Enable / disable channel invite email.
+                      password:
+                        type: string
+                        description: Password for the channel.
+                      color_scheme:
+                        type: string
+                        description: Color scheme for the channel UI.
+                      description:
+                        type: string
+                        description: Channel description.
+                      theme_preference:
+                        type: string
+                        description: Dark / light theme preference for the channel.
+                      cname:
+                        type: array
+                        items:
+                          type: string
+                        description: Custom domains assigned to this channel.
+                      hero_url:
+                        type: string
+                        description: Hero banner URL
+                      hero_updated_at:
+                        type: string
+                        description: ISO 8601 hero banner update timestamp.
+                      icon_url:
+                        type: string
+                        description: Channel icon URL
+                      icon_updated_at:
+                        type: string
+                        description: ISO 8601 channel icon update timestamp.
+                      temp_cname:
+                        type: array
+                        items:
+                          type: string
+                        description: Array of custom domains which are not yet verified.
+                      logo_url:
+                        type: string
+                        description: Logo URL
+                      logo_updated_at:
+                        type: string
+                        description: ISO 8601 logo update timestamp.
+                      visible_playlists:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            _id:
+                              type: string
+                              description: Playlist ID
+                            title:
+                              type: string
+                              description: Playlist Title
+                          x-apidog-orders:
+                          - _id
+                          - title
+                          required:
+                          - _id
+                          - title
+                    x-apidog-orders:
+                    - title
+                    - description
+                    - active
+                    - privacy_type
+                    - channel_access_control
+                    - disable_invite_email
+                    - dynamic_watermark_type
+                    - password
+                    - color_scheme
+                    - theme_preference
+                    - cname
+                    - hero_url
+                    - hero_updated_at
+                    - icon_url
+                    - icon_updated_at
+                    - logo_url
+                    - logo_updated_at
+                    - visible_playlists
+                    - temp_cname
+                    required:
+                    - title
+                    - active
+                    - privacy_type
+                    - channel_access_control
+                    - dynamic_watermark_type
+                    - disable_invite_email
+                    - logo_updated_at
+                  distinct_tags:
+                    type: array
+                    items:
+                      type: string
+                    description: List of distinct tags in entire workspace.
+                  on_streaming_halt:
+                    type: boolean
+                    description: '`true` means the workspace is disabled for streaming. No videos will
+                      stream from this workspace.'
+                  storage_event_listener:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        event_id:
+                          type: string
+                          description: Storage event id
+                        profile_id:
+                          type: string
+                          description: Profile ID associated with storage event
+                        profile_name:
+                          type: string
+                          description: Profile Name
+                        is_varified:
+                          type: boolean
+                          description: If this webhook listener is verified.
+                        callback_url:
+                          type: string
+                          description: Callback URL
+                        status:
+                          type: string
+                          description: Status
+                      x-apidog-orders:
+                      - event_id
+                      - profile_id
+                      - profile_name
+                      - is_varified
+                      - callback_url
+                      - status
+                      required:
+                      - profile_id
+                      - event_id
+                      - is_varified
+                x-apidog-orders:
+                - id
+                - name
+                - type
+                - created_at
+                - updated_at
+                - default_profile_id
+                - default_profile_updated_at
+                - insights_enabled
+                - video_protection
+                - player_config
+                - folders
+                - channel_settings
+                - distinct_tags
+                - on_streaming_halt
+                - storage_event_listener
+                required:
+                - id
+                - name
+                - type
+                - created_at
+                - updated_at
+                - insights_enabled
+                - player_config
+                - folders
+                - channel_settings
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: collection_not_found
+                      message: Could not find any video workspace with specified workspace_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: collection_not_found
+                      message:
+                        type: string
+                        example: Could not find any video workspace with specified workspace_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: collection_not_found
+                      message: Could not find any video workspace with specified workspace_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: collection_not_found
+                      message:
+                        type: string
+                        example: Could not find any video workspace with specified workspace_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      deprecated: false
+      tags:
+      - Video Workspaces
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoWorkspace = await client.videoWorkspaces.retrieve('workspaceId');\n\
+          \nconsole.log(videoWorkspace);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_workspace = client.video_workspaces.retrieve(\n    workspace_id=\"workspaceId\"\
+          ,\n)\n\nprint(video_workspace)"
+    delete:
+      summary: Delete Workspace
+      description: This endpoint removes a video workspace given its unique asset id. All the asset in
+        workspace will be removed from storage as well, associated URLs will be inaccessible.
+      operationId: delete-workspace
+      parameters:
+      - name: workspace_id
+        description: Gumlet workspace ID. You can get it on Gumlet dashboard or retrieve it using list
+          workspace API.
+        in: path
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: {}
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: collection_not_found
+                      message: Could not find any video workspace with specified workspace_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: collection_not_found
+                      message:
+                        type: string
+                        example: Could not find any video workspace with specified workspace_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: collection_not_found
+                      message: Could not find any video workspace with specified workspace_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: collection_not_found
+                      message:
+                        type: string
+                        example: Could not find any video workspace with specified workspace_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      deprecated: false
+      tags:
+      - Video Workspaces
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoWorkspace = await client.videoWorkspaces.delete('workspaceId');\n\
+          \nconsole.log(videoWorkspace);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_workspace = client.video_workspaces.delete(\n    workspace_id=\"workspaceId\"\
+          ,\n)\n\nprint(video_workspace)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

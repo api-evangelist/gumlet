@@ -1,0 +1,955 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Folders API
+  version: '1.4'
+  description: Folders operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Folders
+paths:
+  /video/workspaces/{workspace_id}/folders:
+    post:
+      summary: Create Folder
+      description: Create a folder inside a video workspace. Optionally provide `parent_id` to create
+        a nested folder.
+      operationId: create-folder
+      parameters:
+      - name: workspace_id
+        in: path
+        description: Video workspace id.
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  description: Folder name.
+                parent_id:
+                  type:
+                  - string
+                  - 'null'
+                  description: Parent folder id. Send `null` or omit it to create a root-level folder.
+            examples:
+              Request Example:
+                value:
+                  name: Course Assets
+                  parent_id: null
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    id: 67e4f01d403562dbea6542d4
+                    name: Course Assets
+                    video_source_id: 67e4ece9403562dbea65425f
+                    parent_id: null
+                    path: []
+                    path_names: []
+                    depth: 0
+                    subdirectory_count: 0
+                    asset_count: 0
+                    created_at: '2026-03-18T10:00:00.000Z'
+                    updated_at: '2026-03-18T10:00:00.000Z'
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 67e4f01d403562dbea6542d4
+                  name:
+                    type: string
+                    example: Course Assets
+                  video_source_id:
+                    type: string
+                    example: 67e4ece9403562dbea65425f
+                  parent_id:
+                    type:
+                    - string
+                    - 'null'
+                    example: null
+                  path:
+                    type: array
+                    items:
+                      type: string
+                      example: 67e4f01d403562dbea6542d4
+                  path_names:
+                    type: array
+                    items:
+                      type: string
+                      example: Course Assets
+                  depth:
+                    type: integer
+                    example: 0
+                    default: 0
+                  subdirectory_count:
+                    type: integer
+                    example: 2
+                    default: 0
+                  asset_count:
+                    type: integer
+                    example: 12
+                    default: 0
+                  created_at:
+                    type: string
+                    example: '2026-03-18T10:00:00.000Z'
+                  updated_at:
+                    type: string
+                    example: '2026-03-18T10:15:00.000Z'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: folder_name_required
+                      message: Folder name is required.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: folder_name_required
+                      message:
+                        type: string
+                        example: Folder name is required.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+      deprecated: false
+      tags:
+      - Folders
+      x-stoplight:
+        id: s0ytspywrm8jb
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst folder = await client.folders.create('workspaceId',\
+          \ { name: 'Course Assets', parent_id: null });\n\nconsole.log(folder);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nfolder = client.folders.create(\n    workspace_id=\"workspaceId\",\n    name=\"\
+          Course Assets\",\n    parent_id=\"\",\n)\n\nprint(folder)"
+    get:
+      summary: List Folders
+      description: List folders for a video workspace. Use `parent_id` to list only folders inside a specific
+        parent folder.
+      operationId: list-folders
+      parameters:
+      - name: workspace_id
+        in: path
+        description: Video workspace id.
+        schema:
+          type: string
+        required: true
+      - name: parent_id
+        in: query
+        description: Parent folder id. Send `null` to list root folders.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                  - id: 67e4f01d403562dbea6542d4
+                    name: Course Assets
+                    video_source_id: 67e4ece9403562dbea65425f
+                    parent_id: null
+                    path: []
+                    path_names: []
+                    depth: 0
+                    subdirectory_count: 2
+                    asset_count: 12
+                    created_at: '2026-03-18T10:00:00.000Z'
+                    updated_at: '2026-03-18T10:15:00.000Z'
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 67e4f01d403562dbea6542d4
+                    name:
+                      type: string
+                      example: Course Assets
+                    video_source_id:
+                      type: string
+                      example: 67e4ece9403562dbea65425f
+                    parent_id:
+                      type:
+                      - string
+                      - 'null'
+                      example: null
+                    path:
+                      type: array
+                      items:
+                        type: string
+                        example: 67e4f01d403562dbea6542d4
+                    path_names:
+                      type: array
+                      items:
+                        type: string
+                        example: Course Assets
+                    depth:
+                      type: integer
+                      example: 0
+                      default: 0
+                    subdirectory_count:
+                      type: integer
+                      example: 2
+                      default: 0
+                    asset_count:
+                      type: integer
+                      example: 12
+                      default: 0
+                    created_at:
+                      type: string
+                      example: '2026-03-18T10:00:00.000Z'
+                    updated_at:
+                      type: string
+                      example: '2026-03-18T10:15:00.000Z'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_parent_id
+                      message: Parent folder ID is invalid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_parent_id
+                      message:
+                        type: string
+                        example: Parent folder ID is invalid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Folders
+      x-stoplight:
+        id: 6p3tyspj1nvn7
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst folder = await client.folders.list('workspaceId');\n\
+          \nconsole.log(folder);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nfolder = client.folders.list(\n    workspace_id=\"workspaceId\",\n)\n\nprint(folder)"
+  /video/workspaces/{workspace_id}/folders/{folder_id}:
+    get:
+      summary: Get Folder
+      description: Get a single folder by id.
+      operationId: get-folder
+      parameters:
+      - name: workspace_id
+        in: path
+        description: Video workspace id.
+        schema:
+          type: string
+        required: true
+      - name: folder_id
+        in: path
+        description: Folder id.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    id: 67e4f01d403562dbea6542d4
+                    name: Course Assets
+                    video_source_id: 67e4ece9403562dbea65425f
+                    parent_id: null
+                    path: []
+                    path_names: []
+                    depth: 0
+                    subdirectory_count: 2
+                    asset_count: 12
+                    created_at: '2026-03-18T10:00:00.000Z'
+                    updated_at: '2026-03-18T10:15:00.000Z'
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 67e4f01d403562dbea6542d4
+                  name:
+                    type: string
+                    example: Course Assets
+                  video_source_id:
+                    type: string
+                    example: 67e4ece9403562dbea65425f
+                  parent_id:
+                    type:
+                    - string
+                    - 'null'
+                    example: null
+                  path:
+                    type: array
+                    items:
+                      type: string
+                      example: 67e4f01d403562dbea6542d4
+                  path_names:
+                    type: array
+                    items:
+                      type: string
+                      example: Course Assets
+                  depth:
+                    type: integer
+                    example: 0
+                    default: 0
+                  subdirectory_count:
+                    type: integer
+                    example: 2
+                    default: 0
+                  asset_count:
+                    type: integer
+                    example: 12
+                    default: 0
+                  created_at:
+                    type: string
+                    example: '2026-03-18T10:00:00.000Z'
+                  updated_at:
+                    type: string
+                    example: '2026-03-18T10:15:00.000Z'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_folder_id
+                      message: Folder ID is invalid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_folder_id
+                      message:
+                        type: string
+                        example: Folder ID is invalid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: folder_not_found
+                      message: Folder not found.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: folder_not_found
+                      message:
+                        type: string
+                        example: Folder not found.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      deprecated: false
+      tags:
+      - Folders
+      x-stoplight:
+        id: dzyho9ukcz99n
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst folder = await client.folders.retrieve('folderId',\
+          \ {\n  workspace_id: 'workspaceId',\n});\n\nconsole.log(folder);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nfolder = client.folders.retrieve(\n    workspace_id=\"workspaceId\",\n   \
+          \ folder_id=\"folderId\",\n)\n\nprint(folder)"
+    post:
+      summary: Update Folder
+      description: Rename a folder, move it to another parent folder, or move assets into the folder by
+        sending `asset_ids`.
+      operationId: update-folder
+      parameters:
+      - name: workspace_id
+        in: path
+        description: Video workspace id.
+        schema:
+          type: string
+        required: true
+      - name: folder_id
+        in: path
+        description: Folder id.
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                name:
+                  type: string
+                  description: New folder name.
+                parent_id:
+                  type:
+                  - string
+                  - 'null'
+                  description: New parent folder id. Send `null` to move the folder to the root level.
+                asset_ids:
+                  type: array
+                  description: Asset ids to move into this folder.
+                  items:
+                    type: string
+              anyOf:
+              - required:
+                - name
+                properties:
+                  name:
+                    type: string
+                    x-stoplight:
+                      id: 8yul7zan5b9ep
+                    description: New folder name.
+              - x-stoplight:
+                  id: nr3ph8exc9gxm
+                required:
+                - asset_ids
+                properties:
+                  asset_ids:
+                    type: array
+                    x-stoplight:
+                      id: 2hi4gzgr1hjay
+                    items:
+                      x-stoplight:
+                        id: n7gg6x276zt4o
+                      type: string
+                  parent_id:
+                    type: string
+                    x-stoplight:
+                      id: gfyfxz9wbv934
+                    description: Parent folder id in which we need to move assets.
+              type: object
+            examples:
+              Rename Example:
+                value:
+                  name: Course Assets Updated
+              Move Assets Example:
+                value:
+                  asset_ids:
+                  - 67e4f2b4403562dbea654301
+                  - 67e4f2bb403562dbea654302
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Folder Updated:
+                  value:
+                    id: 6975a8a1c2fb61ce19eabcd7
+                    name: Folder 1234
+                    video_source_id: 5f553b6cec202a5b44e3dd69
+                    parent_id: null
+                    path: []
+                    path_names: []
+                    depth: 0
+                    subdirectory_count: 0
+                    asset_count: 0
+                    created_at: '2026-01-25T05:22:41.527Z'
+                    updated_at: '2026-08-18T18:18:58.193Z'
+                Assets Moved:
+                  value:
+                    message: Assets moved successfully
+                    movedCount: 2
+              schema:
+                anyOf:
+                - properties:
+                    id:
+                      type: string
+                      example: 67e4f01d403562dbea6542d4
+                    name:
+                      type: string
+                      example: Course Assets
+                    video_source_id:
+                      type: string
+                      example: 67e4ece9403562dbea65425f
+                    parent_id:
+                      type:
+                      - string
+                      - 'null'
+                      example: null
+                    path:
+                      type: array
+                      items:
+                        type: string
+                        example: 67e4f01d403562dbea6542d4
+                    path_names:
+                      type: array
+                      items:
+                        type: string
+                        example: Course Assets
+                    depth:
+                      type: integer
+                      example: 0
+                      default: 0
+                    subdirectory_count:
+                      type: integer
+                      example: 2
+                      default: 0
+                    asset_count:
+                      type: integer
+                      example: 12
+                      default: 0
+                    created_at:
+                      type: string
+                      example: '2026-03-18T10:00:00.000Z'
+                      description: ISO Timestamp
+                    updated_at:
+                      type: string
+                      example: '2026-03-18T10:15:00.000Z'
+                      description: ISO Timestamp
+                - properties:
+                    message:
+                      type: string
+                      example: Assets moved successfully
+                    movedCount:
+                      type: integer
+                      example: 3
+                      default: 0
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: folder_name_exists
+                      message: A folder with this name already exists in this location.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: folder_name_exists
+                      message:
+                        type: string
+                        example: A folder with this name already exists in this location.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: folder_not_found
+                      message: Folder not found.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: folder_not_found
+                      message:
+                        type: string
+                        example: Folder not found.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      deprecated: false
+      tags:
+      - Folders
+      x-stoplight:
+        id: gniqycuuu62xd
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst folder = await client.folders.update('folderId',\
+          \ {\n  workspace_id: 'workspaceId',\n});\n\nconsole.log(folder);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nfolder = client.folders.update(\n    workspace_id=\"workspaceId\",\n    folder_id=\"\
+          folderId\",\n    name=\"Course Assets Updated\",\n)\n\nprint(folder)"
+    delete:
+      summary: Delete Folder
+      description: Delete a folder. Descendant folders and assets inside them are deleted by the backend
+        workflow.
+      operationId: delete-folder
+      parameters:
+      - name: workspace_id
+        in: path
+        description: Video workspace id.
+        schema:
+          type: string
+        required: true
+      - name: folder_id
+        in: path
+        description: Folder id.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    message: Folder deleted successfully
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Folder deleted successfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_folder_id
+                      message: Folder ID is invalid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_folder_id
+                      message:
+                        type: string
+                        example: Folder ID is invalid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: folder_not_found
+                      message: Folder not found.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: folder_not_found
+                      message:
+                        type: string
+                        example: Folder not found.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      deprecated: false
+      tags:
+      - Folders
+      x-stoplight:
+        id: 7kqaxix8196fo
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst folder = await client.folders.delete('folderId',\
+          \ {\n  workspace_id: 'workspaceId',\n});\n\nconsole.log(folder);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nfolder = client.folders.delete(\n    workspace_id=\"workspaceId\",\n    folder_id=\"\
+          folderId\",\n)\n\nprint(folder)"
+  /video/workspaces/{workspace_id}/remove-assets-from-folder:
+    post:
+      summary: Remove Assets From Folder
+      description: Remove one or more assets from their current folder assignment inside the workspace.
+      operationId: remove-assets-folder
+      parameters:
+      - name: workspace_id
+        in: path
+        description: Video workspace id.
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - asset_ids
+              properties:
+                asset_ids:
+                  type: array
+                  items:
+                    type: string
+            examples:
+              Request Example:
+                value:
+                  asset_ids:
+                  - 67e4f2b4403562dbea654301
+                  - 67e4f2bb403562dbea654302
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    message: Assets removed from folder successfully
+                    removedCount: 2
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Assets removed from folder successfully
+                  removedCount:
+                    type: integer
+                    example: 3
+                    default: 0
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: assets_not_found
+                      message: Some assets were not found or do not belong to this workspace.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: assets_not_found
+                      message:
+                        type: string
+                        example: Some assets were not found or do not belong to this workspace.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Folders
+      x-stoplight:
+        id: xmpwyetrzbdrr
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst folder = await client.folders.deleteAssets('workspaceId',\
+          \ {\n  asset_ids: ['67e4f2b4403562dbea654301', '67e4f2bb403562dbea654302'],\n});\n\nconsole.log(folder);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nfolder = client.folders.delete_assets(\n    workspace_id=\"workspaceId\",\n\
+          \    asset_ids=[\"67e4f2b4403562dbea654301\", \"67e4f2bb403562dbea654302\"],\n)\n\nprint(folder)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

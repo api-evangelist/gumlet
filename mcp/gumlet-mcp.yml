@@ -1,0 +1,199 @@
+generated: '2026-09-21'
+method: probed
+source: https://mcp.gumlet.com/mcp tools/list probed anonymously 2026-09-21 (HTTP 200, 74 tools)
+name: Gumlet MCP Server
+description: Gumlet ships an official hosted (remote) MCP server exposing 74 tools across video assets,
+  live streaming, image sources, workspaces, folders, playlists, profiles, webhooks, analytics and account
+  management. tools/list is reachable anonymously; tool invocation requires a Gumlet API key. A separate
+  documentation-search MCP is served at docs.gumlet.com/mcp.
+deployment:
+  mode: remote
+  endpoint: https://mcp.gumlet.com/mcp
+  auth: api-key
+  verified: probed
+transport: streamable-http (SSE responses)
+tool_count: 74
+tools:
+- name: create_asset
+  description: An asset refers to a media content/video that is processed, stored, and delivered through
+    Gumlet. This endpoint creates an asset allowing us
+- name: create_asset_direct_upload
+  description: This endpoint creates a video asset allowing to upload of the video from the local file
+    system and ingest media content into the Gumlet syst
+- name: get_asset_details
+  description: This endpoint retrieves the details of an asset that has previously been created.
+- name: delete_asset
+  description: This endpoint removes an asset given its unique asset id. The asset will be removed from
+    storage as well, associated URLs will be inaccessib
+- name: update_asset
+  description: This endpoint allows users to update video asset that has previously been created.
+- name: thumbnail_select
+  description: Select frame from video to use as thumbnail.
+- name: thumbnail_upload
+  description: 'Use any image file to use as thumbnail. Once you use the API, you will get `upload_url`
+    in the response, and that can be used to upload the '
+- name: upload_subtitles
+  description: 'Upload `.srt` or `.vtt`  file to the video asset. The response of this API call gives
+    `upload_url` for each language specified. You need to '
+- name: complete_subtitle_upload
+  description: This API must be called after adding subtitles; the add subtitle call gives you URLs to
+    upload, and you complete a `PUT` request to those UR
+- name: asset_audio_upload
+  description: "Add any audio file to the video asset. \nThe response of this API call gives `upload_url`\
+    \ for each language specified. You need to send a `PU"
+- name: complete_audio_upload
+  description: 'This API must be called after adding audio(s); The add audio call gives you URLs to upload,
+    and you complete a `PUT` request to those URLs. '
+- name: create_update_chapter
+  description: This endpoint will create/update video asset chapters.
+- name: retrieve_analytics
+  description: This endpoint gives usage analytics data of your videos. Ex - top assets, bandwidth consumption
+- name: top_assets
+  description: This endpoint lists top streamed assets in a video collection
+- name: retrieve_part_url
+  description: Use this endpoint to retrieve a pre-signed upload URL for the given part number.
+- name: complete_multipart_upload
+  description: Once you upload all parts to S3 bucket via pre-signed URL, use this endpoint to complete
+    the multipart upload.
+- name: list_profiles
+  description: This endpoint retrieves the details of all profiles that have previously been created.
+- name: create_profile
+  description: Gumlet provides the functionality of creating multiple video assets using the same set
+    of parameters. A Video profile is a set of parameters
+- name: get_profile
+  description: This endpoint retrieves the details of a video profile that has previously been created.
+- name: update_profile
+  description: Update an existing profile. Settings provided in body parameters will only be updated in
+    the existing profile.
+- name: delete_profile
+  description: This endpoint removes a profile given its unique `profile_id`. The profile will be removed
+    but video assets created using the profile will r
+- name: get_all_playlists
+  description: Get all playlists for given workspace
+- name: create_playlist
+  description: Create new playlist inside video wprkspace
+- name: add_asset_playlist
+  description: This operation adds a single asset or a list of assets to a playlist.
+- name: remove_asset_playlist
+  description: Removed an asset or list of assets from a given playlist.
+- name: update_playlist
+  description: This endpoint allows you to update playlist name, channel visibility, or playlist order
+    on a channel page.
+- name: delete_playlist
+  description: Deletes this playlist.
+- name: get_playlist_assets
+  description: Get a list of all assets inside playlist. You can choose in which order are assets returned.
+- name: reorder_asset_playlist
+  description: Reorder videos inside a playlist either by moving a single asset to a position or by sorting
+    the playlist by title or created date.
+- name: create_webhook
+  description: Creates a new webhook listener.
+- name: update_webhook
+  description: Update a webhook listener.
+- name: delete_webhook
+  description: Delete webhook listener endpoint.
+- name: list_sources
+  description: This endpoint list image sources which are assigned to the user or token.
+- name: create_image_source
+  description: This endpoint allows users to create image source.
+- name: get_image_sources_source_id
+  description: Get all details about image source.
+- name: update_image_source
+  description: This endpoint allows users to update image source that has previously been created.
+- name: delete_source
+  description: This endpoint removes a image source. All image delivery using this subdomain will be stopped.
+- name: purge_image_cache
+  description: You can purge cache for any image by using our cache purge API.
+- name: retrieve_image_analytics
+  description: This endpoint helps you get image analytics data like bandwidth consumption, request count,
+    CDN hit ratio, etc.
+- name: create_live_asset
+  description: A live asset refers to a media content/video that is live-streamed through Gumlet. This
+    endpoint creates a live streaming asset allowing use
+- name: create_live_asset_copy
+  description: A live asset refers to a media content/video that is live-streamed through Gumlet. This
+    endpoint allows user to update a live streaming asse
+- name: get_live_asset_status
+  description: This endpoint retrieves the details of a live video asset that has previously been created.
+- name: delete_live_asset
+  description: This endpoint removes a live asset given its unique live asset id. The live asset will
+    be removed from storage as well, associated URLs will
+- name: complete_live_stream
+  description: This endpoint allows marking live assets complete. Once the live asset is marked complete,
+    it can no longer be used to ingest the live strea
+- name: filter_live_assets
+  description: This endpoint lists live assets on the basis of `status` for the given `live_source_id`.
+- name: recover
+  description: Recovers a deleted asset from the recycle bin.
+- name: start_live
+  description: Start a live stream.
+- name: thumbnail_upload_live
+  description: Generate presigned upload URLs for live stream thumbnails. Supported thumbnail states are
+    `preparing`, `disconnected`, and `end`.
+- name: list_workspaces
+  description: This endpoint list video workspace which are assigned to the user or token.
+- name: create_workspace
+  description: Video workspaces are top-level entities in Gumlet. You can use them to organize videos
+    for different teams/departments or use cases.
+- name: get_workspace
+  description: This endpoint get all the data of video workspace that has previously been created.
+- name: update_workspace
+  description: This endpoint allows users to update video workspace that has previously been created.
+- name: delete_workspace
+  description: This endpoint removes a video workspace given its unique asset id. All the asset in workspace
+    will be removed from storage as well, associat
+- name: list_folders
+  description: List folders for a video workspace. Use `parent_id` to list only folders inside a specific
+    parent folder.
+- name: create_folder
+  description: Create a folder inside a video workspace. Optionally provide `parent_id` to create a nested
+    folder.
+- name: get_folder
+  description: Get a single folder by id.
+- name: update_folder
+  description: Rename a folder, move it to another parent folder, or move assets into the folder by sending
+    `asset_ids`.
+- name: delete_folder
+  description: Delete a folder. Descendant folders and assets inside them are deleted by the backend workflow.
+- name: remove_assets_folder
+  description: Remove one or more assets from their current folder assignment inside the workspace.
+- name: list_assets
+  description: List folders and assets for a workspace in a single response. Use `parent_id` to browse
+    a specific folder, or filters like `title`, `status`
+- name: invite_channel_viewers
+  description: Invite one or more viewers to a members-only channel.
+- name: remove_channel_viewers
+  description: Remove one or more viewers from a channel by email address.
+- name: invite_channel_viewers_csv
+  description: Invite viewers to a channel by uploading a CSV file.
+- name: asset_status_history
+  description: This endpoint retrieves the history of a live video asset that has previously been created.
+- name: insights_chart_data
+  description: This endpoint retrieves viewer analytics data. This endpoint is use for deep insights on
+    the analytics data.
+- name: insights_breakdown_data
+  description: This endpoint retrieves breakdown data of the given metrics by given breakdown field
+- name: insights_aggregated_data
+  description: This endpoint retrieves aggregated data of the given metrics.
+- name: image_purge
+  description: You can purge the cache for any image path by using this cache purge API.
+- name: fetch_org
+  description: You can get organization data using this API.
+- name: fetch_user
+  description: This endpoint gives information about the user account.
+- name: fetch_audit_logs
+  description: Get audit logs for the user activity in your organisation. Please note that this endpoint
+    can only be accessed by `owner` and `admin` role u
+- name: list_recycle_bin
+  description: List all assets in a recycle bin for a given workspace. The deleted assets are available
+    for 30 days. After that, assets are permanently del
+- name: assets_delete_many
+  description: Delete multiple VOD assets at once.
+- name: assets_tag_many
+  description: Add / remove tags from multiple assets at once.
+related:
+- name: Gumlet Docs MCP
+  endpoint: https://docs.gumlet.com/mcp
+  description: Documentation search MCP (search-documentation tool); serves docs, not the product API.
+note: API/MCP access is a paid-plan feature per the Gumlet pricing page ("API and MCP access" listed from
+  the Creator tier up).

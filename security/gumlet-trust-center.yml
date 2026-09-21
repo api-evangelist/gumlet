@@ -1,0 +1,18 @@
+generated: '2026-09-21'
+method: searched
+source: https://trust.gumlet.com/ (Trust Vault portal, rendered 2026-09-21)
+url: https://trust.gumlet.com/
+name: Gumlet Trust Center
+certifications:
+- ISO 27001:2022
+- SOC 2
+subprocessors:
+- Intercom
+- Mixpanel
+- MongoDB
+- Cloudflare
+- Stripe
+- Google
+evidence:
+- Trust Center lists ISO 27001:2022 and SOC 2 under Compliance (documents available on access request).
+- Sub-Processors register names Intercom, Mixpanel, MongoDB, Cloudflare, Stripe and Google with regions.

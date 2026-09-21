@@ -1,0 +1,327 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Live Stream Analytics API
+  version: '1.4'
+  description: Live Stream Analytics operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Live Stream Analytics
+paths:
+  /video/live/analytics:
+    post:
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bandwidth_consumption:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: integer
+                          description: Bandwidth consumption data in bytes
+                          format: uint64
+                        timestamp:
+                          type: integer
+                          format: int64
+                          description: Milliseconds since epoch timestamp for the data point
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                    description: Data about bandwidth consumption
+                  asset_duration:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: integer
+                          format: int64
+                          description: Input asset seconds
+                        timestamp:
+                          type: integer
+                          description: Milliseconds since epoch timestamp for the data point
+                          format: int64
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                    description: Data about input seconds processed
+                  storage_unit:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: integer
+                          format: uint64
+                          description: Storage unit in either bytes or seconds. You can get the information
+                            from `storage_data_unit` field.
+                        timestamp:
+                          type: integer
+                          description: Milliseconds since epoch timestamp for the data point
+                          format: int64
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                    description: Bytes or seconds of storage used
+                  storage_data_unit:
+                    type: string
+                    enum:
+                    - min
+                    - gb
+                    x-apidog-enum:
+                    - value: min
+                      name: ''
+                      description: ''
+                    - value: gb
+                      name: ''
+                      description: ''
+                    description: Storage data unit information
+                x-apidog-orders:
+                - bandwidth_consumption
+                - asset_duration
+                - storage_unit
+                - storage_data_unit
+                required:
+                - storage_data_unit
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_parameter_value
+                      message: The parameter value is invalid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_parameter_value
+                      message:
+                        type: string
+                        example: The parameter value is invalid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any video source with the specified source_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any video source with the specified source_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      summary: Usage Analytics
+      tags:
+      - Live Stream Analytics
+      operationId: live-usage-analytics
+      description: Get usage analytics for your live streams.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date_range:
+                  type: object
+                  properties:
+                    start_at:
+                      type: string
+                      description: Start date in ISO 8601 date format (YYYY-MM-DD)
+                      format: date
+                    end_at:
+                      type: string
+                      format: date
+                      description: End date in ISO 8601 date format (YYYY-MM-DD)
+                  x-apidog-orders:
+                  - start_at
+                  - end_at
+                  required:
+                  - start_at
+                  - end_at
+                group_by:
+                  type: string
+                  enum:
+                  - daily
+                  - weekly
+                  - monthly
+                  x-apidog-enum:
+                  - value: daily
+                    name: ''
+                    description: ''
+                  - value: weekly
+                    name: ''
+                    description: ''
+                  - value: monthly
+                    name: ''
+                    description: ''
+                  description: Group the data either weekly, daily or monthly
+                metrics:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - bandwidth_consumption
+                    - asset_duration
+                    - storage_unit
+                    x-apidog-enum:
+                    - value: bandwidth_consumption
+                      name: ''
+                      description: ''
+                    - value: asset_duration
+                      name: ''
+                      description: ''
+                    - value: storage_unit
+                      name: ''
+                      description: ''
+                  description: List of metrics required in response
+              x-apidog-orders:
+              - date_range
+              - group_by
+              - metrics
+              required:
+              - date_range
+              - group_by
+              - metrics
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst liveStreamAnalytic = await client.liveStreamAnalytics.usage({\n\
+          \  date_range: {\n    start_at: '2024-01-01',\n    end_at: '2024-01-01',\n  },\n  group_by:\
+          \ 'daily',\n  metrics: ['bandwidth_consumption'],\n});\n\nconsole.log(liveStreamAnalytic);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nlive_stream_analytic = client.live_stream_analytics.usage(\n    date_range={\"\
+          start_at\": \"2024-01-01\", \"end_at\": \"2024-01-01\"},\n    group_by=\"daily\",\n    metrics=[\"\
+          bandwidth_consumption\"],\n)\n\nprint(live_stream_analytic)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

@@ -1,0 +1,265 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Multipart Upload API
+  version: '1.4'
+  description: Multipart Upload operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Multipart Upload
+paths:
+  /video/assets/{asset_id}/multipartupload/{part_number}/sign:
+    get:
+      summary: Get Part Upload URL
+      description: Use this endpoint to retrieve a pre-signed upload URL for the given part number.
+      operationId: retrieve-part-url
+      parameters:
+      - name: asset_id
+        in: path
+        description: An asset id of the created asset for which you are uploading parts
+        schema:
+          type: string
+        required: true
+      - name: part_number
+        in: path
+        description: Part number of multiple parts of the original video which you you are uploading
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    asset_id: 642db9d6cc21a55eb474a0b2
+                    part_number: '1'
+                    part_upload_url: https://gumlet-video-user-uploads.s3.us-west-2.amazonaws.com/gumlet-user-uploads-prod/600e2eccc1be42e7a5b29427/642db9d6cc21c21eb474a0c1/origin-642db9d6cc21a55eb474a0c1?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=REDACTED_AWS_ACCESS_KEY_ID%2F20230405%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230405T181136Z&X-Amz-Expires=3600&X-Amz-Signature=23d23ca56dceab55ba16349609af7d0921361ced905dde848b6206aa3de0205a&X-Amz-SignedHeaders=host&partNumber=1&uploadId=rkY.tbFdsN14Obcdh.VpVvGdtVxipAa2dyKszL2g7ETT38TXucloiyJLtz9Ff79OgvM3tdsFdenolTgdaIy_jo7GyArbApbueZZ9oLM3k7tuHkX9wXyOMDbGRQ3V0q4W&x-id=UploadPart
+              schema:
+                type: object
+                properties:
+                  asset_id:
+                    type: string
+                    example: 642db9d6cc21a55eb474a0b2
+                  part_number:
+                    type: string
+                    example: '1'
+                  part_upload_url:
+                    type: string
+                    example: https://gumlet-video-user-uploads.s3.us-west-2.amazonaws.com/gumlet-user-uploads-prod/600e2eccc1be42e7a5b29427/642db9d6cc21c21eb474a0c1/origin-642db9d6cc21a55eb474a0c1?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=REDACTED_AWS_ACCESS_KEY_ID%2F20230405%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20230405T181136Z&X-Amz-Expires=3600&X-Amz-Signature=23d23ca56dceab55ba16349609af7d0921361ced905dde848b6206aa3de0205a&X-Amz-SignedHeaders=host&partNumber=1&uploadId=rkY.tbFdsN14Obcdh.VpVvGdtVxipAa2dyKszL2g7ETT38TXucloiyJLtz9Ff79OgvM3tdsFdenolTgdaIy_jo7GyArbApbueZZ9oLM3k7tuHkX9wXyOMDbGRQ3V0q4W&x-id=UploadPart
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_parameter_value
+                      message: The parameter value is invalid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_parameter_value
+                      message:
+                        type: string
+                        example: The parameter value is invalid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Multipart Upload
+      x-stoplight:
+        id: 3s79ppxzn4m4a
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst multipartUpload = await client.multipartUpload.retrievePartURL('partNumber',\
+          \ {\n  asset_id: 'assetId',\n});\n\nconsole.log(multipartUpload);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nmultipart_upload = client.multipart_upload.retrieve_part_url(\n    asset_id=\"\
+          assetId\",\n    part_number=\"partNumber\",\n)\n\nprint(multipart_upload)"
+  /video/assets/{asset_id}/multipartupload/complete:
+    post:
+      summary: Complete Multipart Upload
+      description: Once you upload all parts to S3 bucket via pre-signed URL, use this endpoint to complete
+        the multipart upload.
+      operationId: complete-multipart-upload
+      parameters:
+      - name: asset_id
+        in: path
+        description: An asset id for which you are uploading original video via multipart
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                parts:
+                  type: array
+                  description: List of object containing part number with ETag received as a response
+                    header while uploading each part
+                  items:
+                    properties:
+                      PartNumber:
+                        type: integer
+                        format: int32
+                      ETag:
+                        type: string
+                        description: ETag received while uploading the part using PUT
+                    type: object
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: {}
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request — multipart upload incomplete or aborted
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    code: multipart_upload_not_completed
+                    message: Multipart upload may have been aboarted or not completed.
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: multipart_upload_not_completed
+                  message:
+                    type: string
+                    example: Multipart upload may have been aboarted or not completed.
+                required:
+                - code
+                - message
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Multipart Upload
+      x-stoplight:
+        id: hn4uybtbtvz5m
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst multipartUpload = await client.multipartUpload.complete('assetId');\n\
+          \nconsole.log(multipartUpload);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nmultipart_upload = client.multipart_upload.complete(\n    asset_id=\"assetId\"\
+          ,\n)\n\nprint(multipart_upload)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

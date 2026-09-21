@@ -1,0 +1,56 @@
+generated: '2026-09-21'
+method: derived
+source: openapi/_original/gumlet-openapi.json and https://docs.gumlet.com (webhooks, api-keys), 2026-09-21
+name: Gumlet API Conventions
+base_url: https://api.gumlet.com/v1
+authentication:
+  style: bearer
+  scheme: HTTP Bearer
+  detail: 'Pass your Gumlet API key as a bearer token: Authorization: Bearer <API_KEY>. Keys are created
+    in the dashboard (dash.gumlet.com/developer/api-keys) and are RBAC-scoped by role.'
+  docs: https://docs.gumlet.com/developers/api-keys
+pagination:
+  style: offset
+  params:
+  - offset
+  - size
+  detail: List endpoints (profiles, sources, workspaces, recycle bin, live assets) accept offset and size
+    query parameters; some listing endpoints use page_number/page_size (playlists, audit logs).
+versioning:
+  style: uri
+  detail: 'Single API version pinned in the path: /v1. OpenAPI info.version is 1.4.'
+error_envelope:
+  shape: '{"error":{"code":<string>,"message":<string>}}'
+  detail: 'Errors return a JSON object with an error.code and error.message (observed: invalid_authorization_header
+    on unauthenticated calls).'
+idempotency:
+  coverage: none
+  detail: No Idempotency-Key header or replay-protection mechanism is documented or present in the contract
+    across the mutating surface.
+reversibility:
+  summary: Video assets support soft-delete with recovery; most other deletes are permanent.
+  surfaces:
+  - operation: delete-asset
+    reversal: recover
+    reversal_operation: recover
+    binding: POST /video/asset/recover
+    grade: documented
+    note: 'Deleted assets go to a recycle bin (list-recycle-bin: GET /video/asset/recoverable/list) and
+      can be restored via recover. Retention window not stated in docs, so window unverified.'
+    docs: https://docs.gumlet.com/
+  - operation: delete-workspace
+    reversal: null
+    grade: na
+    note: No documented reversal.
+  - operation: delete-folder
+    reversal: null
+    grade: na
+    note: Docs state descendant folders and assets are affected; no documented undo.
+  grade: documented
+request_id:
+  detail: No documented request-id/trace header.
+rate_limit_signaling:
+  detail: No RateLimit-* / X-RateLimit-* / Retry-After headers documented or present in the contract.
+webhooks:
+  detail: Asynchronous events delivered via configurable webhooks; optional secret token echoed as x-gumlet-token
+    header. See asyncapi/gumlet-webhooks.yml.

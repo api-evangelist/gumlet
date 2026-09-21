@@ -1,0 +1,37 @@
+generated: '2026-09-21'
+method: searched
+source: npm @gumlet/* packages and github.com/gumlet, 2026-09-21
+name: Gumlet Embeddable Components
+description: Client-side, embeddable UI components for playing Gumlet-hosted video and delivering responsive
+  images, distinct from the server-side API SDKs.
+families:
+- family: Video player embed
+  components:
+  - name: '@gumlet/player.js'
+    type: player-control-library
+    url: https://www.npmjs.com/package/@gumlet/player.js
+  - name: '@gumlet/react-embed-player'
+    type: react-component
+    url: https://www.npmjs.com/package/@gumlet/react-embed-player
+  - name: '@gumlet/react-native-embed-player'
+    type: react-native-component
+    url: https://www.npmjs.com/package/@gumlet/react-native-embed-player
+  - name: '@gumlet/react-hls-player'
+    type: react-component
+    url: https://www.npmjs.com/package/@gumlet/react-hls-player
+  - name: react-drm-player
+    type: react-component
+    url: https://github.com/gumlet/react-drm-player
+  - name: flutter-drm-player
+    type: flutter-widget
+    url: https://github.com/gumlet/flutter-drm-player
+- family: Responsive images
+  components:
+  - name: gumlet.js
+    type: lazy-load-library
+    url: https://www.npmjs.com/package/gumlet.js
+- family: Overlays
+  components:
+  - name: '@gumlet/dynamic-watermark'
+    type: player-overlay
+    url: https://www.npmjs.com/package/@gumlet/dynamic-watermark

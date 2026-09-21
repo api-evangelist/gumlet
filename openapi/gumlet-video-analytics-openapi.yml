@@ -1,0 +1,1003 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Video Analytics API
+  version: '1.4'
+  description: Video Analytics operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Video Analytics
+paths:
+  /insights/viewer-analytics:
+    post:
+      summary: Viewer Analytics
+      description: This endpoint retrieves viewer analytics data. This endpoint is use for deep insights
+        on the analytics data.
+      operationId: analytics-chart-data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - metrics
+              - workspace_id
+              - date_range
+              properties:
+                metrics:
+                  type: array
+                  description: Get data for one or more `metrics` in the same request. Please add any
+                    of these metrics. `views`, `unique_views`, `impressions`. `completion_percent_by_views`,
+                    `playing_time`, `concurrent_users`, `widget_form_submitted`, `cta_clicks`
+                  items:
+                    type: string
+                workspace_id:
+                  type: string
+                  description: The five to ten character unique identifier of the Gumlet workspace ID
+                    available on the Video Workspaces.
+                date_range:
+                  type: object
+                  description: "The timeframe to get the data for. \nCurrently, we only support a maximum\
+                    \ of *60 days* between `start_at` and `end_at`."
+                  required:
+                  - start_at
+                  - end_at
+                  properties:
+                    start_at:
+                      type: string
+                      description: Use <b>yyyy-MM-dd</b> format
+                      format: date
+                    end_at:
+                      type: string
+                      description: Use <b>yyyy-MM-dd</b> format
+                      format: date
+                filters:
+                  type: array
+                  description: Build *segments* of users using multiple filters on the data, `value` should
+                    be an *exact match*
+                  items:
+                    properties:
+                      name:
+                        type: string
+                        description: Name of the breakdown to filter data on.
+                        enum:
+                        - meta_browser
+                        - meta_operating_system
+                        - meta_operating_system_version
+                        - meta_device_category
+                        - meta_device_manufacturer
+                        - meta_device_name
+                        - meta_device_display_width
+                        - meta_device_display_height
+                        - meta_country
+                        - meta_city
+                        - meta_region
+                        - player_software
+                        - player_software_version
+                        - player_language_code
+                        - player_name
+                        - meta_page_url
+                        - meta_asn
+                        - custom_user_id
+                        - custom_user_email
+                        - custom_video_id
+                        - custom_video_title
+                        - video_source_url
+                        - custom_video_variant_name
+                        - custom_video_language
+                        - custom_video_variant
+                        - custom_data_1
+                        - custom_data_2
+                        - custom_data_3
+                        - custom_data_4
+                        - custom_data_5
+                      value:
+                        type: string
+                        description: Value to be matched for the given filter name. Currently we support
+                          exact matches.
+                      operator:
+                        type: string
+                        description: Operator to be used while filtering the data
+                        default: equals
+                        enum:
+                        - equals
+                        - does not equal
+                        - contains
+                        - does not contain
+                        - is set
+                        - is not set
+                    required:
+                    - name
+                    - value
+                    type: object
+                group_by:
+                  type: string
+                  description: Data can be grouped by `daily`, `weekly` or `monthly`.
+                  default: daily
+                  enum:
+                  - daily
+                  - weekly
+                  - monthly
+                chart_dimension:
+                  type: object
+                  properties:
+                    group_by:
+                      type: array
+                      items:
+                        properties:
+                          name:
+                            type: string
+                            enum:
+                            - custom_video_title
+                            - custom_video_id
+                            - custom_workspace_id
+                            - video_source_url
+                            - video_source_format
+                            - player_software_version
+                            - player_software
+                            - meta_page_url
+                            - audio_language
+                            - subtitle_language
+                            - video_width_pixels
+                            - video_height_pixels
+                            - meta_country
+                            - meta_city
+                            - meta_device_category
+                            - meta_device_manufacturer
+                            - meta_browser
+                            - meta_browser_version
+                            - meta_browser_language
+                            - meta_operating_system
+                            - meta_operating_system_version
+                            - meta_device_name
+                            - meta_asn
+                        type: object
+                  description: Group metrics by the selected dimension. You can select up to 3 dimensions
+                    for nested category results; results follow the selection order.
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    views:
+                    - x: 1647475200000
+                      y: null
+                      unit: views
+                    - x: 1647561600000
+                      y: null
+                      unit: views
+                    - x: 1647648000000
+                      y: 6
+                      unit: views
+                    - x: 1647734400000
+                      y: 24
+                      unit: views
+                    - x: 1647820800000
+                      y: 33
+                      unit: views
+                    - x: 1647907200000
+                      y: 16
+                      unit: views
+                    unique_views:
+                    - x: 1647475200000
+                      y: null
+                      unit: users
+                    - x: 1647561600000
+                      y: null
+                      unit: users
+                    - x: 1647648000000
+                      y: 1
+                      unit: users
+                    - x: 1647734400000
+                      y: 1
+                      unit: users
+                    - x: 1647820800000
+                      y: 1
+                      unit: users
+                    - x: 1647907200000
+                      y: 1
+                      unit: users
+              schema:
+                type: object
+                properties:
+                  views:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        x:
+                          type: integer
+                          example: 1647475200000
+                          default: 0
+                        y: {}
+                        unit:
+                          type: string
+                          example: views
+                  unique_views:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        x:
+                          type: integer
+                          example: 1647475200000
+                          default: 0
+                        y: {}
+                        unit:
+                          type: string
+                          example: users
+                  analytics_data:
+                    type: object
+                    properties:
+                      views:
+                        type: array
+                        items:
+                          properties:
+                            x:
+                              type: string
+                              description: Date in epoch format
+                            y:
+                              type: string
+                              description: Value
+                            unit:
+                              type: string
+                          type: object
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: parameter_missing
+                      message: One or more required values are missing.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: parameter_missing
+                      message:
+                        type: string
+                        example: One or more required values are missing.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_property_id
+                      message: You don't have access to that property, please select a property id
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_property_id
+                      message:
+                        type: string
+                        example: You don't have access to that property, please select a property id
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: property_not_found
+                      message: Could not find any video insight property with the specified property_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: property_not_found
+                      message:
+                        type: string
+                        example: Could not find any video insight property with the specified property_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: false
+      tags:
+      - Video Analytics
+      servers:
+      - url: https://api.gumlet.com/v1
+      x-stoplight:
+        id: 04zbqux39i8iv
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAnalytic = await client.videoAnalytics.chartData({\n\
+          \  metrics: [''],\n  workspace_id: '',\n  date_range: {\n    start_at: '2024-01-01',\n    end_at:\
+          \ '2024-01-01',\n  },\n  group_by: 'daily',\n});\n\nconsole.log(videoAnalytic);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_analytic = client.video_analytics.chart_data(\n    metrics=[\"\"],\n\
+          \    workspace_id=\"\",\n    date_range={\"start_at\": \"2024-01-01\", \"end_at\": \"2024-01-01\"\
+          },\n    group_by=\"daily\",\n)\n\nprint(video_analytic)"
+  /insights/breakdown-data:
+    post:
+      summary: Breakdown Data
+      description: This endpoint retrieves breakdown data of the given metrics by given breakdown field
+      operationId: analytics-breakdown-data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - date_range
+              - breakdowns
+              - workspace_id
+              properties:
+                date_range:
+                  type: object
+                  description: "The timeframe to get the data for. \nCurrently, we only support a maximum\
+                    \ of *60 days* between `start_at` and `end_at`."
+                  required:
+                  - start_at
+                  - end_at
+                  properties:
+                    start_at:
+                      type: string
+                      description: Use <b>yyyy-MM-dd</b> format
+                      format: date
+                    end_at:
+                      type: string
+                      description: Use <b>yyyy-MM-dd</b> format
+                      format: date
+                filters:
+                  type: array
+                  description: Build *segments* of users using multiple filters on the data, `value` should
+                    be an *exact match*
+                  items:
+                    properties:
+                      name:
+                        type: string
+                        description: Name of the breakdown to filter data on.
+                        enum:
+                        - meta_browser
+                        - meta_operating_system
+                        - meta_operating_system_version
+                        - meta_device_category
+                        - meta_device_manufacturer
+                        - meta_device_name
+                        - meta_device_display_width
+                        - meta_device_display_height
+                        - meta_country
+                        - meta_city
+                        - meta_region
+                        - player_software
+                        - player_software_version
+                        - player_language_code
+                        - player_name
+                        - meta_page_url
+                        - meta_asn
+                        - custom_user_id
+                        - custom_user_email
+                        - custom_video_id
+                        - custom_video_title
+                        - video_source_url
+                        - custom_video_variant_name
+                        - custom_video_language
+                        - custom_video_variant
+                        - custom_data_1
+                        - custom_data_2
+                        - custom_data_3
+                        - custom_data_4
+                        - custom_data_5
+                      value:
+                        type: string
+                        description: Value to be matched for the given filter name. Currently we support
+                          exact matches.
+                      operator:
+                        type: string
+                        description: Operator to be used while filtering the data
+                        default: equals
+                        enum:
+                        - equals
+                        - does not equal
+                        - contains
+                        - does not contain
+                        - is set
+                        - is not set
+                    required:
+                    - name
+                    - value
+                    type: object
+                breakdowns:
+                  type: array
+                  description: Breakdown fields and metrics to retrieve data for. Supports 1 to 3 breakdowns
+                    per request.
+                  minItems: 1
+                  maxItems: 3
+                  items:
+                    type: object
+                    required:
+                    - name
+                    - metric
+                    properties:
+                      name:
+                        type: string
+                        description: Name of the field to break down the data by.
+                        enum:
+                        - meta_browser
+                        - meta_operating_system
+                        - meta_operating_system_version
+                        - meta_device_category
+                        - meta_device_manufacturer
+                        - meta_device_name
+                        - meta_device_display_width
+                        - meta_device_display_height
+                        - meta_country
+                        - meta_city
+                        - meta_region
+                        - player_software
+                        - player_software_version
+                        - player_language_code
+                        - player_name
+                        - meta_page_url
+                        - meta_asn
+                        - custom_user_id
+                        - custom_user_email
+                        - custom_video_id
+                        - custom_video_title
+                        - video_source_url
+                        - custom_video_variant_name
+                        - custom_video_language
+                        - custom_video_variant
+                        - custom_data_1
+                        - custom_data_2
+                        - custom_data_3
+                        - custom_data_4
+                        - custom_data_5
+                      metric:
+                        type: string
+                        description: The metric to retrieve breakdown data for.
+                        enum:
+                        - views
+                        - unique_views
+                        - impressions
+                        - completion_percent_by_views
+                        - playing_time
+                        - concurrent_users
+                        - widget_form_submitted
+                        - cta_clicks
+                      page:
+                        type: integer
+                        description: Page number for paginated results.
+                        default: 1
+                      page_size:
+                        type: integer
+                        description: Number of results per page.
+                        default: 100
+                workspace_id:
+                  type: string
+                  description: The five to ten character unique identifier of the Gumlet workspace ID
+                    available on the Video Workspaces.
+            examples:
+              Result:
+                value:
+                  date_range:
+                    start_at: '2026-07-20'
+                    end_at: '2026-08-20'
+                  filters: []
+                  breakdowns:
+                  - name: custom_video_id
+                    metric: views
+                    page: 1
+                    page_size: 10
+                  - name: custom_video_title
+                    metric: completion_percent_by_views
+                    page: 1
+                    page_size: 10
+                  workspace_id: 6694c405e63913eecf3cf5fb
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    views:
+                      data:
+                      - key: 6710e83eb340677d98c71df7
+                        value: 253
+                        unit: views
+                      - key: 6710e83eb340677d98c71dd8
+                        value: 120
+                        unit: views
+                      has_next_page: true
+                      current_page: 1
+              schema:
+                type: object
+                properties:
+                  views:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            key:
+                              type: string
+                              description: Breakdown field value
+                            value:
+                              type: number
+                              description: Metric value for the breakdown key
+                            unit:
+                              type: string
+                              example: views
+                      has_next_page:
+                        type: boolean
+                        description: Whether there is another page of results
+                      current_page:
+                        type: integer
+                        description: Current page number
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: parameter_missing
+                      message: One or more required values are missing.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: parameter_missing
+                      message:
+                        type: string
+                        example: One or more required values are missing.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_property_id
+                      message: You don't have access to that property, please select a property id
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_property_id
+                      message:
+                        type: string
+                        example: You don't have access to that property, please select a property id
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: property_not_found
+                      message: Could not find any video insight property with the specified property_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: property_not_found
+                      message:
+                        type: string
+                        example: Could not find any video insight property with the specified property_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: false
+      tags:
+      - Video Analytics
+      servers:
+      - url: https://api.gumlet.com/v1
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAnalytic = await client.videoAnalytics.breakdownData({\n\
+          \  date_range: { start_at: '2026-07-20', end_at: '2026-08-20' },\n  filters: [],\n  breakdowns:\
+          \ [\n    { name: 'custom_video_id', metric: 'views', page: 1, page_size: 10 },\n    { name:\
+          \ 'custom_video_title', metric: 'completion_percent_by_views', page: 1, page_size: 10 },\n \
+          \ ],\n  workspace_id: '6694c405e63913eecf3cf5fb',\n});\n\nconsole.log(videoAnalytic);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_analytic = client.video_analytics.breakdown_data(\n    date_range={\"\
+          start_at\": \"2026-07-20\", \"end_at\": \"2026-08-20\"},\n    filters=[],\n    breakdowns=[\n\
+          \        {\"name\": \"custom_video_id\", \"metric\": \"views\", \"page\": 1, \"page_size\":\
+          \ 10},\n        {\"name\": \"custom_video_title\", \"metric\": \"completion_percent_by_views\"\
+          , \"page\": 1, \"page_size\": 10},\n    ],\n    workspace_id=\"6694c405e63913eecf3cf5fb\",\n\
+          )\n\nprint(video_analytic)"
+  /insights/aggregated-data:
+    post:
+      summary: Aggregated Data
+      description: This endpoint retrieves aggregated data of the given metrics.
+      operationId: analytics-aggregated-data
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - aggregate
+              - workspace_id
+              - timeframe
+              properties:
+                aggregate:
+                  type: array
+                  description: Aggregate multiple metrics at the same time
+                  items:
+                    properties:
+                      metric:
+                        type: string
+                        description: The metric to be aggregated for this request.
+                        enum:
+                        - views
+                        - unique_views
+                        - completion_percent_by_views
+                        - playing_time
+                        - concurrent_users
+                        - impressions
+                        - widget_form_submitted
+                        - cta_clicks
+                      function:
+                        type: string
+                        description: Aggregation function which is to be used.
+                        enum:
+                        - sum
+                        - average
+                    required:
+                    - metric
+                    - function
+                    type: object
+                workspace_id:
+                  type: string
+                  description: The unique identifier of the Gumlet workspace ID available on the Video
+                    Workspaces.
+                timeframe:
+                  type: object
+                  description: The timeframe to get the data for. Currently we only support maximum difference
+                    between `start_at` and `end_at` to be *60 days*
+                  properties:
+                    start_at:
+                      type: string
+                      description: Use <b>yyyy-MM-dd</b> format
+                      format: date
+                    end_at:
+                      type: string
+                      description: Use <b>yyyy-MM-dd</b> format
+                      format: date
+                filters:
+                  type: array
+                  description: Get aggregations for metrics with multiple filters, `value` should be an
+                    exact match
+                  items:
+                    properties:
+                      name:
+                        type: string
+                        description: Name of the breakdown to filter data on.
+                        enum:
+                        - meta_browser
+                        - meta_operating_system
+                        - meta_operating_system_version
+                        - meta_device_category
+                        - meta_device_manufacturer
+                        - meta_device_name
+                        - meta_device_display_width
+                        - meta_device_display_height
+                        - meta_country
+                        - meta_city
+                        - meta_region
+                        - player_software
+                        - player_software_version
+                        - player_height_pixels
+                        - player_width_pixels
+                        - player_language_code
+                        - meta_page_url
+                        - meta_asn
+                        - custom_user_id
+                        - user_name
+                        - user_email
+                        - custom_video_id
+                        - custom_video_title
+                        - video_source_url
+                        - video_source_hostname
+                        - video_source_format
+                        - custom_video_language
+                        - custom_video_variant
+                        - custom_data_1
+                        - custom_data_2
+                        - custom_data_3
+                        - custom_data_4
+                        - custom_data_5
+                      value:
+                        type: string
+                        description: Value to be matched for the given filter name. Currently we support
+                          exact matches.
+                      operator:
+                        type: string
+                        description: Operator to be used while filtering the data
+                        default: equals
+                        enum:
+                        - equals
+                        - does not equal
+                        - contains
+                        - does not contain
+                        - is set
+                        - is not set
+                    required:
+                    - name
+                    - value
+                    type: object
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    views:
+                      sum:
+                        value: 79
+                        unit: views
+              schema:
+                type: object
+                properties:
+                  views:
+                    type: object
+                    properties:
+                      sum:
+                        type: object
+                        properties:
+                          value:
+                            type: integer
+                            example: 79
+                            default: 0
+                          unit:
+                            type: string
+                            example: views
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: parameter_missing
+                      message: One or more required values are missing.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: parameter_missing
+                      message:
+                        type: string
+                        example: One or more required values are missing.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_property_id
+                      message: You don't have access to that property, please select a property id
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_property_id
+                      message:
+                        type: string
+                        example: You don't have access to that property, please select a property id
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: property_not_found
+                      message: Could not find any video insight property with the specified property_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: property_not_found
+                      message:
+                        type: string
+                        example: Could not find any video insight property with the specified property_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: false
+      tags:
+      - Video Analytics
+      servers:
+      - url: https://api.gumlet.com/v1
+      x-stoplight:
+        id: phzqm3nji6lx6
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAnalytic = await client.videoAnalytics.aggregatedData({\n\
+          \  aggregate: [\n    {\n      metric: 'views',\n      function: 'sum',\n    },\n  ],\n  workspace_id:\
+          \ '',\n  timeframe: {},\n});\n\nconsole.log(videoAnalytic);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_analytic = client.video_analytics.aggregated_data(\n    aggregate=[{\"\
+          metric\": \"views\", \"function\": \"sum\"}],\n    workspace_id=\"\",\n    timeframe={},\n)\n\
+          \nprint(video_analytic)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

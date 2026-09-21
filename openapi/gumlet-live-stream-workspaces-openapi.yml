@@ -1,0 +1,457 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Live Stream Workspaces API
+  version: '1.4'
+  description: Live Stream Workspaces operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Live Stream Workspaces
+paths:
+  /video/sources/live:
+    get:
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  all_live_sources:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Live stream workspace name
+                        created_at:
+                          type: string
+                          description: Creation time in ISO 8601 timestamp
+                          format: date-time
+                        updated_at:
+                          type: string
+                          format: date-time
+                          description: Update time in ISO 8601 timestamp
+                        video_workspace_id:
+                          type: string
+                          description: Video workspace ID that is attached to this collection. Once the
+                            live stream completes, the video gets stored in this workspace for long-term
+                            storage.
+                        id:
+                          type: string
+                          description: Workspace ID
+                      x-apidog-orders:
+                      - id
+                      - name
+                      - created_at
+                      - updated_at
+                      - video_workspace_id
+                      required:
+                      - id
+                      - name
+                      - created_at
+                      - updated_at
+                      - video_workspace_id
+                    description: List of all live stream collections
+                x-apidog-orders:
+                - all_live_sources
+                required:
+                - all_live_sources
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      summary: List Workspaces
+      tags:
+      - Live Stream Workspaces
+      operationId: list-live-workspaces
+      description: List all live stream workspaces.
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst liveStreamWorkspace = await client.liveStreamWorkspaces.list();\n\
+          \nconsole.log(liveStreamWorkspace);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nlive_stream_workspace = client.live_stream_workspaces.list()\n\nprint(live_stream_workspace)"
+    post:
+      summary: Create Workspace
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: LIve stream workspace ID
+                  video_workspace_id:
+                    type: string
+                    description: Video workspace ID attached to this collection.
+                  created_at:
+                    type: string
+                    description: Creation timestamp in ISO 8601 format
+                    format: date-time
+                  name:
+                    type: string
+                    description: Name of the live stream workspace
+                  updated_at:
+                    type: string
+                    format: date-time
+                    description: Update timestamp in ISO 8601 format
+                x-apidog-orders:
+                - id
+                - video_workspace_id
+                - created_at
+                - name
+                - updated_at
+                required:
+                - id
+                - created_at
+                - name
+                - updated_at
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: parameter_missing
+                      message: One or more required values are missing.
+                      param: name
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: parameter_missing
+                      message:
+                        type: string
+                        example: One or more required values are missing.
+                      param:
+                        type: string
+                        example: name
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden — live source limit reached on free/starter plan
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error: You have reached the maximum number of live video sources allowed on your plan.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: You have reached the maximum number of live video sources allowed on your
+                      plan.
+                required:
+                - error
+        '422':
+          $ref: '#/components/responses/ValidationError'
+      operationId: live-workspace-create
+      tags:
+      - Live Stream Workspaces
+      description: Create live stream workspace.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Collection name
+              x-apidog-orders:
+              - name
+              required:
+              - name
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst liveStreamWorkspace = await client.liveStreamWorkspaces.create({\n\
+          \  name: '',\n});\n\nconsole.log(liveStreamWorkspace);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nlive_stream_workspace = client.live_stream_workspaces.create(\n    name=\"\
+          \",\n)\n\nprint(live_stream_workspace)"
+  /video/sources/live/{live_workspace_id}:
+    post:
+      parameters:
+      - in: path
+        name: live_workspace_id
+        description: Live stream workspace ID.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Get updated collection details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: LIve stream workspace ID
+                  video_workspace_id:
+                    type: string
+                    description: Video workspace ID attached to this collection.
+                  created_at:
+                    type: string
+                    description: Creation timestamp in ISO 8601 format
+                    format: date-time
+                  name:
+                    type: string
+                    description: Name of the live stream workspace
+                  updated_at:
+                    type: string
+                    format: date-time
+                    description: Update timestamp in ISO 8601 format
+                x-apidog-orders:
+                - id
+                - video_workspace_id
+                - name
+                - created_at
+                - updated_at
+                required:
+                - id
+                - created_at
+                - name
+                - updated_at
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any video source with the specified source_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any video source with the specified source_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      summary: Update Workspace
+      tags:
+      - Live Stream Workspaces
+      operationId: live-workspace-update
+      description: Update live stream workspace.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Live stream collection name
+                video_source_id:
+                  type: string
+                  description: Video on demand workspace ID
+              x-apidog-orders:
+              - name
+              - video_source_id
+            examples:
+              Example 1:
+                value:
+                  name: live-stream-collections
+                  video_source_id: 67bea1d66ca0059a95bf7de9
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst liveStreamWorkspace = await client.liveStreamWorkspaces.update('liveWorkspaceId');\n\
+          \nconsole.log(liveStreamWorkspace);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nlive_stream_workspace = client.live_stream_workspaces.update(\n    live_workspace_id=\"\
+          liveWorkspaceId\",\n    name=\"live-stream-collections\",\n    video_source_id=\"67bea1d66ca0059a95bf7de9\"\
+          ,\n)\n\nprint(live_stream_workspace)"
+    delete:
+      parameters:
+      - in: path
+        name: live_workspace_id
+        description: Live stream workspace ID.
+        schema:
+          type: string
+        required: true
+      summary: Delete Workspace
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any video source with the specified source_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any video source with the specified source_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: live-workspace-delete
+      tags:
+      - Live Stream Workspaces
+      description: Delete the live stream workspace.
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst liveStreamWorkspace = await client.liveStreamWorkspaces.delete('liveWorkspaceId');\n\
+          \nconsole.log(liveStreamWorkspace);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nlive_stream_workspace = client.live_stream_workspaces.delete(\n    live_workspace_id=\"\
+          liveWorkspaceId\",\n)\n\nprint(live_stream_workspace)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

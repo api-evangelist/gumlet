@@ -1,0 +1,34 @@
+generated: '2026-09-21'
+method: searched
+source: https://github.com/gumlet/cli (README) and npm @gumlet/cli, 2026-09-21
+name: Gumlet CLI
+description: Official Go command-line interface for managing Gumlet video and image assets, published
+  as a native binary (Homebrew, direct download) and via npm.
+install:
+- method: homebrew
+  command: brew install --cask gumlet/tap/gumlet
+- method: npm
+  command: npm install -g @gumlet/cli
+- method: binary
+  command: Download from https://github.com/gumlet/cli/releases (darwin/linux/windows, arm64+x86_64)
+auth: gumlet login (stores your Gumlet API key); gumlet logout to clear.
+commands:
+- group: auth
+  examples:
+  - gumlet login
+  - gumlet logout
+- group: video workspace
+  examples:
+  - gumlet video workspace list
+  - gumlet video workspace get --workspace-id <id>
+  - gumlet video workspace create --name <name>
+  - gumlet video workspace update --workspace-id <id> --name <name>
+  - gumlet video workspace delete --workspace-id <id>
+- group: video asset
+  examples:
+  - gumlet video asset list --workspace-id <id>
+  - gumlet video asset get --asset-id <id>
+  - gumlet video asset upload --file <path> --workspace-id <id>
+  - gumlet video asset delete --asset-id <id>
+repository: https://github.com/gumlet/cli
+package: '@gumlet/cli (npm) 1.0.9'

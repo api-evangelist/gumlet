@@ -1,0 +1,15 @@
+generated: '2026-09-21'
+method: searched
+source: https://docs.gumlet.com, https://status.gumlet.com/, openapi/_original/gumlet-openapi.json, 2026-09-21
+name: Gumlet API Lifecycle
+versioning: URI versioning at /v1 (single stable version; OpenAPI info.version 1.4).
+deprecation: No RFC 8594 Sunset/Deprecation header policy documented. One deprecated-style operation present
+  in the contract (list-assets-deprecated, GET /video/assets/list/{workspace_id}); the folders/list endpoint
+  (list-assets) is the current replacement.
+status_page: https://status.gumlet.com/
+sla: Dedicated SLA / escalation offered on the Enterprise plan only ("escalation SLA"); no public numeric
+  SLA.
+deprecated_operations:
+- operationId: list-assets-deprecated
+  path: /video/assets/list/{workspace_id}
+  note: Superseded by list-assets (GET /video/workspaces/{workspace_id}/list).

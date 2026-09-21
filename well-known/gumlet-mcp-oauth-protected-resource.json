@@ -1,0 +1,1 @@
+{"resource":"https://mcp.gumlet.com/mcp/v1","authorization_servers":["https://webapp.gumlet.com","https://mcp.gumlet.com"],"scopes_supported":["gumlet.mcp"],"bearer_methods_supported":["header"],"resource_documentation":"https://docs.gumlet.com/reference/mcp"}

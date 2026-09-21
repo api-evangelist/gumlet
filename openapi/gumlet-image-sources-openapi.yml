@@ -1,0 +1,3420 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Image Sources API
+  version: '1.4'
+  description: Image Sources operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Image Sources
+paths:
+  /image/sources:
+    post:
+      summary: Create Source
+      description: This endpoint allows users to create image source.
+      operationId: create-image-source
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - namespace
+              - type
+              properties:
+                namespace:
+                  type: string
+                  description: unique subdomain associated with the image source
+                type:
+                  type: string
+                  enum:
+                  - proxy
+                  - webfolder
+                  - aws
+                  - gcs
+                  - dostorage
+                  - wasabi
+                  - cloudinary
+                  - azure
+                  - linode
+                  - backblaze
+                  - cloudflare
+                  - zoom
+                aws:
+                  type: object
+                  description: This is a required field if source type is aws.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                    endpoint:
+                      type: string
+                proxy:
+                  type: object
+                  description: This is a required field if source type is proxy.
+                  required:
+                  - whitelisted_domains
+                  properties:
+                    whitelisted_domains:
+                      type: string
+                gcs:
+                  type: object
+                  description: This is a required field if source type is gcs.
+                  required:
+                  - bucket_name
+                  - service_account_key
+                  properties:
+                    bucket_name:
+                      type: string
+                    service_account_key:
+                      type: string
+                dostorage:
+                  type: object
+                  description: This is a required field if source type is dostorage.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                wasabi:
+                  type: object
+                  description: This is a required field if source type is wasabi.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                cloudinary:
+                  type: object
+                  description: This is a required field if source type is cloudinary.
+                  required:
+                  - host_name
+                  - cloud_name
+                  properties:
+                    host_name:
+                      type: string
+                    cloud_name:
+                      type: string
+                azure:
+                  type: object
+                  description: This is a required field if source type is azure.
+                  required:
+                  - azure_account_name
+                  - azure_container_name
+                  - azure_shared_token
+                  - azure_path
+                  properties:
+                    azure_account_name:
+                      type: string
+                    azure_container_name:
+                      type: string
+                    azure_shared_token:
+                      type: string
+                    azure_path:
+                      type: string
+                linode:
+                  type: object
+                  description: This is a required field if source type is linode.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                backblaze:
+                  type: object
+                  description: This is a required field if source type is backblaze.
+                  required:
+                  - bucket_name
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                      description: bucket_region or endpoint
+                    endpoint:
+                      type: string
+                      description: bucket_region or endpoint
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                cloudflare:
+                  type: object
+                  description: This is a required field if source type is cloudflare.
+                  required:
+                  - bucket_name
+                  - access_key
+                  - account_id
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    access_key:
+                      type: string
+                    account_id:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                webfolder:
+                  type: object
+                  x-stoplight:
+                    id: kt4iq0r4ofkar
+                  properties:
+                    base_url:
+                      type: string
+                      x-stoplight:
+                        id: 8nxga6djly0mz
+            examples:
+              Request Example:
+                value:
+                  type: webfolder
+                  webfolder:
+                    base_url: https://www.google.com
+                  namespace: google-demo
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    id: 6a849ee1ed1e919cbba62a7e
+                    namespace: google-demo
+                    type: webfolder
+                    cdn_type: third_party
+                    cdn_cache_time: 8640000
+                    canonical_url: true
+                    browser_cache_time: 8640000
+                    is_cloudfront: false
+                    created_at: '2026-08-18T18:05:21.565Z'
+                    updated_at: '2026-08-18T18:05:21.565Z'
+                    webfolder:
+                      base_url: https://www.google.com
+                    default_params:
+                      format: auto
+                      compress: 'true'
+                    subdomain: google-demo.gumlet.io
+                    is_active: true
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  namespace:
+                    type: string
+                  type:
+                    type: string
+                  cdn_type:
+                    type: string
+                  cdn_cache_time:
+                    type: integer
+                  canonical_url:
+                    type: boolean
+                  browser_cache_time:
+                    type: integer
+                  is_cloudfront:
+                    type: boolean
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+                  webfolder:
+                    type: object
+                    properties:
+                      base_url:
+                        type: string
+                  default_params:
+                    type: object
+                    properties:
+                      format:
+                        type: string
+                      compress:
+                        type: string
+                  subdomain:
+                    type: string
+                  is_active:
+                    type: boolean
+                x-examples:
+                  Example 1:
+                    id: 6a849ee1ed1e919cbba62a7e
+                    namespace: google-demo
+                    type: webfolder
+                    cdn_type: third_party
+                    cdn_cache_time: 8640000
+                    canonical_url: true
+                    browser_cache_time: 8640000
+                    is_cloudfront: false
+                    created_at: '2026-08-18T18:05:21.565Z'
+                    updated_at: '2026-08-18T18:05:21.565Z'
+                    webfolder:
+                      base_url: https://www.google.com
+                    default_params:
+                      format: auto
+                      compress: 'true'
+                    subdomain: google-demo.gumlet.io
+                    is_active: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: parameter_missing
+                      message: One or more required values are missing.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: parameter_missing
+                      message:
+                        type: string
+                        example: One or more required values are missing.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden — feature not on plan
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: unauthorised_feature_access
+                      message: Your plan doesn't have this feature or you have reached the plan limit.
+                        Please upgrade your current plan to access this feature.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: unauthorised_feature_access
+                      message:
+                        type: string
+                        example: Your plan doesn't have this feature or you have reached the plan limit.
+                          Please upgrade your current plan to access this feature.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '422':
+          $ref: '#/components/responses/ValidationError'
+      deprecated: false
+      tags:
+      - Image Sources
+      x-stoplight:
+        id: hublbrwwbpzvk
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst imageSource = await client.imageSources.create({\n\
+          \  type: 'webfolder',\n  webfolder: { base_url: 'https://www.google.com' },\n  namespace: 'google-demo',\n\
+          });\n\nconsole.log(imageSource);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nimage_source = client.image_sources.create(\n    namespace=\"google-demo\"\
+          ,\n    type=\"webfolder\",\n    webfolder={\"base_url\": \"https://www.google.com\"},\n)\n\n\
+          print(image_source)"
+    get:
+      summary: List Sources
+      description: This endpoint list image sources which are assigned to the user or token.
+      operationId: list-sources
+      responses:
+        '200':
+          description: List all image sources
+          content:
+            application/json:
+              examples: {}
+              schema:
+                type: object
+                properties:
+                  all_sources:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          examples:
+                          - 646df1c9173a4a2fcac180b4
+                        type:
+                          type: string
+                          examples:
+                          - aws
+                        created_at:
+                          type: string
+                          examples:
+                          - '2023-05-24T11:15:21.624Z'
+                        updated_at:
+                          type: string
+                          examples:
+                          - '2024-01-24T11:57:48.744Z'
+                        video_protection:
+                          type: object
+                          properties:
+                            signed_url:
+                              type: boolean
+                              default: true
+                              examples:
+                              - true
+                            signed_url_secret:
+                              type: string
+                              examples:
+                              - 47a3e2fbb1318f033b882c632bc103a8
+                          x-apidog-orders:
+                          - signed_url
+                          - signed_url_secret
+                        player_config:
+                          type: object
+                          properties:
+                            preload:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            autoplay:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            disable_seek:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            disable_player_controls:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            powered_by_gumlet_overlay:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            allow_drm_protected_videos:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            loop:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            player_color:
+                              type: string
+                              examples:
+                              - '#6658ea'
+                            include_seo:
+                              type: boolean
+                              default: true
+                              examples:
+                              - true
+                            subtitle_enabled:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            pixel_tags:
+                              type: object
+                              properties: {}
+                              x-apidog-orders: []
+                            logo_width:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 100
+                            logo_height:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 100
+                            dynamic_watermark:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            watermark_font_size:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 20
+                            watermark_font_color:
+                              type: string
+                              examples:
+                              - '#ff0000'
+                            watermark_bg_color:
+                              type: string
+                              examples:
+                              - transparent
+                            watermark_interval:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 1000
+                          x-apidog-orders:
+                          - preload
+                          - autoplay
+                          - disable_seek
+                          - disable_player_controls
+                          - powered_by_gumlet_overlay
+                          - allow_drm_protected_videos
+                          - loop
+                          - player_color
+                          - include_seo
+                          - subtitle_enabled
+                          - pixel_tags
+                          - logo_width
+                          - logo_height
+                          - dynamic_watermark
+                          - watermark_font_size
+                          - watermark_font_color
+                          - watermark_bg_color
+                          - watermark_interval
+                        default_profile_id:
+                          type: string
+                          examples:
+                          - 646df1c9173a4a2fcac180b7
+                        insight_property_id:
+                          type: string
+                          examples:
+                          - 646df0aa173a4a2fcac18009
+                        aws:
+                          type: object
+                          properties:
+                            bucket_name:
+                              type: string
+                              examples:
+                              - asd
+                            bucket_region:
+                              type: string
+                              examples:
+                              - ap-south-1
+                            access_key:
+                              type: string
+                              examples:
+                              - Code@123
+                            secret:
+                              type: string
+                              examples:
+                              - '****************'
+                            base_path:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          - base_path
+                        embed_details:
+                          type: object
+                          properties:
+                            pixel_tags:
+                              type: object
+                              properties: {}
+                              x-apidog-orders: []
+                            preload:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            autoplay:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            logo_width:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 100
+                            logo_height:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 100
+                            player_color:
+                              type: string
+                              examples:
+                              - '#6658ea'
+                            is_seo:
+                              type: boolean
+                              default: true
+                              examples:
+                              - true
+                            dynamic_watermark:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            disable_seek:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            disable_player_controls:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            allow_drm_protected_videos:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            powered_by_gumlet_overlay:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            loop:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            subtitle_enabled:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            watermark_bg_color:
+                              type: string
+                              examples:
+                              - transparent
+                            watermark_font_color:
+                              type: string
+                              examples:
+                              - '#ff0000'
+                            watermark_font_size:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 20
+                            watermark_interval:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 1000
+                          x-apidog-orders:
+                          - pixel_tags
+                          - preload
+                          - autoplay
+                          - logo_width
+                          - logo_height
+                          - player_color
+                          - is_seo
+                          - dynamic_watermark
+                          - disable_seek
+                          - disable_player_controls
+                          - allow_drm_protected_videos
+                          - powered_by_gumlet_overlay
+                          - loop
+                          - subtitle_enabled
+                          - watermark_bg_color
+                          - watermark_font_color
+                          - watermark_font_size
+                          - watermark_interval
+                        folders:
+                          type: array
+                          items:
+                            type: string
+                            examples:
+                            - folder
+                        channel_settings:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                              examples:
+                              - my channel
+                            active:
+                              type: boolean
+                              default: true
+                              examples:
+                              - false
+                            description:
+                              type: string
+                              examples:
+                              - desc
+                            privacy_type:
+                              type: string
+                              examples:
+                              - private
+                            custom_logo:
+                              type: boolean
+                              default: true
+                              examples:
+                              - true
+                            logo_url:
+                              type: string
+                              examples:
+                              - https://dev-video.gumlet.io/646df1c9172a4a2fcac180b4/channel/logo.png
+                            cname:
+                              type: array
+                              items:
+                                type: string
+                                examples:
+                                - okj.com
+                            temp_cname:
+                              type: array
+                              items:
+                                type: string
+                                examples:
+                                - okj.com
+                          x-apidog-orders:
+                          - title
+                          - active
+                          - description
+                          - privacy_type
+                          - custom_logo
+                          - logo_url
+                          - cname
+                          - temp_cname
+                        namespace:
+                          type: string
+                          examples:
+                          - collection_name
+                        subdomain:
+                          type: string
+                        webfolder:
+                          type: object
+                          properties:
+                            base_url:
+                              type: string
+                          x-apidog-orders:
+                          - base_url
+                          required:
+                          - base_url
+                        cname:
+                          type: array
+                          items:
+                            type: string
+                          description: Custom domains assigned to this source.
+                        wasabi:
+                          type: object
+                          properties:
+                            bucket_name:
+                              type: string
+                            base_path:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - base_path
+                          required:
+                          - bucket_name
+                        gcs:
+                          type: object
+                          properties:
+                            bucket_name:
+                              type: string
+                            base_path:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - base_path
+                          required:
+                          - bucket_name
+                        wordpress:
+                          type: object
+                          properties:
+                            website_url:
+                              type: string
+                          x-apidog-orders:
+                          - website_url
+                          required:
+                          - website_url
+                        backblaze:
+                          type: object
+                          properties:
+                            bucket_name:
+                              type: string
+                            base_path:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - base_path
+                          required:
+                          - bucket_name
+                        hetzner:
+                          type: object
+                          properties:
+                            bucket_name:
+                              type: string
+                            base_path:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - base_path
+                        dostorage:
+                          type: object
+                          properties:
+                            bucket_name:
+                              type: string
+                            base_path:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - base_path
+                          required:
+                          - bucket_name
+                        azure:
+                          type: object
+                          properties:
+                            azure_account_name:
+                              type: string
+                            azure_container_name:
+                              type: string
+                            azure_path:
+                              type: string
+                          x-apidog-orders:
+                          - azure_account_name
+                          - azure_container_name
+                          - azure_path
+                          required:
+                          - azure_account_name
+                          - azure_path
+                        linode:
+                          type: object
+                          properties:
+                            bucket_name:
+                              type: string
+                            bucket_region:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - bucket_region
+                          required:
+                          - bucket_name
+                          - bucket_region
+                        cloudinary:
+                          type: object
+                          properties:
+                            cloud_name:
+                              type: string
+                          x-apidog-orders:
+                          - cloud_name
+                          required:
+                          - cloud_name
+                      x-apidog-orders:
+                      - id
+                      - namespace
+                      - type
+                      - created_at
+                      - updated_at
+                      - video_protection
+                      - player_config
+                      - default_profile_id
+                      - insight_property_id
+                      - aws
+                      - embed_details
+                      - folders
+                      - channel_settings
+                      - subdomain
+                      - webfolder
+                      - cname
+                      - wasabi
+                      - gcs
+                      - wordpress
+                      - backblaze
+                      - hetzner
+                      - dostorage
+                      - azure
+                      - linode
+                      - cloudinary
+                      required:
+                      - subdomain
+                      - namespace
+                      - id
+                x-apidog-orders:
+                - all_sources
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Image Sources
+      x-stoplight:
+        id: 25t5xel9wzl7p
+      parameters:
+      - in: query
+        name: offset
+        schema:
+          type: integer
+          default: 0
+        description: Skip number of items. Helpful for pagination.
+      - in: query
+        name: size
+        schema:
+          type: integer
+          default: 20
+        description: Results per page.
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst imageSource = await client.imageSources.list({\n\
+          \  offset: 0,\n  size: 20,\n});\n\nconsole.log(imageSource);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nimage_source = client.image_sources.list(\n    offset=0,\n    size=20,\n)\n\
+          \nprint(image_source)"
+  /image/sources/{image_source_id}:
+    get:
+      summary: Get Image Source
+      description: Get all details about image source.
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  namespace:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                    - dostorage
+                    - aws
+                    - wasabi
+                    - hetzner
+                    - backblaze
+                    - webfolder
+                    - gcs
+                    - azure
+                    - cloudflare
+                    - imgix
+                    - cloudinary
+                    - proxy
+                    - wordpress
+                    - linode
+                    x-apidog-enum:
+                    - value: dostorage
+                      name: ''
+                      description: ''
+                    - value: aws
+                      name: ''
+                      description: ''
+                    - value: wasabi
+                      name: ''
+                      description: ''
+                    - value: hetzner
+                      name: ''
+                      description: ''
+                    - value: backblaze
+                      name: ''
+                      description: ''
+                    - value: webfolder
+                      name: ''
+                      description: ''
+                    - value: gcs
+                      name: ''
+                      description: ''
+                    - value: azure
+                      name: ''
+                      description: ''
+                    - value: cloudflare
+                      name: ''
+                      description: ''
+                    - value: imgix
+                      name: ''
+                      description: ''
+                    - value: cloudinary
+                      name: ''
+                      description: ''
+                    - value: proxy
+                      name: ''
+                      description: ''
+                    - value: wordpress
+                      name: ''
+                      description: ''
+                    - value: linode
+                      name: ''
+                      description: ''
+                  cdn_type:
+                    type: string
+                  cdn_cache_time:
+                    type: integer
+                  canonical_url:
+                    type: boolean
+                  browser_cache_time:
+                    type: integer
+                  is_cloudfront:
+                    type: boolean
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+                  webfolder:
+                    type: object
+                    description: This is a required field if source type is webfolder.
+                    properties:
+                      base_url:
+                        type: string
+                    x-apidog-orders:
+                    - base_url
+                  aws:
+                    type: object
+                    description: This is a required field if source type is aws.
+                    required:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                    properties:
+                      bucket_name:
+                        type: string
+                      bucket_region:
+                        type: string
+                      access_key:
+                        type: string
+                      secret:
+                        type: string
+                      base_path:
+                        type: string
+                      endpoint:
+                        type: string
+                    x-apidog-orders:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                    - base_path
+                    - endpoint
+                  proxy:
+                    type: object
+                    description: This is a required field if source type is proxy.
+                    required:
+                    - whitelisted_domains
+                    properties:
+                      whitelisted_domains:
+                        type: string
+                    x-apidog-orders:
+                    - whitelisted_domains
+                  gcs:
+                    type: object
+                    description: This is a required field if source type is gcs.
+                    required:
+                    - bucket_name
+                    - service_account_key
+                    properties:
+                      bucket_name:
+                        type: string
+                      service_account_key:
+                        type: string
+                    x-apidog-orders:
+                    - bucket_name
+                    - service_account_key
+                  dostorage:
+                    type: object
+                    description: This is a required field if source type is dostorage.
+                    required:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                    properties:
+                      bucket_name:
+                        type: string
+                      bucket_region:
+                        type: string
+                      access_key:
+                        type: string
+                      secret:
+                        type: string
+                      base_path:
+                        type: string
+                    x-apidog-orders:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                    - base_path
+                  wasabi:
+                    type: object
+                    description: This is a required field if source type is wasabi.
+                    required:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                    properties:
+                      bucket_name:
+                        type: string
+                      bucket_region:
+                        type: string
+                      access_key:
+                        type: string
+                      secret:
+                        type: string
+                      base_path:
+                        type: string
+                    x-apidog-orders:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                    - base_path
+                  linode:
+                    type: object
+                    description: This is a required field if source type is linode.
+                    required:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                    properties:
+                      bucket_name:
+                        type: string
+                      bucket_region:
+                        type: string
+                      access_key:
+                        type: string
+                      secret:
+                        type: string
+                    x-apidog-orders:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                  backblaze:
+                    type: object
+                    description: This is a required field if source type is backblaze.
+                    required:
+                    - bucket_name
+                    - access_key
+                    - secret
+                    properties:
+                      bucket_name:
+                        type: string
+                      bucket_region:
+                        type: string
+                        description: bucket_region or endpoint
+                      endpoint:
+                        type: string
+                        description: bucket_region or endpoint
+                      access_key:
+                        type: string
+                      secret:
+                        type: string
+                      base_path:
+                        type: string
+                    x-apidog-orders:
+                    - bucket_name
+                    - bucket_region
+                    - endpoint
+                    - access_key
+                    - secret
+                    - base_path
+                  cloudflare:
+                    type: object
+                    description: This is a required field if source type is cloudflare.
+                    required:
+                    - bucket_name
+                    - access_key
+                    - account_id
+                    - secret
+                    properties:
+                      bucket_name:
+                        type: string
+                      access_key:
+                        type: string
+                      account_id:
+                        type: string
+                      secret:
+                        type: string
+                      base_path:
+                        type: string
+                    x-apidog-orders:
+                    - bucket_name
+                    - access_key
+                    - account_id
+                    - secret
+                    - base_path
+                  cloudinary:
+                    type: object
+                    description: This is a required field if source type is cloudinary.
+                    required:
+                    - host_name
+                    - cloud_name
+                    properties:
+                      host_name:
+                        type: string
+                      cloud_name:
+                        type: string
+                    x-apidog-orders:
+                    - host_name
+                    - cloud_name
+                  azure:
+                    type: object
+                    description: This is a required field if source type is azure.
+                    required:
+                    - azure_account_name
+                    - azure_container_name
+                    - azure_shared_token
+                    - azure_path
+                    properties:
+                      azure_account_name:
+                        type: string
+                      azure_container_name:
+                        type: string
+                      azure_shared_token:
+                        type: string
+                      azure_path:
+                        type: string
+                    x-apidog-orders:
+                    - azure_account_name
+                    - azure_container_name
+                    - azure_shared_token
+                    - azure_path
+                  default_params:
+                    type: object
+                    properties: {}
+                    x-apidog-orders: []
+                  request_headers:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                      x-apidog-orders: []
+                  subdomain:
+                    type: string
+                  is_active:
+                    type: boolean
+                  secure_urls:
+                    type: boolean
+                    description: Gives information if signed URLs are enabled.
+                  secure_token:
+                    type: string
+                    description: This is the token that you can use to sign URLs.
+                  imgix:
+                    type: object
+                    properties: {}
+                    x-apidog-orders: []
+                  hetzner:
+                    type: object
+                    properties: {}
+                    x-apidog-orders: []
+                  fallback_origins:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - dostorage
+                          - aws
+                          - wasabi
+                          - hetzner
+                          - backblaze
+                          - webfolder
+                          - gcs
+                          - azure
+                          - cloudflare
+                          - imgix
+                          - cloudinary
+                          - proxy
+                          - wordpress
+                          - linode
+                          x-apidog-enum:
+                          - value: proxy
+                            name: ''
+                            description: ''
+                        conditions:
+                          type: array
+                          items:
+                            type: string
+                        replace_operation:
+                          type: object
+                          properties:
+                            from:
+                              type: string
+                            to:
+                              type: string
+                          x-apidog-orders:
+                          - from
+                          - to
+                        webfolder:
+                          type: object
+                          description: This is a required field if source type is webfolder.
+                          properties:
+                            base_url:
+                              type: string
+                          x-apidog-orders:
+                          - base_url
+                        aws:
+                          type: object
+                          description: This is a required field if source type is aws.
+                          required:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          properties:
+                            bucket_name:
+                              type: string
+                            bucket_region:
+                              type: string
+                            access_key:
+                              type: string
+                            secret:
+                              type: string
+                            base_path:
+                              type: string
+                            endpoint:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          - base_path
+                          - endpoint
+                        proxy:
+                          type: object
+                          description: This is a required field if source type is proxy.
+                          required:
+                          - whitelisted_domains
+                          properties:
+                            whitelisted_domains:
+                              type: string
+                          x-apidog-orders:
+                          - whitelisted_domains
+                        gcs:
+                          type: object
+                          description: This is a required field if source type is gcs.
+                          required:
+                          - bucket_name
+                          - service_account_key
+                          properties:
+                            bucket_name:
+                              type: string
+                            service_account_key:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - service_account_key
+                        dostorage:
+                          type: object
+                          description: This is a required field if source type is dostorage.
+                          required:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          properties:
+                            bucket_name:
+                              type: string
+                            bucket_region:
+                              type: string
+                            access_key:
+                              type: string
+                            secret:
+                              type: string
+                            base_path:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          - base_path
+                        wasabi:
+                          type: object
+                          description: This is a required field if source type is wasabi.
+                          required:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          properties:
+                            bucket_name:
+                              type: string
+                            bucket_region:
+                              type: string
+                            access_key:
+                              type: string
+                            secret:
+                              type: string
+                            base_path:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          - base_path
+                        linode:
+                          type: object
+                          description: This is a required field if source type is linode.
+                          required:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          properties:
+                            bucket_name:
+                              type: string
+                            bucket_region:
+                              type: string
+                            access_key:
+                              type: string
+                            secret:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                        backblaze:
+                          type: object
+                          description: This is a required field if source type is backblaze.
+                          required:
+                          - bucket_name
+                          - access_key
+                          - secret
+                          properties:
+                            bucket_name:
+                              type: string
+                            bucket_region:
+                              type: string
+                              description: bucket_region or endpoint
+                            endpoint:
+                              type: string
+                              description: bucket_region or endpoint
+                            access_key:
+                              type: string
+                            secret:
+                              type: string
+                            base_path:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - bucket_region
+                          - endpoint
+                          - access_key
+                          - secret
+                          - base_path
+                        cloudflare:
+                          type: object
+                          description: This is a required field if source type is cloudflare.
+                          required:
+                          - bucket_name
+                          - access_key
+                          - account_id
+                          - secret
+                          properties:
+                            bucket_name:
+                              type: string
+                            access_key:
+                              type: string
+                            account_id:
+                              type: string
+                            secret:
+                              type: string
+                            base_path:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - access_key
+                          - account_id
+                          - secret
+                          - base_path
+                        cloudinary:
+                          type: object
+                          description: This is a required field if source type is cloudinary.
+                          required:
+                          - host_name
+                          - cloud_name
+                          properties:
+                            host_name:
+                              type: string
+                            cloud_name:
+                              type: string
+                          x-apidog-orders:
+                          - host_name
+                          - cloud_name
+                        azure:
+                          type: object
+                          description: This is a required field if source type is azure.
+                          required:
+                          - azure_account_name
+                          - azure_container_name
+                          - azure_shared_token
+                          - azure_path
+                          properties:
+                            azure_account_name:
+                              type: string
+                            azure_container_name:
+                              type: string
+                            azure_shared_token:
+                              type: string
+                            azure_path:
+                              type: string
+                          x-apidog-orders:
+                          - azure_account_name
+                          - azure_container_name
+                          - azure_shared_token
+                          - azure_path
+                        _id:
+                          type: string
+                        hetzner:
+                          type: object
+                          properties: {}
+                          x-apidog-orders: []
+                        imgix:
+                          type: object
+                          properties: {}
+                          x-apidog-orders: []
+                      x-apidog-orders:
+                      - name
+                      - _id
+                      - type
+                      - conditions
+                      - replace_operation
+                      - webfolder
+                      - aws
+                      - proxy
+                      - gcs
+                      - dostorage
+                      - wasabi
+                      - linode
+                      - backblaze
+                      - cloudflare
+                      - cloudinary
+                      - azure
+                      - hetzner
+                      - imgix
+                      required:
+                      - name
+                      - type
+                  wordpress:
+                    type: object
+                    properties:
+                      website_url:
+                        type: string
+                    x-apidog-orders:
+                    - website_url
+                    required:
+                    - website_url
+                  response_headers:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                      x-apidog-orders: []
+                x-examples:
+                  Example 1:
+                    id: 58bfdbace74f4f000123b4ac
+                    namespace: demo
+                    type: dostorage
+                    cdn_type: third_party
+                    cdn_cache_time: 31536000
+                    canonical_url: false
+                    browser_cache_time: 8640000
+                    is_cloudfront: false
+                    created_at: '2017-03-08T10:23:40.422Z'
+                    updated_at: '2026-03-25T11:18:02.877Z'
+                    dostorage:
+                      bucket_name: gumlet
+                      bucket_region: sgp1
+                      base_path: /public/img
+                      access_key: DO801YUPB6PA8L7CMFNC
+                      secret: '****************'
+                    default_params: {}
+                    request_headers: []
+                    subdomain: demo.gumlet.io
+                    is_active: true
+                x-apidog-orders:
+                - id
+                - namespace
+                - type
+                - cdn_type
+                - cdn_cache_time
+                - canonical_url
+                - browser_cache_time
+                - is_cloudfront
+                - created_at
+                - updated_at
+                - webfolder
+                - aws
+                - proxy
+                - gcs
+                - dostorage
+                - wasabi
+                - linode
+                - backblaze
+                - cloudflare
+                - cloudinary
+                - azure
+                - default_params
+                - request_headers
+                - subdomain
+                - is_active
+                - secure_urls
+                - secure_token
+                - imgix
+                - hetzner
+                - fallback_origins
+                - wordpress
+                - response_headers
+                required:
+                - type
+                - namespace
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any image source with the specified source_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any image source with the specified source_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      parameters:
+      - in: path
+        name: image_source_id
+        description: Image source id. You can get it on Gumlet dashboard or using list sources API endpoint.
+        schema:
+          type: string
+        required: true
+      operationId: get_image-sources-source-id
+      tags:
+      - Image Sources
+      x-stoplight:
+        id: npgcaxb2d1coo
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst imageSource = await client.imageSources.retrieve('imageSourceId');\n\
+          \nconsole.log(imageSource);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nimage_source = client.image_sources.retrieve(\n    image_source_id=\"imageSourceId\"\
+          ,\n)\n\nprint(image_source)"
+    post:
+      summary: Update Source
+      description: This endpoint allows users to update image source that has previously been created.
+      operationId: update-image-source
+      parameters:
+      - name: image_source_id
+        in: path
+        description: image source id which you want to update
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - proxy
+                  - direct-upload
+                  - webfolder
+                  - aws
+                  - gcs
+                  - dostorage
+                  - wasabi
+                  - cloudinary
+                  - azure
+                  - linode
+                  - backblaze
+                  - cloudflare
+                webfolder:
+                  type: object
+                  description: This is a required field if source type is webfolder.
+                  properties:
+                    base_url:
+                      type: string
+                  x-apidog-orders:
+                  - base_url
+                aws:
+                  type: object
+                  description: This is a required field if source type is aws.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                    endpoint:
+                      type: string
+                  x-apidog-orders:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  - base_path
+                  - endpoint
+                proxy:
+                  type: object
+                  description: This is a required field if source type is proxy.
+                  required:
+                  - whitelisted_domains
+                  properties:
+                    whitelisted_domains:
+                      type: string
+                  x-apidog-orders:
+                  - whitelisted_domains
+                gcs:
+                  type: object
+                  description: This is a required field if source type is gcs.
+                  required:
+                  - bucket_name
+                  - service_account_key
+                  properties:
+                    bucket_name:
+                      type: string
+                    service_account_key:
+                      type: string
+                  x-apidog-orders:
+                  - bucket_name
+                  - service_account_key
+                dostorage:
+                  type: object
+                  description: This is a required field if source type is dostorage.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                  x-apidog-orders:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  - base_path
+                wasabi:
+                  type: object
+                  description: This is a required field if source type is wasabi.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                  x-apidog-orders:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  - base_path
+                linode:
+                  type: object
+                  description: This is a required field if source type is linode.
+                  required:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                  x-apidog-orders:
+                  - bucket_name
+                  - bucket_region
+                  - access_key
+                  - secret
+                backblaze:
+                  type: object
+                  description: This is a required field if source type is backblaze.
+                  required:
+                  - bucket_name
+                  - access_key
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    bucket_region:
+                      type: string
+                      description: bucket_region or endpoint
+                    endpoint:
+                      type: string
+                      description: bucket_region or endpoint
+                    access_key:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                  x-apidog-orders:
+                  - bucket_name
+                  - bucket_region
+                  - endpoint
+                  - access_key
+                  - secret
+                  - base_path
+                cloudflare:
+                  type: object
+                  description: This is a required field if source type is cloudflare.
+                  required:
+                  - bucket_name
+                  - access_key
+                  - account_id
+                  - secret
+                  properties:
+                    bucket_name:
+                      type: string
+                    access_key:
+                      type: string
+                    account_id:
+                      type: string
+                    secret:
+                      type: string
+                    base_path:
+                      type: string
+                  x-apidog-orders:
+                  - bucket_name
+                  - access_key
+                  - account_id
+                  - secret
+                  - base_path
+                cloudinary:
+                  type: object
+                  description: This is a required field if source type is cloudinary.
+                  required:
+                  - host_name
+                  - cloud_name
+                  properties:
+                    host_name:
+                      type: string
+                    cloud_name:
+                      type: string
+                  x-apidog-orders:
+                  - host_name
+                  - cloud_name
+                azure:
+                  type: object
+                  description: This is a required field if source type is azure.
+                  required:
+                  - azure_account_name
+                  - azure_container_name
+                  - azure_shared_token
+                  - azure_path
+                  properties:
+                    azure_account_name:
+                      type: string
+                    azure_container_name:
+                      type: string
+                    azure_shared_token:
+                      type: string
+                    azure_path:
+                      type: string
+                  x-apidog-orders:
+                  - azure_account_name
+                  - azure_container_name
+                  - azure_shared_token
+                  - azure_path
+                default_params:
+                  type: object
+                  x-stoplight:
+                    id: uevurxwukxwph
+                  properties: {}
+                  x-apidog-orders: []
+                error_image:
+                  type: string
+                  x-stoplight:
+                    id: vsfn5j2zepna2
+                  description: URL for error image to display when we get broken image from your origin.
+                request_headers:
+                  type: array
+                  x-stoplight:
+                    id: jfv8jngxfn44y
+                  items:
+                    x-stoplight:
+                      id: b4zme1scx0vau
+                    type: object
+                    properties: {}
+                    x-apidog-orders: []
+                response_headers:
+                  type: array
+                  x-stoplight:
+                    id: 3c37705m1vqtv
+                  items:
+                    x-stoplight:
+                      id: h991rmiuuck50
+                    type: object
+                    properties: {}
+                    x-apidog-orders: []
+                temp_cname:
+                  type: array
+                  x-stoplight:
+                    id: nycpttbt3ubkv
+                  items:
+                    x-stoplight:
+                      id: uiq0l25kmsvrr
+                    type: string
+                browser_cache_time:
+                  type: integer
+                  x-stoplight:
+                    id: xfsu66pc7m5ok
+                  format: int32
+                  description: Browser cache time in seconds. For example setting this to 3600 caches
+                    the image in browser for 3600 seconds (1 hour)
+                cdn_cache_time:
+                  type: integer
+                  x-stoplight:
+                    id: 9g2k0iyj9vq86
+                  format: int32
+                  description: CDN cache time in seconds.
+                is_active:
+                  type: boolean
+                  x-stoplight:
+                    id: l0wilhnm9rcwn
+                  description: Enable / disable source.
+                cname:
+                  type: array
+                  items:
+                    type: string
+                  description: List of verified CNAMEs
+                fallback_origins:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      conditions:
+                        type: array
+                        items:
+                          type: string
+                      name:
+                        type: string
+                        description: Name of fallback
+                      type:
+                        type: string
+                        description: Type of fallback origin
+                        enum:
+                        - dostorage
+                        - aws
+                        - wasabi
+                        - hetzner
+                        - backblaze
+                        - webfolder
+                        - gcs
+                        - azure
+                        - cloudflare
+                        - imgix
+                        - cloudinary
+                        - proxy
+                        - wordpress
+                        - linode
+                        x-apidog-enum:
+                        - value: proxy
+                          name: ''
+                          description: ''
+                      replace_operation:
+                        type: object
+                        properties:
+                          from:
+                            type: string
+                          to:
+                            type: string
+                        x-apidog-orders:
+                        - from
+                        - to
+                      webfolder:
+                        type: object
+                        description: This is a required field if source type is webfolder.
+                        properties:
+                          base_url:
+                            type: string
+                        x-apidog-orders:
+                        - base_url
+                      aws:
+                        type: object
+                        description: This is a required field if source type is aws.
+                        required:
+                        - bucket_name
+                        - bucket_region
+                        - access_key
+                        - secret
+                        properties:
+                          bucket_name:
+                            type: string
+                          bucket_region:
+                            type: string
+                          access_key:
+                            type: string
+                          secret:
+                            type: string
+                          base_path:
+                            type: string
+                          endpoint:
+                            type: string
+                        x-apidog-orders:
+                        - bucket_name
+                        - bucket_region
+                        - access_key
+                        - secret
+                        - base_path
+                        - endpoint
+                      proxy:
+                        type: object
+                        description: This is a required field if source type is proxy.
+                        required:
+                        - whitelisted_domains
+                        properties:
+                          whitelisted_domains:
+                            type: string
+                        x-apidog-orders:
+                        - whitelisted_domains
+                      gcs:
+                        type: object
+                        description: This is a required field if source type is gcs.
+                        required:
+                        - bucket_name
+                        - service_account_key
+                        properties:
+                          bucket_name:
+                            type: string
+                          service_account_key:
+                            type: string
+                        x-apidog-orders:
+                        - bucket_name
+                        - service_account_key
+                      dostorage:
+                        type: object
+                        description: This is a required field if source type is dostorage.
+                        required:
+                        - bucket_name
+                        - bucket_region
+                        - access_key
+                        - secret
+                        properties:
+                          bucket_name:
+                            type: string
+                          bucket_region:
+                            type: string
+                          access_key:
+                            type: string
+                          secret:
+                            type: string
+                          base_path:
+                            type: string
+                        x-apidog-orders:
+                        - bucket_name
+                        - bucket_region
+                        - access_key
+                        - secret
+                        - base_path
+                      wasabi:
+                        type: object
+                        description: This is a required field if source type is wasabi.
+                        required:
+                        - bucket_name
+                        - bucket_region
+                        - access_key
+                        - secret
+                        properties:
+                          bucket_name:
+                            type: string
+                          bucket_region:
+                            type: string
+                          access_key:
+                            type: string
+                          secret:
+                            type: string
+                          base_path:
+                            type: string
+                        x-apidog-orders:
+                        - bucket_name
+                        - bucket_region
+                        - access_key
+                        - secret
+                        - base_path
+                      linode:
+                        type: object
+                        description: This is a required field if source type is linode.
+                        required:
+                        - bucket_name
+                        - bucket_region
+                        - access_key
+                        - secret
+                        properties:
+                          bucket_name:
+                            type: string
+                          bucket_region:
+                            type: string
+                          access_key:
+                            type: string
+                          secret:
+                            type: string
+                        x-apidog-orders:
+                        - bucket_name
+                        - bucket_region
+                        - access_key
+                        - secret
+                      backblaze:
+                        type: object
+                        description: This is a required field if source type is backblaze.
+                        required:
+                        - bucket_name
+                        - access_key
+                        - secret
+                        properties:
+                          bucket_name:
+                            type: string
+                          bucket_region:
+                            type: string
+                            description: bucket_region or endpoint
+                          endpoint:
+                            type: string
+                            description: bucket_region or endpoint
+                          access_key:
+                            type: string
+                          secret:
+                            type: string
+                          base_path:
+                            type: string
+                        x-apidog-orders:
+                        - bucket_name
+                        - bucket_region
+                        - endpoint
+                        - access_key
+                        - secret
+                        - base_path
+                      cloudflare:
+                        type: object
+                        description: This is a required field if source type is cloudflare.
+                        required:
+                        - bucket_name
+                        - access_key
+                        - account_id
+                        - secret
+                        properties:
+                          bucket_name:
+                            type: string
+                          access_key:
+                            type: string
+                          account_id:
+                            type: string
+                          secret:
+                            type: string
+                          base_path:
+                            type: string
+                        x-apidog-orders:
+                        - bucket_name
+                        - access_key
+                        - account_id
+                        - secret
+                        - base_path
+                      cloudinary:
+                        type: object
+                        description: This is a required field if source type is cloudinary.
+                        required:
+                        - host_name
+                        - cloud_name
+                        properties:
+                          host_name:
+                            type: string
+                          cloud_name:
+                            type: string
+                        x-apidog-orders:
+                        - host_name
+                        - cloud_name
+                      azure:
+                        type: object
+                        description: This is a required field if source type is azure.
+                        required:
+                        - azure_account_name
+                        - azure_container_name
+                        - azure_shared_token
+                        - azure_path
+                        properties:
+                          azure_account_name:
+                            type: string
+                          azure_container_name:
+                            type: string
+                          azure_shared_token:
+                            type: string
+                          azure_path:
+                            type: string
+                        x-apidog-orders:
+                        - azure_account_name
+                        - azure_container_name
+                        - azure_shared_token
+                        - azure_path
+                    x-apidog-orders:
+                    - conditions
+                    - name
+                    - replace_operation
+                    - type
+                    - webfolder
+                    - aws
+                    - proxy
+                    - gcs
+                    - dostorage
+                    - wasabi
+                    - linode
+                    - backblaze
+                    - cloudflare
+                    - cloudinary
+                    - azure
+                    required:
+                    - conditions
+                    - name
+                    - type
+                    - replace_operation
+                  description: List of fallback origins
+              x-apidog-orders:
+              - type
+              - webfolder
+              - aws
+              - proxy
+              - gcs
+              - dostorage
+              - wasabi
+              - linode
+              - backblaze
+              - cloudflare
+              - cloudinary
+              - azure
+              - default_params
+              - error_image
+              - request_headers
+              - response_headers
+              - temp_cname
+              - browser_cache_time
+              - cdn_cache_time
+              - is_active
+              - cname
+              - fallback_origins
+            examples:
+              Request Example:
+                value:
+                  default_profile_id: 646df1c9173a4a2fcac180b7
+                  name: awsrename
+                  type: aws
+                  aws:
+                    bucket_name: my-bucket-test
+                    bucket_region: ap-southeast-1
+                    access_key: BQUA6QFXVWHAAB6IO2X1
+                    secret: aws_secret
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    id: 653cc238411da17d32d9aefc
+                    namespace: gumlet-blog-content
+                    type: webfolder
+                    cdn_type: third_party
+                    cdn_cache_time: 8640000
+                    canonical_url: true
+                    browser_cache_time: 8640000
+                    is_cloudfront: false
+                    created_at: '2023-10-28T08:11:36.943Z'
+                    updated_at: '2026-08-19T03:50:26.098Z'
+                    webfolder:
+                      base_url: https://www.gumlet.co
+                    default_params:
+                      format: auto
+                      compress: 'true'
+                    subdomain: gumlet-blog-content.gumlet.io
+                    is_active: true
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  namespace:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                    - dostorage
+                    - aws
+                    - wasabi
+                    - hetzner
+                    - backblaze
+                    - webfolder
+                    - gcs
+                    - azure
+                    - cloudflare
+                    - imgix
+                    - cloudinary
+                    - proxy
+                    - wordpress
+                    - linode
+                    x-apidog-enum:
+                    - value: proxy
+                      name: ''
+                      description: ''
+                  cdn_type:
+                    type: string
+                  cdn_cache_time:
+                    type: integer
+                  canonical_url:
+                    type: boolean
+                  browser_cache_time:
+                    type: integer
+                  is_cloudfront:
+                    type: boolean
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+                  webfolder:
+                    type: object
+                    description: This is a required field if source type is webfolder.
+                    properties:
+                      base_url:
+                        type: string
+                    x-apidog-orders:
+                    - base_url
+                  aws:
+                    type: object
+                    description: This is a required field if source type is aws.
+                    required:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                    properties:
+                      bucket_name:
+                        type: string
+                      bucket_region:
+                        type: string
+                      access_key:
+                        type: string
+                      secret:
+                        type: string
+                      base_path:
+                        type: string
+                      endpoint:
+                        type: string
+                    x-apidog-orders:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                    - base_path
+                    - endpoint
+                  proxy:
+                    type: object
+                    description: This is a required field if source type is proxy.
+                    required:
+                    - whitelisted_domains
+                    properties:
+                      whitelisted_domains:
+                        type: string
+                    x-apidog-orders:
+                    - whitelisted_domains
+                  fallback_origins:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        type:
+                          type: string
+                          enum:
+                          - dostorage
+                          - aws
+                          - wasabi
+                          - hetzner
+                          - backblaze
+                          - webfolder
+                          - gcs
+                          - azure
+                          - cloudflare
+                          - imgix
+                          - cloudinary
+                          - proxy
+                          - wordpress
+                          - linode
+                          x-apidog-enum:
+                          - value: proxy
+                            name: ''
+                            description: ''
+                        conditions:
+                          type: array
+                          items:
+                            type: string
+                        replace_operation:
+                          type: object
+                          properties:
+                            from:
+                              type: string
+                            to:
+                              type: string
+                          x-apidog-orders:
+                          - from
+                          - to
+                        webfolder:
+                          type: object
+                          description: This is a required field if source type is webfolder.
+                          properties:
+                            base_url:
+                              type: string
+                          x-apidog-orders:
+                          - base_url
+                        aws:
+                          type: object
+                          description: This is a required field if source type is aws.
+                          required:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          properties:
+                            bucket_name:
+                              type: string
+                            bucket_region:
+                              type: string
+                            access_key:
+                              type: string
+                            secret:
+                              type: string
+                            base_path:
+                              type: string
+                            endpoint:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          - base_path
+                          - endpoint
+                        proxy:
+                          type: object
+                          description: This is a required field if source type is proxy.
+                          required:
+                          - whitelisted_domains
+                          properties:
+                            whitelisted_domains:
+                              type: string
+                          x-apidog-orders:
+                          - whitelisted_domains
+                        gcs:
+                          type: object
+                          description: This is a required field if source type is gcs.
+                          required:
+                          - bucket_name
+                          - service_account_key
+                          properties:
+                            bucket_name:
+                              type: string
+                            service_account_key:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - service_account_key
+                        dostorage:
+                          type: object
+                          description: This is a required field if source type is dostorage.
+                          required:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          properties:
+                            bucket_name:
+                              type: string
+                            bucket_region:
+                              type: string
+                            access_key:
+                              type: string
+                            secret:
+                              type: string
+                            base_path:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          - base_path
+                        wasabi:
+                          type: object
+                          description: This is a required field if source type is wasabi.
+                          required:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          properties:
+                            bucket_name:
+                              type: string
+                            bucket_region:
+                              type: string
+                            access_key:
+                              type: string
+                            secret:
+                              type: string
+                            base_path:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          - base_path
+                        linode:
+                          type: object
+                          description: This is a required field if source type is linode.
+                          required:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                          properties:
+                            bucket_name:
+                              type: string
+                            bucket_region:
+                              type: string
+                            access_key:
+                              type: string
+                            secret:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - bucket_region
+                          - access_key
+                          - secret
+                        backblaze:
+                          type: object
+                          description: This is a required field if source type is backblaze.
+                          required:
+                          - bucket_name
+                          - access_key
+                          - secret
+                          properties:
+                            bucket_name:
+                              type: string
+                            bucket_region:
+                              type: string
+                              description: bucket_region or endpoint
+                            endpoint:
+                              type: string
+                              description: bucket_region or endpoint
+                            access_key:
+                              type: string
+                            secret:
+                              type: string
+                            base_path:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - bucket_region
+                          - endpoint
+                          - access_key
+                          - secret
+                          - base_path
+                        cloudflare:
+                          type: object
+                          description: This is a required field if source type is cloudflare.
+                          required:
+                          - bucket_name
+                          - access_key
+                          - account_id
+                          - secret
+                          properties:
+                            bucket_name:
+                              type: string
+                            access_key:
+                              type: string
+                            account_id:
+                              type: string
+                            secret:
+                              type: string
+                            base_path:
+                              type: string
+                          x-apidog-orders:
+                          - bucket_name
+                          - access_key
+                          - account_id
+                          - secret
+                          - base_path
+                        cloudinary:
+                          type: object
+                          description: This is a required field if source type is cloudinary.
+                          required:
+                          - host_name
+                          - cloud_name
+                          properties:
+                            host_name:
+                              type: string
+                            cloud_name:
+                              type: string
+                          x-apidog-orders:
+                          - host_name
+                          - cloud_name
+                        azure:
+                          type: object
+                          description: This is a required field if source type is azure.
+                          required:
+                          - azure_account_name
+                          - azure_container_name
+                          - azure_shared_token
+                          - azure_path
+                          properties:
+                            azure_account_name:
+                              type: string
+                            azure_container_name:
+                              type: string
+                            azure_shared_token:
+                              type: string
+                            azure_path:
+                              type: string
+                          x-apidog-orders:
+                          - azure_account_name
+                          - azure_container_name
+                          - azure_shared_token
+                          - azure_path
+                        _id:
+                          type: string
+                        hetzner:
+                          type: object
+                          properties: {}
+                          x-apidog-orders: []
+                        imgix:
+                          type: object
+                          properties: {}
+                          x-apidog-orders: []
+                      x-apidog-orders:
+                      - name
+                      - type
+                      - conditions
+                      - replace_operation
+                      - webfolder
+                      - aws
+                      - proxy
+                      - gcs
+                      - dostorage
+                      - wasabi
+                      - linode
+                      - backblaze
+                      - cloudflare
+                      - cloudinary
+                      - azure
+                      - hetzner
+                      - imgix
+                      - _id
+                      required:
+                      - name
+                      - type
+                  gcs:
+                    type: object
+                    description: This is a required field if source type is gcs.
+                    required:
+                    - bucket_name
+                    - service_account_key
+                    properties:
+                      bucket_name:
+                        type: string
+                      service_account_key:
+                        type: string
+                    x-apidog-orders:
+                    - bucket_name
+                    - service_account_key
+                  dostorage:
+                    type: object
+                    description: This is a required field if source type is dostorage.
+                    required:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                    properties:
+                      bucket_name:
+                        type: string
+                      bucket_region:
+                        type: string
+                      access_key:
+                        type: string
+                      secret:
+                        type: string
+                      base_path:
+                        type: string
+                    x-apidog-orders:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                    - base_path
+                  wasabi:
+                    type: object
+                    description: This is a required field if source type is wasabi.
+                    required:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                    properties:
+                      bucket_name:
+                        type: string
+                      bucket_region:
+                        type: string
+                      access_key:
+                        type: string
+                      secret:
+                        type: string
+                      base_path:
+                        type: string
+                    x-apidog-orders:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                    - base_path
+                  linode:
+                    type: object
+                    description: This is a required field if source type is linode.
+                    required:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                    properties:
+                      bucket_name:
+                        type: string
+                      bucket_region:
+                        type: string
+                      access_key:
+                        type: string
+                      secret:
+                        type: string
+                    x-apidog-orders:
+                    - bucket_name
+                    - bucket_region
+                    - access_key
+                    - secret
+                  backblaze:
+                    type: object
+                    description: This is a required field if source type is backblaze.
+                    required:
+                    - bucket_name
+                    - access_key
+                    - secret
+                    properties:
+                      bucket_name:
+                        type: string
+                      bucket_region:
+                        type: string
+                        description: bucket_region or endpoint
+                      endpoint:
+                        type: string
+                        description: bucket_region or endpoint
+                      access_key:
+                        type: string
+                      secret:
+                        type: string
+                      base_path:
+                        type: string
+                    x-apidog-orders:
+                    - bucket_name
+                    - bucket_region
+                    - endpoint
+                    - access_key
+                    - secret
+                    - base_path
+                  cloudflare:
+                    type: object
+                    description: This is a required field if source type is cloudflare.
+                    required:
+                    - bucket_name
+                    - access_key
+                    - account_id
+                    - secret
+                    properties:
+                      bucket_name:
+                        type: string
+                      access_key:
+                        type: string
+                      account_id:
+                        type: string
+                      secret:
+                        type: string
+                      base_path:
+                        type: string
+                    x-apidog-orders:
+                    - bucket_name
+                    - access_key
+                    - account_id
+                    - secret
+                    - base_path
+                  cloudinary:
+                    type: object
+                    description: This is a required field if source type is cloudinary.
+                    required:
+                    - host_name
+                    - cloud_name
+                    properties:
+                      host_name:
+                        type: string
+                      cloud_name:
+                        type: string
+                    x-apidog-orders:
+                    - host_name
+                    - cloud_name
+                  azure:
+                    type: object
+                    description: This is a required field if source type is azure.
+                    required:
+                    - azure_account_name
+                    - azure_container_name
+                    - azure_shared_token
+                    - azure_path
+                    properties:
+                      azure_account_name:
+                        type: string
+                      azure_container_name:
+                        type: string
+                      azure_shared_token:
+                        type: string
+                      azure_path:
+                        type: string
+                    x-apidog-orders:
+                    - azure_account_name
+                    - azure_container_name
+                    - azure_shared_token
+                    - azure_path
+                  default_params:
+                    type: object
+                    properties: {}
+                    x-apidog-orders: []
+                  request_headers:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                      x-apidog-orders: []
+                  subdomain:
+                    type: string
+                  is_active:
+                    type: boolean
+                  secure_urls:
+                    type: boolean
+                  secure_token:
+                    type: string
+                  response_headers:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                      x-apidog-orders: []
+                  imgix:
+                    type: object
+                    properties: {}
+                    x-apidog-orders: []
+                x-apidog-orders:
+                - id
+                - namespace
+                - type
+                - cdn_type
+                - cdn_cache_time
+                - canonical_url
+                - browser_cache_time
+                - is_cloudfront
+                - created_at
+                - updated_at
+                - webfolder
+                - aws
+                - proxy
+                - gcs
+                - dostorage
+                - wasabi
+                - linode
+                - backblaze
+                - cloudflare
+                - cloudinary
+                - azure
+                - imgix
+                - default_params
+                - request_headers
+                - subdomain
+                - is_active
+                - secure_urls
+                - secure_token
+                - response_headers
+                - fallback_origins
+                required:
+                - type
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: parameter_missing
+                      message: One or more required values are missing.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: parameter_missing
+                      message:
+                        type: string
+                        example: One or more required values are missing.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any image source with the specified source_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any image source with the specified source_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      deprecated: false
+      tags:
+      - Image Sources
+      x-stoplight:
+        id: eik63l5w65q6w
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst imageSource = await client.imageSources.update('imageSourceId');\n\
+          \nconsole.log(imageSource);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nimage_source = client.image_sources.update(\n    image_source_id=\"imageSourceId\"\
+          ,\n    type=\"aws\",\n    aws={\n        \"bucket_name\": \"my-bucket-test\",\n        \"bucket_region\"\
+          : \"ap-southeast-1\",\n        \"access_key\": \"BQUA6QFXVWHAAB6IO2X1\",\n        \"secret\"\
+          : \"aws_secret\",\n    },\n)\n\nprint(image_source)"
+    delete:
+      summary: Delete Source
+      description: This endpoint removes a image source. All image delivery using this subdomain will
+        be stopped.
+      operationId: delete-source
+      parameters:
+      - name: image_source_id
+        description: Image source ID to delete. You can get this on Gumlet dashboard or in list source
+          API.
+        in: path
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: {}
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any image source with the specified source_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any image source with the specified source_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any image source with the specified source_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any image source with the specified source_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      deprecated: false
+      tags:
+      - Image Sources
+      x-stoplight:
+        id: bbevpkv6hdvi3
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst imageSource = await client.imageSources.delete('imageSourceId');\n\
+          \nconsole.log(imageSource);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nimage_source = client.image_sources.delete(\n    image_source_id=\"imageSourceId\"\
+          ,\n)\n\nprint(image_source)"
+  /purge/{subdomain}:
+    post:
+      summary: Purge Cache
+      description: You can purge cache for any image by using our cache purge API.
+      operationId: purge-image-cache
+      parameters:
+      - name: subdomain
+        in: path
+        description: Subdomain is same subdomain you created while creating source. If you serve image
+          from example.gumlet.com, please enter only 'example' for this parameter.
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paths:
+                  type: array
+                  description: An array of path of images to purge. It should be provided without any
+                    query parameters.
+                  items:
+                    type: string
+            examples:
+              Example 1:
+                value:
+                  paths:
+                  - image.jpeg
+                  - image2.png
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    status: pending
+              schema:
+                title: ''
+                type: object
+                properties:
+                  status:
+                    type: string
+                x-apidog-orders:
+                - status
+                required:
+                - status
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_parameter_value
+                      message: The parameter value is invalid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_parameter_value
+                      message:
+                        type: string
+                        example: The parameter value is invalid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: true
+      tags:
+      - Image Sources
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst imageSource = await client.imageSources.purgeCache('subdomain');\n\
+          \nconsole.log(imageSource);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nimage_source = client.image_sources.purge_cache(\n    subdomain=\"subdomain\"\
+          ,\n    paths=[\"image.jpeg\", \"image2.png\"],\n)\n\nprint(image_source)"
+  /image/purge/{source_id}:
+    post:
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                x-apidog-orders:
+                - status
+                required:
+                - status
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any image source with the specified source_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any image source with the specified source_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      summary: Purge Image Cache
+      operationId: image-purge
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                paths:
+                  type: array
+                  items:
+                    type: string
+                  description: An array of path of images to purge. It should be provided without any
+                    query parameters.
+              x-apidog-orders:
+              - paths
+              required:
+              - paths
+            examples:
+              Example 1:
+                value:
+                  paths:
+                  - image.jpeg
+                  - image2.png
+      description: You can purge the cache for any image path by using this cache purge API.
+      tags:
+      - Image Sources
+      parameters:
+      - name: source_id
+        in: path
+        description: Image Source ID
+        schema:
+          type: string
+        required: true
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst imageSource = await client.imageSources.purge('sourceId',\
+          \ { paths: ['image.jpeg', 'image2.png'] });\n\nconsole.log(imageSource);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nimage_source = client.image_sources.purge(\n    source_id=\"sourceId\",\n\
+          \    paths=[\"image.jpeg\", \"image2.png\"],\n)\n\nprint(image_source)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

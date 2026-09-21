@@ -1,0 +1,509 @@
+generated: '2026-09-21'
+method: derived
+source: https://mcp.gumlet.com/mcp tools/list (probed 2026-09-21) bound to openapi/_original/gumlet-openapi.json
+  operationIds
+name: Gumlet MCP ↔ REST Tool Crosswalk
+surfaces:
+  openapi: openapi/_original/gumlet-openapi.json (89 operations, api.gumlet.com/v1)
+  mcp: https://mcp.gumlet.com/mcp (remote, 74 tools, anonymous tools/list)
+  graphql: null
+coverage:
+  mcp_tools: 74
+  crosswalked: 74
+  rest_operations: 89
+  rest_only: 15
+crosswalk:
+- tool: create_asset
+  category: Video Assets
+  rest:
+  - create-asset
+  binding: POST /video/assets
+  confidence: high
+- tool: create_asset_direct_upload
+  category: Video Assets
+  rest:
+  - create-asset-direct-upload
+  binding: POST /video/assets/upload
+  confidence: high
+- tool: get_asset_details
+  category: Video Assets
+  rest:
+  - get-asset-details
+  binding: GET /video/assets/{asset_id}
+  confidence: high
+- tool: delete_asset
+  category: Video Assets
+  rest:
+  - delete-asset
+  binding: DELETE /video/assets/{asset_id}
+  confidence: high
+- tool: update_asset
+  category: Video Assets
+  rest:
+  - update-asset
+  binding: POST /video/assets/update
+  confidence: high
+- tool: thumbnail_select
+  category: Video Assets
+  rest:
+  - thumbnail-select
+  binding: POST /video/assets/{asset_id}/thumbnail-select
+  confidence: high
+- tool: thumbnail_upload
+  category: Video Assets
+  rest:
+  - thumbnail-upload
+  binding: POST /video/assets/{asset_ID}/thumbnail
+  confidence: high
+- tool: upload_subtitles
+  category: Subtitle Upload
+  rest:
+  - upload-subtitles
+  binding: POST /video/assets/{asset_ID}/subtitle/upload
+  confidence: high
+- tool: complete_subtitle_upload
+  category: Subtitle Upload
+  rest:
+  - complete-subtitle-upload
+  binding: POST /video/assets/{asset_ID}/subtitle/upload/event
+  confidence: high
+- tool: asset_audio_upload
+  category: Audio Upload
+  rest:
+  - asset-audio-upload
+  binding: POST /video/assets/{asset_ID}/audio/upload
+  confidence: high
+- tool: complete_audio_upload
+  category: Audio Upload
+  rest:
+  - complete-audio-upload
+  binding: POST /video/assets/{asset_ID}/audio/upload/event
+  confidence: high
+- tool: create_update_chapter
+  category: Video Assets
+  rest:
+  - create-update-chapter
+  binding: POST /video/assets/{asset_id}/chapters
+  confidence: high
+- tool: retrieve_analytics
+  category: Video Usage Analytics
+  rest:
+  - retrieve-analytics
+  binding: POST /video/analytics
+  confidence: high
+- tool: top_assets
+  category: Video Usage Analytics
+  rest:
+  - top-assets
+  binding: GET /video/streaming-duration
+  confidence: high
+- tool: retrieve_part_url
+  category: Multipart Upload
+  rest:
+  - retrieve-part-url
+  binding: GET /video/assets/{asset_id}/multipartupload/{part_number}/sign
+  confidence: high
+- tool: complete_multipart_upload
+  category: Multipart Upload
+  rest:
+  - complete-multipart-upload
+  binding: POST /video/assets/{asset_id}/multipartupload/complete
+  confidence: high
+- tool: list_profiles
+  category: Video Profiles
+  rest:
+  - list-profiles
+  binding: GET /video/profiles
+  confidence: high
+- tool: create_profile
+  category: Video Profiles
+  rest:
+  - create-profile
+  binding: POST /video/profiles
+  confidence: high
+- tool: get_profile
+  category: Video Profiles
+  rest:
+  - get-profile
+  binding: GET /video/profiles/{profile_id}
+  confidence: high
+- tool: update_profile
+  category: Video Profiles
+  rest:
+  - update-profile
+  binding: POST /video/profiles/{profile_id}
+  confidence: high
+- tool: delete_profile
+  category: Video Profiles
+  rest:
+  - delete-profile
+  binding: DELETE /video/profiles/{profile_id}
+  confidence: high
+- tool: get_all_playlists
+  category: Video Playlists
+  rest:
+  - get-all-playlists
+  binding: GET /video/playlist
+  confidence: high
+- tool: create_playlist
+  category: Video Playlists
+  rest:
+  - create-playlist
+  binding: POST /video/playlist
+  confidence: high
+- tool: add_asset_playlist
+  category: Video Playlists
+  rest:
+  - add-asset-playlist
+  binding: POST /video/playlist/{playlist_id}/asset
+  confidence: high
+- tool: remove_asset_playlist
+  category: Video Playlists
+  rest:
+  - remove-asset-playlist
+  binding: DELETE /video/playlist/{playlist_id}/asset
+  confidence: high
+- tool: update_playlist
+  category: Video Playlists
+  rest:
+  - update-playlist
+  binding: POST /video/playlist/{playlist_id}
+  confidence: high
+- tool: delete_playlist
+  category: Video Playlists
+  rest:
+  - delete-playlist
+  binding: DELETE /video/playlist/{playlist_id}
+  confidence: high
+- tool: get_playlist_assets
+  category: Video Playlists
+  rest:
+  - get-playlist-assets
+  binding: GET /video/playlist/{playlist_id}/assets
+  confidence: high
+- tool: reorder_asset_playlist
+  category: Video Playlists
+  rest:
+  - reorder-asset-playlist
+  binding: POST /video/playlists/{playlist_id}/reorder
+  confidence: high
+- tool: create_webhook
+  category: Webhooks
+  rest:
+  - create-webhook
+  binding: POST /org/webhooks
+  confidence: high
+- tool: update_webhook
+  category: Webhooks
+  rest:
+  - update-webhook
+  binding: POST /org/webhooks/{webhook_id}
+  confidence: high
+- tool: delete_webhook
+  category: Webhooks
+  rest:
+  - delete-webhook
+  binding: DELETE /org/webhooks/{webhook_id}
+  confidence: high
+- tool: list_sources
+  category: Image Sources
+  rest:
+  - list-sources
+  binding: GET /image/sources
+  confidence: high
+- tool: create_image_source
+  category: Image Sources
+  rest:
+  - create-image-source
+  binding: POST /image/sources
+  confidence: high
+- tool: get_image_sources_source_id
+  category: Image Sources
+  rest:
+  - get_image-sources-source-id
+  binding: GET /image/sources/{image_source_id}
+  confidence: high
+- tool: update_image_source
+  category: Image Sources
+  rest:
+  - update-image-source
+  binding: POST /image/sources/{image_source_id}
+  confidence: high
+- tool: delete_source
+  category: Image Sources
+  rest:
+  - delete-source
+  binding: DELETE /image/sources/{image_source_id}
+  confidence: high
+- tool: purge_image_cache
+  category: Image Sources
+  rest:
+  - purge-image-cache
+  binding: POST /purge/{subdomain}
+  confidence: high
+- tool: retrieve_image_analytics
+  category: Image Usage Analytics
+  rest:
+  - retrieve-image-analytics
+  binding: POST /image/analytics
+  confidence: high
+- tool: create_live_asset
+  category: Live Stream Assets
+  rest:
+  - create-live-asset
+  binding: POST /video/live/assets
+  confidence: high
+- tool: create_live_asset_copy
+  category: Live Stream Assets
+  rest:
+  - create-live-asset-copy
+  binding: POST /video/live/assets/update
+  confidence: high
+- tool: get_live_asset_status
+  category: Live Stream Assets
+  rest:
+  - get-live-asset-status
+  binding: GET /video/live/assets/{live_asset_id}
+  confidence: high
+- tool: delete_live_asset
+  category: Live Stream Assets
+  rest:
+  - delete-live-asset
+  binding: DELETE /video/live/assets/{live_asset_id}
+  confidence: high
+- tool: complete_live_stream
+  category: Live Stream Assets
+  rest:
+  - complete-live-stream
+  binding: POST /video/live/assets/{live_asset_id}/complete
+  confidence: high
+- tool: filter_live_assets
+  category: Live Stream Assets
+  rest:
+  - filter-live-assets
+  binding: GET /video/live/assets/list/{live_source_id}
+  confidence: high
+- tool: recover
+  category: Recycle Bin
+  rest:
+  - recover
+  binding: POST /video/asset/recover
+  confidence: high
+- tool: start_live
+  category: Live Stream Assets
+  rest:
+  - start-live
+  binding: POST /video/live/assets/{live_asset_id}/start
+  confidence: high
+- tool: thumbnail_upload_live
+  category: Live Stream Assets
+  rest:
+  - thumbnail-upload-live
+  binding: POST /video/live/assets/thumbnail/upload
+  confidence: high
+- tool: list_workspaces
+  category: Video Workspaces
+  rest:
+  - list-workspaces
+  binding: GET /video/workspaces
+  confidence: high
+- tool: create_workspace
+  category: Video Workspaces
+  rest:
+  - create-workspace
+  binding: POST /video/workspaces
+  confidence: high
+- tool: get_workspace
+  category: Video Workspaces
+  rest:
+  - get-workspace
+  binding: GET /video/workspaces/{workspace_id}
+  confidence: high
+- tool: update_workspace
+  category: Video Workspaces
+  rest:
+  - update-workspace
+  binding: POST /video/workspaces/{workspace_id}
+  confidence: high
+- tool: delete_workspace
+  category: Video Workspaces
+  rest:
+  - delete-workspace
+  binding: DELETE /video/workspaces/{workspace_id}
+  confidence: high
+- tool: list_folders
+  category: Folders
+  rest:
+  - list-folders
+  binding: GET /video/workspaces/{workspace_id}/folders
+  confidence: high
+- tool: create_folder
+  category: Folders
+  rest:
+  - create-folder
+  binding: POST /video/workspaces/{workspace_id}/folders
+  confidence: high
+- tool: get_folder
+  category: Folders
+  rest:
+  - get-folder
+  binding: GET /video/workspaces/{workspace_id}/folders/{folder_id}
+  confidence: high
+- tool: update_folder
+  category: Folders
+  rest:
+  - update-folder
+  binding: POST /video/workspaces/{workspace_id}/folders/{folder_id}
+  confidence: high
+- tool: delete_folder
+  category: Folders
+  rest:
+  - delete-folder
+  binding: DELETE /video/workspaces/{workspace_id}/folders/{folder_id}
+  confidence: high
+- tool: remove_assets_folder
+  category: Folders
+  rest:
+  - remove-assets-folder
+  binding: POST /video/workspaces/{workspace_id}/remove-assets-from-folder
+  confidence: high
+- tool: list_assets
+  category: Video Assets
+  rest:
+  - list-assets
+  binding: GET /video/workspaces/{workspace_id}/list
+  confidence: high
+- tool: invite_channel_viewers
+  category: Channel Viewers
+  rest:
+  - invite-channel-viewers
+  binding: POST /channel/{video_workspace_id}/viewers/invite
+  confidence: high
+- tool: remove_channel_viewers
+  category: Channel Viewers
+  rest:
+  - remove-channel-viewers
+  binding: POST /channel/{video_workspace_id}/viewers/remove
+  confidence: high
+- tool: invite_channel_viewers_csv
+  category: Channel Viewers
+  rest:
+  - invite-channel-viewers-csv
+  binding: POST /channel/{video_workspace_id}/viewers/invite/csv
+  confidence: high
+- tool: asset_status_history
+  category: Live Stream Assets
+  rest:
+  - asset-status-history
+  binding: GET /video/live/assets/{live_asset_id}/history
+  confidence: high
+- tool: image_purge
+  category: Image Sources
+  rest:
+  - image-purge
+  binding: POST /image/purge/{source_id}
+  confidence: high
+- tool: fetch_org
+  category: Organization Data
+  rest:
+  - fetch-org
+  binding: GET /org/data
+  confidence: high
+- tool: fetch_user
+  category: User Data
+  rest:
+  - fetch-user
+  binding: GET /user/data
+  confidence: high
+- tool: fetch_audit_logs
+  category: Audit Logs
+  rest:
+  - fetch-audit-logs
+  binding: POST /user/audit-log
+  confidence: high
+- tool: list_recycle_bin
+  category: Recycle Bin
+  rest:
+  - list-recycle-bin
+  binding: GET /video/asset/recoverable/list
+  confidence: high
+- tool: assets_delete_many
+  category: Video Assets
+  rest:
+  - assets-delete-many
+  binding: DELETE /video/assets/bulk/delete
+  confidence: high
+- tool: assets_tag_many
+  category: Video Assets
+  rest:
+  - assets-tag-many
+  binding: POST /video/assets/bulk/tag
+  confidence: high
+- tool: insights_chart_data
+  category: Video Analytics
+  rest:
+  - analytics-chart-data
+  binding: POST /insights/viewer-analytics
+  confidence: medium
+  note: Matched by semantics (viewer insights); tool name differs from operationId.
+- tool: insights_breakdown_data
+  category: Video Analytics
+  rest:
+  - analytics-breakdown-data
+  binding: POST /insights/breakdown-data
+  confidence: medium
+  note: Matched by semantics (viewer insights); tool name differs from operationId.
+- tool: insights_aggregated_data
+  category: Video Analytics
+  rest:
+  - analytics-aggregated-data
+  binding: POST /insights/aggregated-data
+  confidence: medium
+  note: Matched by semantics (viewer insights); tool name differs from operationId.
+mcp_only: []
+rest_only:
+- operation: list-webhooks
+  category: Webhooks
+  binding: GET /org/webhooks
+- operation: list-assets-deprecated
+  category: Video Assets
+  binding: GET /video/assets/list/{workspace_id}
+- operation: asset-analytics
+  category: Video Assets
+  binding: POST /video/assets/{asset_id}/analytics
+- operation: list-channel-subscribers
+  category: Channel Viewers
+  binding: GET /channel/{workspace_id}/viewers
+- operation: webhook-history
+  category: Webhooks
+  binding: GET /org/webhook/{webhook_id}/history
+- operation: list-invoices
+  category: Billing
+  binding: GET /mixed/billing/invoice/history
+- operation: fetch-billing-details
+  category: Billing
+  binding: GET /mixed/billing/details
+- operation: update-billing-details
+  category: Billing
+  binding: POST /mixed/billing/details
+- operation: fetch-upcoming-invoice
+  category: Billing
+  binding: GET /mixed/billing/invoice/upcoming
+- operation: list-live-workspaces
+  category: Live Stream Workspaces
+  binding: GET /video/sources/live
+- operation: live-workspace-create
+  category: Live Stream Workspaces
+  binding: POST /video/sources/live
+- operation: live-workspace-update
+  category: Live Stream Workspaces
+  binding: POST /video/sources/live/{live_workspace_id}
+- operation: live-workspace-delete
+  category: Live Stream Workspaces
+  binding: DELETE /video/sources/live/{live_workspace_id}
+- operation: live-usage-analytics
+  category: Live Stream Analytics
+  binding: POST /video/live/analytics
+- operation: global-search
+  category: Global Search
+  binding: GET /entities/global-search

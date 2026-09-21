@@ -1,0 +1,405 @@
+asyncapi: 3.0.0
+info:
+  title: Gumlet Webhooks
+  version: 1.0.0
+  description: Asynchronous webhook events Gumlet POSTs to your configured endpoint for video and live-stream
+    lifecycle changes. Configure via the org/webhooks API or the dashboard. An optional secret token is
+    echoed back in the x-gumlet-token header for verification; non-2xx deliveries are retried for 24 hours
+    with ~30 minutes between attempts.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+defaultContentType: application/json
+channels:
+  webhooks:
+    address: '{your_webhook_url}'
+    title: Configured webhook endpoint
+    parameters:
+      your_webhook_url:
+        description: The HTTPS endpoint you register with create-webhook (POST /org/webhooks).
+    messages:
+      video_status_created:
+        $ref: '#/components/messages/video_status_created'
+      video_status_stream_ready:
+        $ref: '#/components/messages/video_status_stream_ready'
+      video_status_downloaded:
+        $ref: '#/components/messages/video_status_downloaded'
+      video_status_processed:
+        $ref: '#/components/messages/video_status_processed'
+      video_status_deleted:
+        $ref: '#/components/messages/video_status_deleted'
+      video_status_errored:
+        $ref: '#/components/messages/video_status_errored'
+      video_status_ready:
+        $ref: '#/components/messages/video_status_ready'
+      event_video_uploaded:
+        $ref: '#/components/messages/event_video_uploaded'
+      video_status_repackaged:
+        $ref: '#/components/messages/video_status_repackaged'
+      event_embed_viewed:
+        $ref: '#/components/messages/event_embed_viewed'
+      event_embed_cta_clicked:
+        $ref: '#/components/messages/event_embed_cta_clicked'
+      event_video_updated:
+        $ref: '#/components/messages/event_video_updated'
+      event_playlist_created:
+        $ref: '#/components/messages/event_playlist_created'
+      event_playlist_asset:
+        $ref: '#/components/messages/event_playlist_asset'
+      event_playlist_deleted:
+        $ref: '#/components/messages/event_playlist_deleted'
+      event_embed_form_submitted:
+        $ref: '#/components/messages/event_embed_form_submitted'
+      event_comment_all:
+        $ref: '#/components/messages/event_comment_all'
+      event_channel_member_joined:
+        $ref: '#/components/messages/event_channel_member_joined'
+      live_video_status_created:
+        $ref: '#/components/messages/live_video_status_created'
+      live_video_status_preparing:
+        $ref: '#/components/messages/live_video_status_preparing'
+      live_video_status_ready:
+        $ref: '#/components/messages/live_video_status_ready'
+      live_video_status_connected:
+        $ref: '#/components/messages/live_video_status_connected'
+      live_video_status_complete:
+        $ref: '#/components/messages/live_video_status_complete'
+      live_video_status_active:
+        $ref: '#/components/messages/live_video_status_active'
+      live_video_status_disconnected:
+        $ref: '#/components/messages/live_video_status_disconnected'
+operations:
+  receiveWebhookEvent:
+    action: receive
+    channel:
+      $ref: '#/channels/webhooks'
+    summary: Receive a Gumlet webhook event at your endpoint.
+    messages:
+    - $ref: '#/channels/webhooks/messages/video_status_created'
+    - $ref: '#/channels/webhooks/messages/video_status_stream_ready'
+    - $ref: '#/channels/webhooks/messages/video_status_downloaded'
+    - $ref: '#/channels/webhooks/messages/video_status_processed'
+    - $ref: '#/channels/webhooks/messages/video_status_deleted'
+    - $ref: '#/channels/webhooks/messages/video_status_errored'
+    - $ref: '#/channels/webhooks/messages/video_status_ready'
+    - $ref: '#/channels/webhooks/messages/event_video_uploaded'
+    - $ref: '#/channels/webhooks/messages/video_status_repackaged'
+    - $ref: '#/channels/webhooks/messages/event_embed_viewed'
+    - $ref: '#/channels/webhooks/messages/event_embed_cta_clicked'
+    - $ref: '#/channels/webhooks/messages/event_video_updated'
+    - $ref: '#/channels/webhooks/messages/event_playlist_created'
+    - $ref: '#/channels/webhooks/messages/event_playlist_asset'
+    - $ref: '#/channels/webhooks/messages/event_playlist_deleted'
+    - $ref: '#/channels/webhooks/messages/event_embed_form_submitted'
+    - $ref: '#/channels/webhooks/messages/event_comment_all'
+    - $ref: '#/channels/webhooks/messages/event_channel_member_joined'
+    - $ref: '#/channels/webhooks/messages/live_video_status_created'
+    - $ref: '#/channels/webhooks/messages/live_video_status_preparing'
+    - $ref: '#/channels/webhooks/messages/live_video_status_ready'
+    - $ref: '#/channels/webhooks/messages/live_video_status_connected'
+    - $ref: '#/channels/webhooks/messages/live_video_status_complete'
+    - $ref: '#/channels/webhooks/messages/live_video_status_active'
+    - $ref: '#/channels/webhooks/messages/live_video_status_disconnected'
+components:
+  messages:
+    video_status_created:
+      name: video.status.created
+      title: video.status.created
+      summary: Video Asset is created on Gumlet.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    video_status_stream_ready:
+      name: video.status.stream_ready
+      title: video.status.stream_ready
+      summary: Video available for streaming with single resolution, immediately after upload.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    video_status_downloaded:
+      name: video.status.downloaded
+      title: video.status.downloaded
+      summary: Video file downloaded on Gumlet server for processing.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    video_status_processed:
+      name: video.status.processed
+      title: video.status.processed
+      summary: Video is processed.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    video_status_deleted:
+      name: video.status.deleted
+      title: video.status.deleted
+      summary: Video Asset is deleted by the user.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    video_status_errored:
+      name: video.status.errored
+      title: video.status.errored
+      summary: Video errored while processing.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    video_status_ready:
+      name: video.status.ready
+      title: video.status.ready
+      summary: Video is ready to embed.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    event_video_uploaded:
+      name: event.video.uploaded
+      title: event.video.uploaded
+      summary: Video is uploaded.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    video_status_repackaged:
+      name: video.status.repackaged
+      title: video.status.repackaged
+      summary: Subtitle or audio stream successfully added to the video asset.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    event_embed_viewed:
+      name: event.embed.viewed
+      title: event.embed.viewed
+      summary: Video viewed for the first time.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    event_embed_cta_clicked:
+      name: event.embed.cta_clicked
+      title: event.embed.cta_clicked
+      summary: Call-to-action clicked on an embed.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    event_video_updated:
+      name: event.video.updated
+      title: event.video.updated
+      summary: Video details updated (title, tags, description, privacy).
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    event_playlist_created:
+      name: event.playlist.created
+      title: event.playlist.created
+      summary: New playlist created.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    event_playlist_asset:
+      name: event.playlist.asset
+      title: event.playlist.asset
+      summary: Asset added or removed from a playlist.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    event_playlist_deleted:
+      name: event.playlist.deleted
+      title: event.playlist.deleted
+      summary: Playlist deleted.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    event_embed_form_submitted:
+      name: event.embed.form_submitted
+      title: event.embed.form_submitted
+      summary: New lead captured.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    event_comment_all:
+      name: event.comment.all
+      title: event.comment.all
+      summary: A comment is added, replied or resolved.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    event_channel_member_joined:
+      name: event.channel.member_joined
+      title: event.channel.member_joined
+      summary: A new channel member joined.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    live_video_status_created:
+      name: live.video.status.created
+      title: live.video.status.created
+      summary: Live video session created.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    live_video_status_preparing:
+      name: live.video.status.preparing
+      title: live.video.status.preparing
+      summary: Live video session preparing to start.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    live_video_status_ready:
+      name: live.video.status.ready
+      title: live.video.status.ready
+      summary: Live video session ready for streaming.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    live_video_status_connected:
+      name: live.video.status.connected
+      title: live.video.status.connected
+      summary: Live video session connected to source.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    live_video_status_complete:
+      name: live.video.status.complete
+      title: live.video.status.complete
+      summary: Live video session completed and ended.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    live_video_status_active:
+      name: live.video.status.active
+      title: live.video.status.active
+      summary: Live video session actively streaming.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object
+    live_video_status_disconnected:
+      name: live.video.status.disconnected
+      title: live.video.status.disconnected
+      summary: Live video session disconnected from source.
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          input:
+            type: object
+          output:
+            type: object

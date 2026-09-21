@@ -1,158 +1,112 @@
-specification: API Commons Plans
-specificationVersion: '0.1'
-schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
-provider: Gumlet
-providerId: gumlet
-created: '2026-07-01'
-modified: '2026-07-01'
-reconciled: false
-tags:
-- Video
-- Streaming
-- Image Optimization
-- CDN
-- Encoding
-- Analytics
-- Plans
-description: >-
-  Gumlet offers a free tier plus subscription tiers (Creator, Growth, Business)
-  with simple per-minute video pricing that scales with usage, and separate
-  image optimization plans. DRM is available as a paid add-on. Enterprise plans
-  offer volume pricing and dedicated support. Values below are representative of
-  the published pricing page and are not reconciled; verify current tiers and
-  rates on the Gumlet pricing page.
-notes: >-
-  Prices reflect the May 2026 price reductions announced by Gumlet. Per-minute
-  encoding/storage/delivery rates and image plan tiers vary; confirm on the
-  pricing page during reconciliation.
-sources:
-- https://www.gumlet.com/pricing/
-- https://docs.gumlet.com/docs/apis
+name: Gumlet Plans & Pricing
+generated: '2026-09-21'
+method: searched
+source: https://www.gumlet.com/pricing/
+audience: business-product
+pricing_basis: tiered-subscription
+published: true
+delivery:
+  delivery: managed
+currency: USD
+description: 'Gumlet video plans (billed annually): a Free tier plus Creator, Growth and Business subscriptions
+  with per-plan seats, storage minutes, streaming bandwidth and live-streaming minutes, usage overages,
+  an optional DRM add-on, and a custom Enterprise tier. API and MCP access is a paid-plan feature from
+  the Creator tier up.'
 plans:
-- id: gumlet-free
-  name: Free
-  type: free
-  description: >-
-    Free tier for evaluation and small projects; startups, non-profits, and
-    public-good projects may qualify for free or discounted access.
-  entries:
-  - label: Free Usage
-    name: free_usage
-    type: free
-    metric: minutes
-    limit: 0
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: free (usage caps apply)
-    userMultiplied: false
-  elements:
-  - name: Video Hosting
-  - name: Image Optimization
-  - name: Basic Analytics
-- id: gumlet-creator
-  name: Creator
-  type: subscription
-  description: >-
-    For creators and small businesses; removes Gumlet branding and adds secure
-    video access (referrer/domain restrictions) plus lead-gen CTAs and pixel
-    tracking.
-  entries:
-  - label: Creator Subscription
-    name: creator
-    type: flat
-    metric: subscription
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: $6/month + per-minute usage
-    userMultiplied: false
-  elements:
-  - name: No Gumlet Branding
-  - name: Secure Video Access
-  - name: CTAs and Pixel Tracking
-- id: gumlet-growth
-  name: Growth
-  type: subscription
-  description: >-
-    For e-commerce and startups; adds custom channel domains, member-only
-    access, role-based access control, AI-generated chapters, subtitle
-    translation, and marketing CRM integration.
-  entries:
-  - label: Growth Subscription
-    name: growth
-    type: flat
-    metric: subscription
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: $19/month + per-minute usage
-    userMultiplied: false
-  elements:
-  - name: Custom Channel Domain
-  - name: Member-Only Access
-  - name: Role-Based Access Control
-  - name: AI Chapters and Subtitle Translation
-- id: gumlet-business
-  name: Business
-  type: subscription
-  description: >-
-    For apps and brands with higher volume and advanced needs.
-  entries:
-  - label: Business Subscription
-    name: business
-    type: flat
-    metric: subscription
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: $99/month + per-minute usage
-    userMultiplied: false
-  elements:
-  - name: Advanced Analytics
-  - name: Priority Processing
-- id: gumlet-drm-addon
-  name: DRM Add-on
-  type: usage
-  description: >-
-    Studio-grade DRM (Widevine/FairPlay/PlayReady) add-on for premium content
-    protection.
-  entries:
-  - label: DRM
-    name: drm
-    type: flat
-    metric: add_on
-    limit: -1
-    timeFrame: month
-    geo: global
-    unit: 1
-    price: $99/month
-    userMultiplied: false
-  elements:
-  - name: Multi-DRM
-- id: gumlet-enterprise
-  name: Enterprise
-  type: enterprise
-  description: >-
-    Volume commitments, dedicated support, and negotiated terms. Contact
-    Gumlet sales.
-  entries:
-  - label: Enterprise Agreement
-    name: enterprise
-    type: flat
-    metric: contract
-    limit: -1
-    timeFrame: year
-    geo: global
-    unit: 1
-    price: contact sales
-    userMultiplied: false
-  elements:
-  - name: Custom Volume Pricing
-  - name: Dedicated Support
-maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+- name: Free
+  price: 0
+  price_text: Free Forever
+  billing: free
+  features:
+  - 4K and HDR10 support
+  - Ad free video player
+  - Password protection & geo-blocking
+  - Unlimited AI generated subtitles
+  limits:
+  - 1 seat
+  - 60 storage mins
+  - 100 GB bandwidth/mo
+  - 60 mins live streaming/mo
+  - 1000 AI credits/month
+  - Streaming overage $0.5 per GB
+- name: Creator
+  price: 6
+  price_text: $6
+  price_period: /month (billed annually)
+  billing: annual
+  features:
+  - Remove Gumlet branding
+  - API and MCP access
+  - Domain restriction
+  - Google / Meta pixel tracking
+  limits:
+  - 2 seats
+  - 1,000 storage mins
+  - 3,000 GB bandwidth/mo
+  - 1,000 mins live streaming/mo
+  - 2000 AI credits/month
+  - Streaming overage $0.15 per GB
+- name: Growth
+  price: 19
+  price_text: $19
+  price_period: /month (billed annually)
+  billing: annual
+  features:
+  - CRM integrations
+  - Channel custom domain
+  - Private channel subscription
+  - AI chapters and description
+  limits:
+  - 5 seats
+  - 3,000 storage mins
+  - 3,000 GB bandwidth/mo
+  - 2,000 mins live streaming/mo
+  - 5000 AI credits/month
+  - Streaming overage $0.10 per GB
+- name: Business
+  price: 99
+  price_text: $99
+  price_period: /month (billed annually)
+  billing: annual
+  features:
+  - Live chat - priority support
+  - Dynamic Watermark
+  - Custom viewer analytics
+  - H265 codec support & VAST tag
+  limits:
+  - 10 seats
+  - 15,000 storage mins
+  - 3,000 GB bandwidth/mo
+  - 4,000 mins live streaming/mo
+  - 10000 AI credits/month
+  - Storage overage $3/1000 min/month (200k max mins)
+  - Streaming overage $0.06 per GB
+- name: DRM Add-On
+  price: 99
+  price_text: $99/Month
+  billing: add-on
+  features:
+  - Certified Widevine & FairPlay DRM
+  - One-click setup, no code required
+  - Works across all devices and browsers
+  - Native iOS and Android SDKs for DRM playback
+  limits:
+  - 100K views included/mo, then 1$ per 1000
+- name: Enterprise
+  price: Contact sales
+  price_text: Custom
+  billing: custom
+  features:
+  - Volume discounts on pricing
+  - Single Sign-On (SSO) support
+  - Dedicated account manager
+  - SOC 2, ISO & GDPR compliant
+  - DRM included (Widevine & Fairplay)
+  - Custom AI credits
+  - Dedicated Slack channel & escalation SLA
+  limits:
+  - Customised storage solution
+  - Customized streaming CDN
+  - Uncapped Live Streaming
+note: Video pricing tab, captured 2026-09-21. Prices shown are the billed-annually monthly figures. A
+  separate Image pricing tab exists on the same page. Values are verbatim from the rendered pricing page.

@@ -1,0 +1,20 @@
+generated: '2026-09-21'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/gumlet-audio-upload-openapi.yml
+- openapi/gumlet-audit-logs-openapi.yml
+- openapi/gumlet-billing-openapi.yml
+- openapi/gumlet-channel-viewers-openapi.yml
+- openapi/gumlet-folders-openapi.yml
+vocabulary:
+  name: Gumlet Domain Vocabulary
+  description: 'Terms declared by Gumlet''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-09-21'
+  terms:
+  - term: Error
+    definition: 'Object declared by the contract with fields: error.'
+    tags:
+    - Object
+    source: openapi/gumlet-audio-upload-openapi.yml#/components/schemas/Error

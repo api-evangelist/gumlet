@@ -1,0 +1,343 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Recycle Bin API
+  version: '1.4'
+  description: Recycle Bin operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Recycle Bin
+paths:
+  /video/asset/recover:
+    post:
+      summary: Recover Deleted Asset
+      description: Recovers a deleted asset from the recycle bin.
+      operationId: recover
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              examples:
+                New Example:
+                  summary: New Example
+                  value: ''
+                New Example 1:
+                  summary: New Example 1
+                  value:
+                    success: true
+        '400':
+          description: Bad Request — invalid or missing asset ID
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: asset_id_not_valid
+                      message: The asset ID is not valid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: asset_id_not_valid
+                      message:
+                        type: string
+                        example: The asset ID is not valid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found — asset missing or deleted more than 30 days ago
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: asset_created_before_last_30_days
+                      message: It's been more than 30 days since the asset was deleted. Please contact
+                        support for further assistance.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: asset_created_before_last_30_days
+                      message:
+                        type: string
+                        example: It's been more than 30 days since the asset was deleted. Please contact
+                          support for further assistance.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                asset_id:
+                  type: string
+                  description: Gumlet Video Asset Id which needs to be recovered.
+              type: object
+              required:
+              - asset_id
+      x-internal: false
+      tags:
+      - Recycle Bin
+      x-stoplight:
+        id: kgpjwyo6i822v
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nawait client.recycleBin.recover({\n  asset_id:\
+          \ '',\n});"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nclient.recycle_bin.recover(\n    asset_id=\"\",\n)"
+  /video/asset/recoverable/list:
+    get:
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_asset_count:
+                    type: integer
+                    description: Number of total assets in recycle bin.
+                  current_offset:
+                    type: integer
+                    description: Number of total assets in current offset.
+                  all_assets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        asset_id:
+                          type: string
+                          description: Asset ID of the deleted asset.
+                        workspace_id:
+                          type: string
+                          description: Workspace ID for the asset.
+                        title:
+                          type: string
+                          description: Title of the asset.
+                        description:
+                          type:
+                          - string
+                          - 'null'
+                          description: Description of the video.
+                        tags:
+                          type: array
+                          items:
+                            type: string
+                          description: Tags associated with the asset.
+                        duration:
+                          type: number
+                          description: Duration of the asset in seconds.
+                        deleted_at:
+                          type: number
+                          description: Deleted timestamp of asset in milliseconds since epoch.
+                        deleted_by:
+                          type: string
+                          description: User ID of the user who deleted the asset.
+                      x-apidog-orders:
+                      - asset_id
+                      - workspace_id
+                      - title
+                      - description
+                      - tags
+                      - duration
+                      - deleted_at
+                      - deleted_by
+                      required:
+                      - asset_id
+                      - workspace_id
+                      - title
+                      - description
+                      - tags
+                      - duration
+                      - deleted_at
+                      - deleted_by
+                x-apidog-orders:
+                - total_asset_count
+                - current_offset
+                - all_assets
+                required:
+                - total_asset_count
+                - current_offset
+                - all_assets
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: page_size_more_than_max
+                      message: Value for the page size (size) parameter is more than permissible value
+                        (100)
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: page_size_more_than_max
+                      message:
+                        type: string
+                        example: Value for the page size (size) parameter is more than permissible value
+                          (100)
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      summary: List Recycle Bin
+      tags:
+      - Recycle Bin
+      operationId: list-recycle-bin
+      description: List all assets in a recycle bin for a given workspace. The deleted assets are available
+        for 30 days. After that, assets are permanently deleted.
+      parameters:
+      - in: query
+        name: offset
+        schema:
+          type: integer
+          minimum: 0
+        description: Number of items to skip from start of page response.
+      - in: query
+        name: size
+        schema:
+          type: integer
+          default: 20
+          minimum: 10
+        description: Number of items to return for a single page.
+      - in: query
+        name: workspace_id
+        schema:
+          type: string
+        description: ID of workspace for which you want to list the recycle bin items.
+        required: true
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst recycleBin = await client.recycleBin.list({\n\
+          \  size: 20,\n  workspace_id: 'workspaceId',\n});\n\nconsole.log(recycleBin);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nrecycle_bin = client.recycle_bin.list(\n    size=20,\n    workspace_id=\"\
+          workspace_id\",\n)\n\nprint(recycle_bin)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

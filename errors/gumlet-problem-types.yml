@@ -1,0 +1,80 @@
+generated: '2026-09-21'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/gumlet-audio-upload-openapi.yml
+- openapi/gumlet-audit-logs-openapi.yml
+- openapi/gumlet-billing-openapi.yml
+- openapi/gumlet-channel-viewers-openapi.yml
+- openapi/gumlet-folders-openapi.yml
+- openapi/gumlet-global-search-openapi.yml
+- openapi/gumlet-image-sources-openapi.yml
+- openapi/gumlet-image-usage-analytics-openapi.yml
+- openapi/gumlet-live-stream-analytics-openapi.yml
+- openapi/gumlet-live-stream-assets-openapi.yml
+- openapi/gumlet-live-stream-workspaces-openapi.yml
+- openapi/gumlet-multipart-upload-openapi.yml
+format: custom
+envelope:
+  media_type: application/json
+  schema: Error
+coverage:
+  operations: 89
+  statuses_declared: 8
+problems:
+- status: 400
+  title: Bad Request
+  description: Bad Request
+  operations: 79
+  media_types:
+  - application/json
+  schema: null
+- status: 401
+  title: Unauthorized
+  description: Unauthorized — missing or invalid API key / bearer token
+  operations: 89
+  media_types:
+  - application/json
+  schema: Error
+- status: 402
+  title: Payment Required
+  description: Payment Required — unpaid invoices
+  operations: 3
+  media_types:
+  - application/json
+  schema: null
+- status: 403
+  title: Forbidden
+  description: Forbidden — unpaid account or insufficient role permissions
+  operations: 89
+  media_types:
+  - application/json
+  schema: Error
+- status: 404
+  title: Not Found
+  description: Not Found
+  operations: 25
+  media_types:
+  - application/json
+  schema: null
+- status: 413
+  title: Content Too Large
+  description: Payload Too Large
+  operations: 1
+  media_types:
+  - application/json
+  schema: null
+- status: 422
+  title: Unprocessable Content
+  description: Unprocessable Entity — request validation failed
+  operations: 12
+  media_types:
+  - application/json
+  schema: Error
+- status: 500
+  title: Internal Server Error
+  description: Internal Server Error
+  operations: 20
+  media_types:
+  - application/json
+  schema: Error

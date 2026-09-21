@@ -1,0 +1,12 @@
+generated: '2026-09-21'
+api: gumlet
+skills:
+- name: gumlet-upload-and-publish-video
+  file: gumlet-upload-and-publish-video.md
+  description: Upload a video, track it to ready, publish for embedding.
+- name: gumlet-set-up-live-stream
+  file: gumlet-set-up-live-stream.md
+  description: Create, start and complete a live stream.
+- name: gumlet-configure-webhooks
+  file: gumlet-configure-webhooks.md
+  description: Register and verify webhooks for asset and live events.

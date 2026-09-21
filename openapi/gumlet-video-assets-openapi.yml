@@ -1,0 +1,4663 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Video Assets API
+  version: '1.4'
+  description: Video Assets operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Video Assets
+paths:
+  /video/assets:
+    post:
+      summary: Create Asset
+      description: An asset refers to media content/video that is processed, stored, and delivered through
+        Gumlet. This endpoint creates an asset allowing users to ingest media content into the Gumlet
+        system for processing and delivery.
+      operationId: create-asset
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - input
+              - workspace_id
+              - format
+              properties:
+                input:
+                  type: string
+                  description: URL or web address of a file that Gumlet should download to create a new
+                    asset.
+                profile_id:
+                  type: string
+                  description: Provide `profile_id` of the previously created video profile. This parameter
+                    will override all the parameters (except `input` and `collection_id`) from the video
+                    profile.
+                format:
+                  type: string
+                  description: Transcode and deliver the asset in the requested format. The options can
+                    be one of `ABR` (HLS + DASH) and `MP4`.
+                  enum:
+                  - ABR
+                  - MP4
+                tag:
+                  type: array
+                  description: Specify a text string or identifier which can identify an asset or bunch
+                    of assets later.
+                  items:
+                    x-stoplight:
+                      id: ukzi2mra8hepj
+                    type: string
+                title:
+                  type: string
+                  description: Specify a text string or identifier which can be used for filtering or
+                    searching the asset.
+                description:
+                  type: string
+                  description: Attach some textual data with the asset. This field is neither searchable
+                    nor filterable.
+                metadata:
+                  type: object
+                  description: 'Add your metadata you want to associate with this asset.<br/> Example:
+                    <br/> <code>  {  "internal_video_id" : "123Abc"  }  </code>'
+                  additionalProperties: {}
+                  properties: {}
+                  x-apidog-orders: []
+                width:
+                  type: string
+                  description: Resize video with the given width. Can be an absolute value in pixels or
+                    a percentage value with the `%` suffix. Specified values greater than the original
+                    asset width will be ignored. Applicable only when specified format is `MP4`.
+                height:
+                  type: string
+                  description: Resize video with the given height. Can be an absolute value in pixels
+                    or a percentage value with the `%` suffix. Specified values greater than the original
+                    asset height will be ignored. Applicable only when specified format is `MP4`.
+                resolution:
+                  type: string
+                  description: 'Required resolutions of the transformed asset in case of HLS or MPEG-DASH
+                    delivery format. Can be a comma-separated string out of the following values: `240p`,
+                    `360p`, `480p`, `540p`, `720p`, and `1080p`. Resized rendition will retain the input
+                    aspect ratio.'
+                crop:
+                  type: object
+                  description: This transformation can be used to crop the video by defining a rectangular
+                    area within the dimensions of the output video.
+                  required:
+                  - width
+                  - height
+                  properties:
+                    horizontal_margin:
+                      type: string
+                      description: 'This parameter defines the horizontal coordinate value of the upper-left
+                        corner of the cropping area. Values can be an absolute number of pixels or a percentage
+                        value relative to the video width. **Default: `0`**'
+                    vertical_margin:
+                      type: string
+                      description: 'This parameter defines the vertical coordinate value of the upper-left
+                        corner of the cropping area. Values can be an absolute number of pixels or a percentage
+                        value relative to the video height. **Default: `0`**'
+                    width:
+                      type: string
+                      description: Width of the cropping area in pixels.
+                    height:
+                      type: string
+                      description: Height of the cropping area in pixels.
+                  x-apidog-orders:
+                  - horizontal_margin
+                  - vertical_margin
+                  - width
+                  - height
+                pad:
+                  type: object
+                  description: This transformation can be used to add padding to the video.
+                  properties:
+                    top:
+                      type: string
+                      description: 'Width of padding on the top side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video height. **Default: `%5`**'
+                    left:
+                      type: string
+                      description: 'Width of padding on the left side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video width. **Default: `0`**'
+                    bottom:
+                      type: string
+                      description: 'Width of padding on the bottom side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video height. **Default: `%5`**'
+                    right:
+                      type: string
+                      description: 'Width of padding on the right side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video width. **Default: `0`**'
+                    color:
+                      type: string
+                      description: 'Color of padding area. **Default: `black`**'
+                  x-apidog-orders:
+                  - top
+                  - left
+                  - bottom
+                  - right
+                  - color
+                trim:
+                  type: object
+                  description: Trim transformation can be used to trim videos based on time duration.
+                  required:
+                  - start_offset
+                  - end_offset
+                  properties:
+                    start_offset:
+                      type: number
+                      description: Start offset in number of seconds or in `HH:MM:SS` format.
+                      format: float
+                    end_offset:
+                      type: number
+                      description: End offset in number of seconds or in `HH:MM:SS` format.
+                      format: float
+                    duration:
+                      type: number
+                      description: Duration can be used in conjunction with `start_offset` parameter,
+                        can be specified in number of seconds.
+                      format: float
+                  x-apidog-orders:
+                  - start_offset
+                  - end_offset
+                  - duration
+                image_overlay:
+                  type: object
+                  description: Image overlay can be used to brand a video or add a visual label in the
+                    form of an image.
+                  required:
+                  - url
+                  properties:
+                    url:
+                      type: string
+                      description: This is the required parameter for image overlay; it can be a URL to
+                        an image that needs to be overlaid.
+                    horizontal_margin:
+                      type: string
+                      description: 'This parameter defines the horizontal coordinate value of the corner
+                        (determined by `horizontal_align`) of the overlay area. Values can be an absolute
+                        number of pixels or a percentage value relative to the video width. **Default:
+                        `0`**'
+                    vertical_margin:
+                      type: string
+                      description: 'This parameter defines the vertical coordinate value of the corner
+                        (determined by `vertical_align`) of the overlay area. Values can be an absolute
+                        number of pixels or a percentage value relative to the video height. **Default:
+                        `0`**'
+                    horizontal_align:
+                      type: string
+                      description: 'This parameter specifies the horizontal alignment of the overlaid
+                        image and can be either `left` or `right`. **Default: `right`**'
+                    vertical_align:
+                      type: string
+                      description: 'This parameter specifies the vertical alignment of the overlaid image
+                        and can be either `top` or `bottom`. **Default: `bottom`**'
+                    width:
+                      type: string
+                      description: 'Width of the overlaid image. **Default: `image width`**'
+                    height:
+                      type: string
+                      description: 'Height of the overlaid image. **Default: `image height`**'
+                  x-apidog-orders:
+                  - url
+                  - horizontal_margin
+                  - vertical_margin
+                  - horizontal_align
+                  - vertical_align
+                  - width
+                  - height
+                text_overlay:
+                  type: object
+                  description: Text overlay can be used to brand a video or add a label in the form of
+                    text.
+                  required:
+                  - text
+                  properties:
+                    text:
+                      type: string
+                      description: Text to be overlaid on video.
+                    horizontal_align:
+                      type: string
+                      description: 'This parameter specifies the horizontal alignment of the overlaid
+                        text and can be either `left` or `right`. **Default: `right`**'
+                    vertical_align:
+                      type: string
+                      description: 'This parameter specifies the vertical alignment of the overlaid text
+                        and can be either `top` or `bottom`. **Default: `bottom`**'
+                    horizontal_margin:
+                      type: string
+                      description: 'This parameter defines the horizontal coordinate value of the corner
+                        (determined by `horizontal_align`) of the overlay area. Values can be an absolute
+                        number of pixels relative to the video width. **Default: `0`**'
+                    vertical_margin:
+                      type: string
+                      description: 'This parameter defines the vertical coordinate value of the corner
+                        (determined by vertical_align) of the overlay area. Values can be an absolute
+                        number of pixels relative to the video height. **Default: `0`**'
+                    color:
+                      type: string
+                      description: 'Font color for text. **Default: `black`**'
+                    font:
+                      type: string
+                      description: 'Font family type for text. **Default: `sans`**'
+                    font_size:
+                      type: string
+                      description: 'Font size in pixels. **Default: `16`**'
+                    opacity:
+                      type: string
+                      description: 'Overlay text opacity can be specified with opacity parameter where
+                        value can be between `0` and `100` where `0` is considered completely transparent
+                        and `100` is considered completely opaque. **Default: `100`**'
+                    box:
+                      type: boolean
+                      description: 'This parameter allows drawing a rectangular box over the overlaid
+                        text. **Default: `false`**'
+                    box_color:
+                      type: string
+                      description: 'Box color can be specified with this parameter. **Default: `white`**'
+                    box_opacity:
+                      type: string
+                      description: 'Box opacity can be specified with this parameter. **Default: `100`**'
+                    box_border:
+                      type: string
+                      description: 'Padding between the box border and the text can be specified with
+                        this parameter in pixels. **Default: `0`**'
+                  x-apidog-orders:
+                  - text
+                  - horizontal_align
+                  - vertical_align
+                  - horizontal_margin
+                  - vertical_margin
+                  - color
+                  - font
+                  - font_size
+                  - opacity
+                  - box
+                  - box_color
+                  - box_opacity
+                  - box_border
+                animated_gif:
+                  type: object
+                  description: Create an animated GIF from the video.
+                  properties:
+                    start_offset:
+                      type: string
+                      description: 'The time (in seconds or `HH:MM:SS` format) of the video timeline where
+                        the animated gif should begin. **Default: `0`**'
+                    end_offset:
+                      type: string
+                      description: The time (in seconds or `HH:MM:SS` format) of the video timeline where
+                        the GIF ends. Defaults to `10` seconds after the start_offset. Maximum duration
+                        of GIF is limited to `10` seconds.
+                    width:
+                      type: string
+                      description: The width in pixels (or in percentage value of asset width) of the
+                        animated GIF. Max width is `640px`.
+                    height:
+                      type: string
+                      description: The height in pixels (or in percentage value of asset height) of the
+                        animated GIF. Max height is `640px`.
+                    fps:
+                      type: string
+                      description: The frame rate of the generated GIF. Defaults to `15` fps. Max `30`
+                        fps.
+                  x-apidog-orders:
+                  - start_offset
+                  - end_offset
+                  - width
+                  - height
+                  - fps
+                additional_tracks:
+                  type: array
+                  description: Add additional Audio / Subtitle tracks to Gumlet for transcoding and delivery
+                    along with video asset track.
+                  items:
+                    type: object
+                    required:
+                    - url
+                    - type
+                    - language_code
+                    properties:
+                      url:
+                        type: string
+                        description: URL or web address of a file that Gumlet should download to add a
+                          stream.
+                      type:
+                        type: string
+                        description: Type of additional track. Value can be either audio or subtitle.
+                      language_code:
+                        type: string
+                        description: The language code value represents BCP 47 specification compliant
+                          value. For example, en for English.
+                      name:
+                        type: string
+                        description: The name of the track containing a human-readable description.
+                    x-apidog-orders:
+                    - url
+                    - type
+                    - language_code
+                    - name
+                generate_subtitles:
+                  type: object
+                  description: Gumlet allows you to generate subtitles from the audio stream (use <a href='https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes'>
+                    ISO 639-1 </a> Language Codes)
+                  properties:
+                    audio_language:
+                      type: string
+                      description: Language code for native language of the audio.
+                    subtitle_languages:
+                      type: string
+                      description: Comma separated string of language codes for which subtitle needs to
+                        be generated. Maximum four language codes are allowed.
+                  x-apidog-orders:
+                  - audio_language
+                  - subtitle_languages
+                mp4_access:
+                  type: boolean
+                  description: 'Creates `MP4` version for download purpose in case of `MPEG-DASH` or `HLS`
+                    delivery format. **Default: `false`**'
+                per_title_encoding:
+                  type: boolean
+                  description: 'Gumlet analyzes each input video on a wide range of visual aspects. Based
+                    on the analysis, it chooses a unique set of transcoding options for processing the
+                    video. This ensures that the output video is of optimal size and best quality. **Default:
+                    `true`**'
+                process_low_resolution_input:
+                  type: boolean
+                  description: 'Currently, the minimum supported frame size is `57600` (`240x240`) pixels
+                    for `HLS/DASH` and `21025` (`145x145`) pixels for `MP4` format. However, enabling
+                    this flag will allow Gumlet to simply put your video asset into the specified delivery
+                    format without transcoding and optimization. Enabling this flag will cause any kind
+                    of specified video transformation to be ignored if you input video asset frame size
+                    is lower than the minimum supported frame size for the specified format. **Default:
+                    `false`**'
+                audio_only:
+                  type: boolean
+                  description: 'This flag allows Gumlet to transcode and deliver audio-only in the specified
+                    format. In this case, video transformation and thumbnails/animated GIFs would not
+                    be created. **Default: `false`**'
+                enable_drm:
+                  type: boolean
+                  description: Enable DRM encryption for transcoded videos. Gumlet supports Widevine and
+                    FairPlay DRMs.
+                call_to_actions:
+                  type: array
+                  description: A CTA is an explicit prompt within the video content encouraging viewers
+                    to take a particular action.
+                  items:
+                    type: object
+                    properties:
+                      text:
+                        type: string
+                      url:
+                        type: string
+                      start_time:
+                        type: integer
+                        format: int32
+                      end_time:
+                        type: integer
+                        format: int32
+                      font_color:
+                        type: string
+                        description: hex value of color
+                      background_color:
+                        type: string
+                        description: hex code of color
+                      position_from_top:
+                        type: integer
+                        description: number of pixels from top
+                        format: int32
+                      position_from_right:
+                        type: integer
+                        description: number of pixels from right
+                        format: int32
+                    x-apidog-orders:
+                    - text
+                    - url
+                    - start_time
+                    - end_time
+                    - font_color
+                    - background_color
+                    - position_from_top
+                    - position_from_right
+                playlist_id:
+                  type: string
+                  description: Add this asset to a playlist.
+                folder:
+                  type: string
+                  description: Add this asset to an existing folder by `folder_id`.
+                workspace_id:
+                  type: string
+                  description: Gumlet video workspace id.
+              x-apidog-orders:
+              - input
+              - workspace_id
+              - profile_id
+              - format
+              - tag
+              - title
+              - description
+              - metadata
+              - width
+              - height
+              - resolution
+              - crop
+              - pad
+              - trim
+              - image_overlay
+              - text_overlay
+              - animated_gif
+              - additional_tracks
+              - generate_subtitles
+              - mp4_access
+              - per_title_encoding
+              - process_low_resolution_input
+              - audio_only
+              - enable_drm
+              - call_to_actions
+              - playlist_id
+              - folder
+            examples:
+              Simple Example:
+                value:
+                  format: ABR
+                  workspace_id: <your workspace id>
+                  title: Example Title
+                  input: http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8
+              Detailed Example:
+                value:
+                  format: ABR
+                  workspace_id: 646df1c9173a4a2fcac180b4
+                  input: http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8
+                  description: some description
+                  tag:
+                  - ball
+                  profile_id: 646df1c9173a4a2fcac180b7
+                  cluster_type: prod
+                  playlist_id: 6597acd5ed6f26a9c5ca9633
+                  metadata:
+                    headermeta: metavalue
+                  call_to_actions:
+                  - start_time: 1
+                    end_time: 90
+                    text: some test
+                    url: https://some-url.com
+                    position_from_top: 11
+                    position_from_right: 23
+                    border_radius: '11'
+                    font_color: '#000001'
+                    background_color: '#ffffff'
+                  folder: 697375fbfa2d1037283140e4
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    asset_id: 65b168a6e99b77f116c0e488
+                    progress: 0
+                    created_at: 1706125479006
+                    updated_at: 1706125479006
+                    status: pre-queued
+                    tag:
+                    - ball
+                    source_id: 646df1c9173a4a2fcac180b4
+                    collection_id: 646df1c9173a4a2fcac180b4
+                    input:
+                      transformations:
+                        format: hls
+                        resolution:
+                        - 360p
+                        - 480p
+                        - 540p
+                        - 720p
+                        - 1080p
+                        audio_codec:
+                        - aac
+                        video_codec:
+                        - libx264
+                        thumbnail:
+                        - auto
+                        thumbnail_format: png
+                        mp4_access: false
+                        per_title_encoding: false
+                      profile_id: 646df1c9173a4a2fcac180b7
+                      title: bipbopall
+                      description: some description
+                      metadata:
+                        headermeta: metavalue
+                      source_url: http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8
+                      call_to_actions:
+                      - start_time: 1
+                        end_time: 90
+                        text: some test
+                        url: https://some-url.com
+                        position_from_top: 11
+                        position_from_right: 23
+                        border_radius: 11
+                        font_color: '#000001'
+                        background_color: '#ffffff'
+                        html_target: _blank
+                    output:
+                      format: hls
+                      status_url: https://api.gumlet.com/v1/video/assets/65b168a6e99b77f116c0e488
+                      playback_url: https://video.gumlet.io/646df1c9173a4a2fcac180b4/65b168a6e99b77f116c0e488/main.m3u8
+                      thumbnail_url:
+                      - https://video.gumlet.io/646df1c9173a4a2fcac180b4/65b168a6e99b77f116c0e488/thumbnail-1-0.png?v=1706125479006
+                    playlists:
+                    - 6597acd5ed6f26a9c5ca9633
+              schema:
+                type: object
+                properties:
+                  asset_id:
+                    type: string
+                    example: 65b168a6e99b77f116c0e488
+                  progress:
+                    type: integer
+                    example: 0
+                    default: 0
+                  created_at:
+                    type: integer
+                    example: 1706125479006
+                    default: 0
+                  updated_at:
+                    type: integer
+                    example: 1706125479006
+                    default: 0
+                  status:
+                    type: string
+                    example: pre-queued
+                  tag:
+                    type: array
+                    items:
+                      type: string
+                      example: ball
+                  source_id:
+                    type: string
+                    example: 646df1c9173a4a2fcac180b4
+                  collection_id:
+                    type: string
+                    example: 646df1c9173a4a2fcac180b4
+                  input:
+                    type: object
+                    properties:
+                      transformations:
+                        type: object
+                        properties:
+                          format:
+                            type: string
+                            example: hls
+                          resolution:
+                            type: array
+                            items:
+                              type: string
+                              example: 360p
+                          audio_codec:
+                            type: array
+                            items:
+                              type: string
+                              example: aac
+                          video_codec:
+                            type: array
+                            items:
+                              type: string
+                              example: libx264
+                          thumbnail:
+                            type: array
+                            items:
+                              type: string
+                              example: auto
+                          thumbnail_format:
+                            type: string
+                            example: png
+                          mp4_access:
+                            type: boolean
+                            example: false
+                            default: true
+                          per_title_encoding:
+                            type: boolean
+                            example: false
+                            default: true
+                      profile_id:
+                        type: string
+                        example: 646df1c9173a4a2fcac180b7
+                      title:
+                        type: string
+                        example: bipbopall
+                      description:
+                        type: string
+                        example: some description
+                      metadata:
+                        type: object
+                        properties:
+                          headermeta:
+                            type: string
+                            example: metavalue
+                      source_url:
+                        type: string
+                        example: http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8
+                      call_to_actions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            start_time:
+                              type: integer
+                              example: 1
+                              default: 0
+                            end_time:
+                              type: integer
+                              example: 90
+                              default: 0
+                            text:
+                              type: string
+                              example: some test
+                            url:
+                              type: string
+                              example: https://some-url.com
+                            position_from_top:
+                              type: integer
+                              example: 11
+                              default: 0
+                            position_from_right:
+                              type: integer
+                              example: 23
+                              default: 0
+                            border_radius:
+                              type: integer
+                              example: 11
+                              default: 0
+                            font_color:
+                              type: string
+                              example: '#000001'
+                            background_color:
+                              type: string
+                              example: '#ffffff'
+                            html_target:
+                              type: string
+                              example: _blank
+                  output:
+                    type: object
+                    properties:
+                      format:
+                        type: string
+                        example: hls
+                      status_url:
+                        type: string
+                        example: https://api.gumlet.com/v1/video/assets/65b168a6e99b77f116c0e488
+                      playback_url:
+                        type: string
+                        example: https://video.gumlet.io/646df1c9173a4a2fcac180b4/65b168a6e99b77f116c0e488/main.m3u8
+                      thumbnail_url:
+                        type: array
+                        items:
+                          type: string
+                          example: https://video.gumlet.io/646df1c9173a4a2fcac180b4/65b168a6e99b77f116c0e488/thumbnail-1-0.png?v=1706125479006
+                  playlists:
+                    type: array
+                    items:
+                      type: string
+                      example: 6597acd5ed6f26a9c5ca9633
+        '400':
+          description: Bad Request — missing or invalid parameters
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any video source with specified source ID.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any video source with specified source ID.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '402':
+          description: Payment Required — unpaid invoices
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: payment_pending
+                      message: Please clear your pending invoices to resume your services.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: payment_pending
+                      message:
+                        type: string
+                        example: Please clear your pending invoices to resume your services.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: false
+      tags:
+      - Video Assets
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAsset = await client.videoAssets.create({\n\
+          \  format: 'ABR',\n  workspace_id: '<your workspace id>',\n  title: 'Example Title',\n  input:\
+          \ 'http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8',\n});\n\nconsole.log(videoAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_asset = client.video_assets.create(\n    input=\"http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8\"\
+          ,\n    format=\"ABR\",\n    title=\"Example Title\",\n    workspace_id=\"<your workspace id>\"\
+          ,\n)\n\nprint(video_asset)"
+  /video/assets/upload:
+    post:
+      summary: Create Asset Direct Upload
+      description: This endpoint creates a video asset allowing upload of a video from the local file
+        system and ingest media content into the Gumlet system for processing and delivery. Body parameters
+        are the same as the Create Asset body parameters except for the `input` parameter, which this
+        endpoint does not take. A successful response will be returned with `upload_url` field. You can
+        make `PUT` request to that URL to upload video. To upload video using `upload_url` refer to [this](https://docs.gumlet.com/docs/direct-upload#2-use-the-url-to-upload-a-file).
+      operationId: create-asset-direct-upload
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - collection_id
+              properties:
+                collection_id:
+                  type: string
+                  description: Gumlet video workspace id.
+                profile_id:
+                  type: string
+                  description: Provide `profile_id` of the previously created video profile. This parameter
+                    will override all the parameters (except `input` and `collection_id`) from the video
+                    profile.
+                format:
+                  type: string
+                  description: Transcode and deliver the asset in the requested format. The options can
+                    be one of `ABR` (HLS + DASH) and `MP4`.
+                  enum:
+                  - ABR
+                  - MP4
+                tag:
+                  type: array
+                  description: Specify a text string or identifier which can identify an asset or bunch
+                    of assets later.
+                  items:
+                    x-stoplight:
+                      id: ukzi2mra8hepj
+                    type: string
+                title:
+                  type: string
+                  description: Specify a text string or identifier which can be used for filtering or
+                    searching the asset.
+                description:
+                  type: string
+                  description: Attach some textual data with the asset. This field is neither searchable
+                    nor filterable.
+                metadata:
+                  type: object
+                  description: 'Add your metadata you want to associate with this asset.<br/> Example:
+                    <br/> <code>  {  "internal_video_id" : "123Abc"  }  </code>'
+                  additionalProperties: {}
+                width:
+                  type: string
+                  description: Resize video with the given width. Can be an absolute value in pixels or
+                    a percentage value with the `%` suffix. Specified values greater than the original
+                    asset width will be ignored. Applicable only when specified format is `MP4`.
+                height:
+                  type: string
+                  description: Resize video with the given height. Can be an absolute value in pixels
+                    or a percentage value with the `%` suffix. Specified values greater than the original
+                    asset height will be ignored. Applicable only when specified format is `MP4`.
+                resolution:
+                  type: string
+                  description: 'Required resolutions of the transformed asset in case of HLS or MPEG-DASH
+                    delivery format. Can be a comma-separated string out of the following values: `240p`,
+                    `360p`, `480p`, `540p`, `720p`, and `1080p`. Resized rendition will retain the input
+                    aspect ratio.'
+                crop:
+                  type: object
+                  description: This transformation can be used to crop the video by defining a rectangular
+                    area within the dimensions of the output video.
+                  required:
+                  - width
+                  - height
+                  properties:
+                    horizontal_margin:
+                      type: string
+                      description: 'This parameter defines the horizontal coordinate value of the upper-left
+                        corner of the cropping area. Values can be an absolute number of pixels or a percentage
+                        value relative to the video width. **Default: `0`**'
+                    vertical_margin:
+                      type: string
+                      description: 'This parameter defines the vertical coordinate value of the upper-left
+                        corner of the cropping area. Values can be an absolute number of pixels or a percentage
+                        value relative to the video height. **Default: `0`**'
+                    width:
+                      type: string
+                      description: Width of the cropping area in pixels.
+                    height:
+                      type: string
+                      description: Height of the cropping area in pixels.
+                pad:
+                  type: object
+                  description: This transformation can be used to add padding to the video.
+                  properties:
+                    top:
+                      type: string
+                      description: 'Width of padding on the top side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video height. **Default: `%5`**'
+                    left:
+                      type: string
+                      description: 'Width of padding on the left side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video width. **Default: `0`**'
+                    bottom:
+                      type: string
+                      description: 'Width of padding on the bottom side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video height. **Default: `%5`**'
+                    right:
+                      type: string
+                      description: 'Width of padding on the right side. Values can be an absolute number
+                        of pixels or a percentage value relative to the video width. **Default: `0`**'
+                    color:
+                      type: string
+                      description: 'Color of padding area. **Default: `black`**'
+                trim:
+                  type: object
+                  description: Trim transformation can be used to trim videos based on time duration.
+                  required:
+                  - start_offset
+                  - end_offset
+                  properties:
+                    start_offset:
+                      type: number
+                      description: Start offset in number of seconds or in `HH:MM:SS` format.
+                      format: float
+                    end_offset:
+                      type: number
+                      description: End offset in number of seconds or in `HH:MM:SS` format.
+                      format: float
+                    duration:
+                      type: number
+                      description: Duration can be used in conjunction with `start_offset` parameter,
+                        can be specified in number of seconds.
+                      format: float
+                image_overlay:
+                  type: object
+                  description: Image overlay can be used to brand a video or add a visual label in the
+                    form of an image.
+                  required:
+                  - url
+                  properties:
+                    url:
+                      type: string
+                      description: This is the required parameter for image overlay; it can be a URL to
+                        an image that needs to be overlaid.
+                    horizontal_margin:
+                      type: string
+                      description: 'This parameter defines the horizontal coordinate value of the corner
+                        (determined by `horizontal_align`) of the overlay area. Values can be an absolute
+                        number of pixels or a percentage value relative to the video width. **Default:
+                        `0`**'
+                    vertical_margin:
+                      type: string
+                      description: 'This parameter defines the vertical coordinate value of the corner
+                        (determined by `vertical_align`) of the overlay area. Values can be an absolute
+                        number of pixels or a percentage value relative to the video height. **Default:
+                        `0`**'
+                    horizontal_align:
+                      type: string
+                      description: 'This parameter specifies the horizontal alignment of the overlaid
+                        image and can be either `left` or `right`. **Default: `right`**'
+                    vertical_align:
+                      type: string
+                      description: 'This parameter specifies the vertical alignment of the overlaid image
+                        and can be either `top` or `bottom`. **Default: `bottom`**'
+                    width:
+                      type: string
+                      description: 'Width of the overlaid image. **Default: `image width`**'
+                    height:
+                      type: string
+                      description: 'Height of the overlaid image. **Default: `image height`**'
+                text_overlay:
+                  type: object
+                  description: Text overlay can be used to brand a video or add a label in the form of
+                    text.
+                  required:
+                  - text
+                  properties:
+                    text:
+                      type: string
+                      description: Text to be overlaid on video.
+                    horizontal_align:
+                      type: string
+                      description: 'This parameter specifies the horizontal alignment of the overlaid
+                        text and can be either `left` or `right`. **Default: `right`**'
+                    vertical_align:
+                      type: string
+                      description: 'This parameter specifies the vertical alignment of the overlaid text
+                        and can be either `top` or `bottom`. **Default: `bottom`**'
+                    horizontal_margin:
+                      type: string
+                      description: 'This parameter defines the horizontal coordinate value of the corner
+                        (determined by `horizontal_align`) of the overlay area. Values can be an absolute
+                        number of pixels relative to the video width. **Default: `0`**'
+                    vertical_margin:
+                      type: string
+                      description: 'This parameter defines the vertical coordinate value of the corner
+                        (determined by vertical_align) of the overlay area. Values can be an absolute
+                        number of pixels relative to the video height. **Default: `0`**'
+                    color:
+                      type: string
+                      description: 'Font color for text. **Default: `black`**'
+                    font:
+                      type: string
+                      description: 'Font family type for text. **Default: `sans`**'
+                    font_size:
+                      type: string
+                      description: 'Font size in pixels. **Default: `16`**'
+                    opacity:
+                      type: string
+                      description: 'Overlay text opacity can be specified with opacity parameter where
+                        value can be between `0` and `100` where `0` is considered completely transparent
+                        and `100` is considered completely opaque. **Default: `100`**'
+                    box:
+                      type: boolean
+                      description: 'This parameter allows drawing a rectangular box over the overlaid
+                        text. **Default: `false`**'
+                    box_color:
+                      type: string
+                      description: 'Box color can be specified with this parameter. **Default: `white`**'
+                    box_opacity:
+                      type: string
+                      description: 'Box opacity can be specified with this parameter. **Default: `100`**'
+                    box_border:
+                      type: string
+                      description: 'Padding between the box border and the text can be specified with
+                        this parameter in pixels. **Default: `0`**'
+                animated_gif:
+                  type: object
+                  description: Create an animated GIF from the video.
+                  properties:
+                    start_offset:
+                      type: string
+                      description: 'The time (in seconds or `HH:MM:SS` format) of the video timeline where
+                        the animated gif should begin. **Default: `0`**'
+                    end_offset:
+                      type: string
+                      description: The time (in seconds or `HH:MM:SS` format) of the video timeline where
+                        the GIF ends. Defaults to `10` seconds after the start_offset. Maximum duration
+                        of GIF is limited to `10` seconds.
+                    width:
+                      type: string
+                      description: The width in pixels (or in percentage value of asset width) of the
+                        animated GIF. Max width is `640px`.
+                    height:
+                      type: string
+                      description: The height in pixels (or in percentage value of asset height) of the
+                        animated GIF. Max height is `640px`.
+                    fps:
+                      type: string
+                      description: The frame rate of the generated GIF. Defaults to `15` fps. Max `30`
+                        fps.
+                additional_tracks:
+                  type: array
+                  description: Add additional Audio / Subtitle tracks to Gumlet for transcoding and delivery
+                    along with video asset track.
+                  items:
+                    type: object
+                    required:
+                    - url
+                    - type
+                    - language_code
+                    properties:
+                      url:
+                        type: string
+                        description: URL or web address of a file that Gumlet should download to add a
+                          stream.
+                      type:
+                        type: string
+                        description: Type of additional track. Value can be either audio or subtitle.
+                      language_code:
+                        type: string
+                        description: The language code value represents BCP 47 specification compliant
+                          value. For example, en for English.
+                      name:
+                        type: string
+                        description: The name of the track containing a human-readable description.
+                generate_subtitles:
+                  type: object
+                  description: Gumlet allows you to generate subtitles from the audio stream (use <a href='https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes'>
+                    ISO 639-1 </a> Language Codes)
+                  properties:
+                    audio_language:
+                      type: string
+                      description: Language code for native language of the audio.
+                    subtitle_languages:
+                      type: string
+                      description: Comma separated string of language codes for which subtitle needs to
+                        be generated. Maximum four language codes are allowed.
+                mp4_access:
+                  type: boolean
+                  description: 'Creates `MP4` version for download purpose in case of `MPEG-DASH` or `HLS`
+                    delivery format. **Default: `false`**'
+                per_title_encoding:
+                  type: boolean
+                  description: 'Gumlet analyzes each input video on a wide range of visual aspects. Based
+                    on the analysis, it chooses a unique set of transcoding options for processing the
+                    video. This ensures that the output video is of optimal size and best quality. **Default:
+                    `true`**'
+                process_low_resolution_input:
+                  type: boolean
+                  description: 'Currently, the minimum supported frame size is `57600` (`240x240`) pixels
+                    for `HLS/DASH` and `21025` (`145x145`) pixels for `MP4` format. However, enabling
+                    this flag will allow Gumlet to simply put your video asset into the specified delivery
+                    format without transcoding and optimization. Enabling this flag will cause any kind
+                    of specified video transformation to be ignored if you input video asset frame size
+                    is lower than the minimum supported frame size for the specified format. **Default:
+                    `false`**'
+                audio_only:
+                  type: boolean
+                  description: 'This flag allows Gumlet to transcode and deliver audio-only in the specified
+                    format. In this case, video transformation and thumbnails/animated GIFs would not
+                    be created. **Default: `false`**'
+                enable_drm:
+                  type: boolean
+                  description: Enable DRM encryption for transcoded videos. Gumlet supports Widevine and
+                    FairPlay DRMs.
+                call_to_actions:
+                  type: array
+                  description: A CTA is an explicit prompt within the video content encouraging viewers
+                    to take a particular action.
+                  items:
+                    type: object
+                    properties:
+                      text:
+                        type: string
+                      url:
+                        type: string
+                      start_time:
+                        type: integer
+                        format: int32
+                      end_time:
+                        type: integer
+                        format: int32
+                      font_color:
+                        type: string
+                        description: hex value of color
+                      background_color:
+                        type: string
+                        description: hex code of color
+                      position_from_top:
+                        type: integer
+                        description: number of pixels from top
+                        format: int32
+                      position_from_right:
+                        type: integer
+                        description: number of pixels from right
+                        format: int32
+                playlist_id:
+                  type: string
+                  description: Add this asset to a playlist.
+                folder:
+                  type: string
+                  description: Add this asset to an existing folder by `folder_id`.
+            examples:
+              Request Example:
+                value:
+                  format: ABR
+                  collection_id: 646df1c9173a4a2fcac180b4
+                  input: http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8
+                  description: some description
+                  tag:
+                  - ball
+                  profile_id: 646df1c9173a4a2fcac180b7
+                  cluster_type: prod
+                  playlist_id: 6597acd5ed6f26a9c5ca9633
+                  metadata:
+                    headermeta: metavalue
+                  call_to_actions:
+                  - start_time: 1
+                    end_time: 90
+                    text: some test
+                    url: https://some-url.com
+                    position_from_top: 11
+                    position_from_right: 23
+                    border_radius: '11'
+                    font_color: '#000001'
+                    background_color: '#ffffff'
+                  folder: 697375fbfa2d1037283140e4
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    asset_id: 65b169dfe99b77f116c0e4aa
+                    progress: 0
+                    created_at: 1706125793055
+                    updated_at: 1706125793055
+                    status: upload-pending
+                    tag:
+                    - games
+                    - field
+                    source_id: 646df1c9173a4a2fcac180b4
+                    collection_id: 646df1c9173a4a2fcac180b4
+                    input:
+                      transformations:
+                        format: hls
+                        resolution:
+                        - 360p
+                        - 480p
+                        - 540p
+                        - 720p
+                        - 1080p
+                        audio_codec:
+                        - aac
+                        video_codec:
+                        - libx264
+                        thumbnail:
+                        - auto
+                        thumbnail_format: png
+                        mp4_access: false
+                        per_title_encoding: false
+                        original_deleted: true
+                      profile_id: 646df1c9173a4a2fcac180b7
+                      title: Sports.
+                      description: This video provides information about various sports.
+                      metadata:
+                        headermeta: metavalue
+                      source_url: 646df1c9173a4a2fcac180b4/65b169dfe99b77f116c0e4aa/origin-65b169dfe99b77f116c0e4aa
+                      call_to_actions:
+                      - start_time: 1
+                        end_time: 90
+                        text: Buy here!!
+                        url: https://some-buy-url-site.com
+                        html_target: _blank
+                    output:
+                      format: hls
+                      status_url: https://api.gumlet.com/v1/video/assets/65b169dfe99b77f116c0e4aa
+                      playback_url: https://dev-video.gumlet.io/646df1c9173a4a2fcac180b4/65b169dfe99b77f116c0e4aa/main.m3u8
+                      thumbnail_url:
+                      - https://dev-video.gumlet.io/646df1c9173a4a2fcac180b4/65b169dfe99b77f116c0e4aa/thumbnail-1-0.png?v=1706125793055
+                    upload_url: https://gumlet-video-user-uploads.s3-accelerate.dualstack.amazonaws.com/gumlet-user-uploads-dev-deletable/646df1c9173a4a2fcac180b4/65b169dfe99b77f116c0e4aa/origin-65b169dfe99b77f116c0e4aa?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=REDACTED_AWS_ACCESS_KEY_ID%2F20240124%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20240124T194953Z&X-Amz-Expires=3600&X-Amz-Signature=b724bd728efd589ec6cb4d0fab17947448c02788823619433720e8fddf0f1155&X-Amz-SignedHeaders=host&x-id=PutObject
+                    playlists:
+                    - 6597acd5ed6f26a9c5ca9633
+              schema:
+                type: object
+                properties:
+                  asset_id:
+                    type: string
+                    example: 65b169dfe99b77f116c0e4aa
+                  progress:
+                    type: integer
+                    example: 0
+                    default: 0
+                  created_at:
+                    type: integer
+                    example: 1706125793055
+                    default: 0
+                  updated_at:
+                    type: integer
+                    example: 1706125793055
+                    default: 0
+                  status:
+                    type: string
+                    example: upload-pending
+                  tag:
+                    type: array
+                    items:
+                      type: string
+                      example: games
+                  source_id:
+                    type: string
+                    example: 646df1c9173a4a2fcac180b4
+                  collection_id:
+                    type: string
+                    example: 646df1c9173a4a2fcac180b4
+                  input:
+                    type: object
+                    properties:
+                      transformations:
+                        type: object
+                        properties:
+                          format:
+                            type: string
+                            example: hls
+                          resolution:
+                            type: array
+                            items:
+                              type: string
+                              example: 360p
+                          audio_codec:
+                            type: array
+                            items:
+                              type: string
+                              example: aac
+                          video_codec:
+                            type: array
+                            items:
+                              type: string
+                              example: libx264
+                          thumbnail:
+                            type: array
+                            items:
+                              type: string
+                              example: auto
+                          thumbnail_format:
+                            type: string
+                            example: png
+                          mp4_access:
+                            type: boolean
+                            example: false
+                            default: true
+                          per_title_encoding:
+                            type: boolean
+                            example: false
+                            default: true
+                          original_deleted:
+                            type: boolean
+                            example: true
+                            default: true
+                      profile_id:
+                        type: string
+                        example: 646df1c9173a4a2fcac180b7
+                      title:
+                        type: string
+                        example: Sports.
+                      description:
+                        type: string
+                        example: This video provides information about various sports.
+                      metadata:
+                        type: object
+                        properties:
+                          headermeta:
+                            type: string
+                            example: metavalue
+                      source_url:
+                        type: string
+                        example: 646df1c9173a4a2fcac180b4/65b169dfe99b77f116c0e4aa/origin-65b169dfe99b77f116c0e4aa
+                      call_to_actions:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            start_time:
+                              type: integer
+                              example: 1
+                              default: 0
+                            end_time:
+                              type: integer
+                              example: 90
+                              default: 0
+                            text:
+                              type: string
+                              example: Buy here!!
+                            url:
+                              type: string
+                              example: https://some-buy-url-site.com
+                            html_target:
+                              type: string
+                              example: _blank
+                  output:
+                    type: object
+                    properties:
+                      format:
+                        type: string
+                        example: hls
+                      status_url:
+                        type: string
+                        example: https://api.gumlet.com/v1/video/assets/65b169dfe99b77f116c0e4aa
+                      playback_url:
+                        type: string
+                        example: https://dev-video.gumlet.io/646df1c9173a4a2fcac180b4/65b169dfe99b77f116c0e4aa/main.m3u8
+                      thumbnail_url:
+                        type: array
+                        items:
+                          type: string
+                          example: https://dev-video.gumlet.io/646df1c9173a4a2fcac180b4/65b169dfe99b77f116c0e4aa/thumbnail-1-0.png?v=1706125793055
+                  upload_url:
+                    type: string
+                    example: https://gumlet-video-user-uploads.s3-accelerate.dualstack.amazonaws.com/gumlet-user-uploads-dev-deletable/646df1c9173a4a2fcac180b4/65b169dfe99b77f116c0e4aa/origin-65b169dfe99b77f116c0e4aa?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=REDACTED_AWS_ACCESS_KEY_ID%2F20240124%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20240124T194953Z&X-Amz-Expires=3600&X-Amz-Signature=b724bd728efd589ec6cb4d0fab17947448c02788823619433720e8fddf0f1155&X-Amz-SignedHeaders=host&x-id=PutObject
+                  playlists:
+                    type: array
+                    items:
+                      type: string
+                      example: 6597acd5ed6f26a9c5ca9633
+        '400':
+          description: Bad Request — missing or invalid parameters
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any video source with specified source ID.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any video source with specified source ID.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any video source with specified source ID.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any video source with specified source ID.
+        '402':
+          description: Payment Required — plan limit exhausted
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: plan_limit_exhausted
+                      message: You have consumed resources of your plan, please upgrade your plan to resuming
+                        it.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: plan_limit_exhausted
+                      message:
+                        type: string
+                        example: You have consumed resources of your plan, please upgrade your plan to
+                          resuming it.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: false
+      tags:
+      - Video Assets
+      x-stoplight:
+        id: 7vjmxfy06ukbh
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAsset = await client.videoAssets.upload({\n\
+          \  format: 'ABR',\n  collection_id: '646df1c9173a4a2fcac180b4',\n  description: 'some description',\n\
+          \  tag: ['ball'],\n  profile_id: '646df1c9173a4a2fcac180b7',\n  playlist_id: '6597acd5ed6f26a9c5ca9633',\n\
+          \  metadata: { headermeta: 'metavalue' },\n  call_to_actions: [\n    {\n      start_time: 1,\n\
+          \      end_time: 90,\n      text: 'some test',\n      url: 'https://some-url.com',\n      position_from_top:\
+          \ 11,\n      position_from_right: 23,\n      font_color: '#000001',\n      background_color:\
+          \ '#ffffff',\n    },\n  ],\n  folder: '697375fbfa2d1037283140e4',\n});\n\nconsole.log(videoAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_asset = client.video_assets.upload(\n    collection_id=\"646df1c9173a4a2fcac180b4\"\
+          ,\n    profile_id=\"646df1c9173a4a2fcac180b7\",\n    format=\"ABR\",\n    tag=[\"ball\"],\n\
+          \    description=\"some description\",\n    metadata={\"headermeta\": \"metavalue\"},\n    call_to_actions=[\n\
+          \        {\n            \"start_time\": 1,\n            \"end_time\": 90,\n            \"text\"\
+          : \"some test\",\n            \"url\": \"https://some-url.com\",\n            \"position_from_top\"\
+          : 11,\n            \"position_from_right\": 23,\n            \"border_radius\": \"11\",\n  \
+          \          \"font_color\": \"#000001\",\n            \"background_color\": \"#ffffff\",\n  \
+          \      }\n    ],\n    playlist_id=\"6597acd5ed6f26a9c5ca9633\",\n    folder=\"697375fbfa2d1037283140e4\"\
+          ,\n)\n\nprint(video_asset)"
+  /video/assets/{asset_id}:
+    get:
+      summary: Asset Details
+      description: This endpoint retrieves the details of an asset that has previously been created.
+      operationId: get-asset-details
+      parameters:
+      - name: asset_id
+        in: path
+        description: An asset id for the previously created asset.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    asset_id: 67e4ece9403562dbea654261
+                    progress: 100
+                    created_at: 1743056105661
+                    updated_at: 1743056105661
+                    workspace_updated_at: 1743056105661
+                    status: ready
+                    tag:
+                    - demo
+                    workspace_id: 67e4ece9403562dbea65425f
+                    input:
+                      transformations:
+                        format: abr
+                        resolution:
+                        - 240p
+                        - 360p
+                        - 480p
+                        - 540p
+                        - 720p
+                        - 1080p
+                        - 1440p
+                        - 2160p
+                        audio_codec:
+                        - aac
+                        video_codec:
+                        - libx264
+                        image_overlay:
+                          url: https://demo.gumlet.io/logo.png
+                          vertical_align: top
+                          horizontal_align: right
+                          vertical_margin: 5%
+                          horizontal_margin: 5%
+                          width: 20%
+                          height: 20%
+                          image_downloaded: true
+                        thumbnail:
+                        - auto
+                        thumbnail_format: png
+                        mp4_access: false
+                        audio_only: false
+                        original_deleted: true
+                        per_title_encoding: false
+                        generate_subtitles:
+                          audio_language: en
+                          subtitle_languages:
+                          - es
+                          - hi
+                        preview_thumbnails:
+                          max_tiles: 100
+                      profile_id: 67e4ece9403562dbea65425c
+                      title: Sample Video
+                      description: This is a sample video to help you experience Gumlet platform and player.
+                      chapters:
+                      - endTime: 10
+                        label: First Chapter
+                      - endTime: 50
+                        label: Second Chapter
+                      - endTime: 130
+                        label: Third Chapter
+                      - endTime: 155
+                        label: Forth Chapter
+                      source_url: 5f462c1561cf8a766464ffc4/647eb18cc90c6c6c35370979/origin-647eb18cc90c6c6c35370979
+                      size: 364735178
+                      duration: 183.088
+                      aspect_ratio: '16:9'
+                      fps: 23.98
+                      width: 3840
+                      height: 2160
+                    output:
+                      format: abr
+                      status_url: https://api.gumlet.com/v1/video/assets/67e4ece9403562dbea654261
+                      playback_url: https://video.gumlet.io/67e4ece9403562dbea65425f/67e4ece9403562dbea654261/main.m3u8
+                      dash_playback_url: https://video.gumlet.io/67e4ece9403562dbea65425f/67e4ece9403562dbea654261/main.mpd
+                      thumbnail_url:
+                      - https://video.gumlet.io/67e4ece9403562dbea65425f/67e4ece9403562dbea654261/thumbnail-1-0.png?v=1743056105661
+                      storage_details:
+                        video:
+                        - fileName: 1080p.mp4
+                          size: 91884957
+                          resolution: 1920x1080
+                          duration: 183
+                        - fileName: 1440p.mp4
+                          size: 148667263
+                          resolution: 2560x1440
+                          duration: 183
+                        - fileName: 2160p.mp4
+                          size: 296143768
+                          resolution: 3840x2160
+                          duration: 183
+                        - fileName: 240p.mp4
+                          size: 6573304
+                          resolution: 426x240
+                          duration: 183
+                        - fileName: 360p.mp4
+                          size: 14040936
+                          resolution: 640x360
+                          duration: 183
+                        - fileName: 480p.mp4
+                          size: 23006040
+                          resolution: 854x480
+                          duration: 183
+                        - fileName: 540p.mp4
+                          size: 28124144
+                          resolution: 960x540
+                          duration: 183
+                        - fileName: 720p.mp4
+                          size: 45395668
+                          resolution: 1280x720
+                          duration: 183
+                        audio:
+                        - fileName: en_128k.mp4
+                          size: 2913025
+                          duration: 183
+                        - fileName: en_192k.mp4
+                          size: 4378028
+                          duration: 183
+                        - fileName: en_64k.mp4
+                          size: 1448475
+                          duration: 183
+                        - fileName: en_96k.mp4
+                          size: 2180524
+                          duration: 183
+                        playlist:
+                        - fileName: 1080p.m3u8
+                          size: 3790
+                        - fileName: 1080p_iframe.m3u8
+                          size: 4129
+                        - fileName: 1440p.m3u8
+                          size: 3793
+                        - fileName: 1440p_iframe.m3u8
+                          size: 4160
+                        - fileName: 2160p.m3u8
+                          size: 3797
+                        - fileName: 2160p_iframe.m3u8
+                          size: 4196
+                        - fileName: 240p.m3u8
+                          size: 3701
+                        - fileName: 240p_iframe.m3u8
+                          size: 3997
+                        - fileName: 360p.m3u8
+                          size: 3701
+                        - fileName: 360p_iframe.m3u8
+                          size: 4040
+                        - fileName: 480p.m3u8
+                          size: 3702
+                        - fileName: 480p_iframe.m3u8
+                          size: 4058
+                        - fileName: 540p.m3u8
+                          size: 3705
+                        - fileName: 540p_iframe.m3u8
+                          size: 4068
+                        - fileName: 720p.m3u8
+                          size: 3730
+                        - fileName: 720p_iframe.m3u8
+                          size: 4072
+                        - fileName: en_128k.m3u8
+                          size: 3802
+                        - fileName: en_192k.m3u8
+                          size: 3802
+                        - fileName: en_64k.m3u8
+                          size: 3755
+                        - fileName: en_96k.m3u8
+                          size: 3755
+                        - fileName: es.m3u8
+                          size: 231
+                        - fileName: hi.m3u8
+                          size: 231
+                        - fileName: en.m3u8
+                          size: 232
+                        - fileName: main.m3u8
+                          size: 10690
+                        - fileName: main.mpd
+                          size: 6889
+                        thumbnail:
+                        - fileName: thumbnail-1-0.png
+                          size: 6087369
+                          resolution: 3840x2160
+                        subtitle:
+                        - fileName: es.vtt
+                          size: 398
+                        - fileName: hi.vtt
+                          size: 632
+                        - fileName: en.vtt
+                          size: 645
+                        previewThumbnail:
+                        - fileName: preview_thumbnails.png
+                          size: 3089899
+                        - fileName: preview_thumbnails.vtt
+                          size: 3816
+                      transcription_word_level_timestamps: https://video.gumlet.io/67e4ece9403562dbea65425f/67e4ece9403562dbea654261/67e4ece9403562dbea654261-transcription-word-level-timestamp.json?token=5589a9b725fabe0586e37782c3eb8e083a84e5c2&expires=1744100014337
+                      storage_bytes: 674034917
+                      preview_thumbnails_url: https://video.gumlet.io/67e4ece9403562dbea65425f/67e4ece9403562dbea654261/preview_thumbnails.vtt
+                    processed_at: 1743056105661
+                    folder: Demo Folder
+                    playlists:
+                    - 6580370331f481c578e07287
+                    - 657c24f3e3340004404eed59
+              schema:
+                type: object
+                properties:
+                  asset_id:
+                    type: string
+                    examples:
+                    - 67e4ece9403562dbea654261
+                  progress:
+                    type: integer
+                    default: 0
+                    examples:
+                    - 100
+                  created_at:
+                    type: integer
+                    default: 0
+                    examples:
+                    - 1743056105661
+                    format: int64
+                    description: Asset created timestamp in milliseconds since epoch
+                  updated_at:
+                    type: integer
+                    default: 0
+                    examples:
+                    - 1743056105661
+                    format: int64
+                    description: Asset updated timestamp in milliseconds since epoch
+                  status:
+                    type: string
+                    examples:
+                    - ready
+                  tag:
+                    type: array
+                    items:
+                      type: string
+                      examples:
+                      - demo
+                  input:
+                    type: object
+                    properties:
+                      transformations:
+                        type: object
+                        properties:
+                          format:
+                            type: string
+                            examples:
+                            - abr
+                          resolution:
+                            type: array
+                            items:
+                              type: string
+                              examples:
+                              - 240p
+                          audio_codec:
+                            type: array
+                            items:
+                              type: string
+                              examples:
+                              - aac
+                          video_codec:
+                            type: array
+                            items:
+                              type: string
+                              examples:
+                              - libx264
+                          image_overlay:
+                            type: object
+                            properties:
+                              url:
+                                type: string
+                                examples:
+                                - https://demo.gumlet.io/logo.png
+                              vertical_align:
+                                type: string
+                                examples:
+                                - top
+                              horizontal_align:
+                                type: string
+                                examples:
+                                - right
+                              vertical_margin:
+                                type: string
+                                examples:
+                                - 5%
+                              horizontal_margin:
+                                type: string
+                                examples:
+                                - 5%
+                              width:
+                                type: string
+                                examples:
+                                - 20%
+                              height:
+                                type: string
+                                examples:
+                                - 20%
+                              image_downloaded:
+                                type: boolean
+                                default: true
+                                examples:
+                                - true
+                            x-apidog-orders:
+                            - url
+                            - vertical_align
+                            - horizontal_align
+                            - vertical_margin
+                            - horizontal_margin
+                            - width
+                            - height
+                            - image_downloaded
+                          thumbnail:
+                            type: array
+                            items:
+                              type: string
+                              examples:
+                              - auto
+                          thumbnail_format:
+                            type: string
+                            examples:
+                            - png
+                          mp4_access:
+                            type: boolean
+                            default: true
+                            examples:
+                            - false
+                          audio_only:
+                            type: boolean
+                            default: true
+                            examples:
+                            - false
+                          original_deleted:
+                            type: boolean
+                            default: true
+                            examples:
+                            - true
+                          per_title_encoding:
+                            type: boolean
+                            default: true
+                            examples:
+                            - false
+                          generate_subtitles:
+                            type: object
+                            properties:
+                              audio_language:
+                                type: string
+                                examples:
+                                - en
+                              subtitle_languages:
+                                type: array
+                                items:
+                                  type: string
+                                  examples:
+                                  - es
+                            x-apidog-orders:
+                            - audio_language
+                            - subtitle_languages
+                          preview_thumbnails:
+                            type: object
+                            properties:
+                              max_tiles:
+                                type: integer
+                                default: 0
+                                examples:
+                                - 100
+                            x-apidog-orders:
+                            - max_tiles
+                          pre_processing_successful:
+                            type: boolean
+                            description: Flag indicating if the pre-processing was successful
+                          generate_chapters:
+                            type: boolean
+                            description: Flag if AI chapter generation is enabled
+                          drm:
+                            type: object
+                            properties:
+                              type:
+                                type: string
+                                enum:
+                                - widevine
+                                - fairplay
+                                - clearkey
+                                - widevine,fairplay
+                                - fairplay,widevine
+                                x-apidog-enum:
+                                - value: widevine
+                                  name: ''
+                                  description: ''
+                                - value: fairplay
+                                  name: ''
+                                  description: ''
+                                - value: clearkey
+                                  name: ''
+                                  description: ''
+                                - value: widevine,fairplay
+                                  name: ''
+                                  description: ''
+                                - value: fairplay,widevine
+                                  name: ''
+                                  description: ''
+                            x-apidog-orders:
+                            - type
+                            required:
+                            - type
+                          generate_description:
+                            type: boolean
+                            description: Flag if AI description generation is enabled
+                        x-apidog-orders:
+                        - format
+                        - drm
+                        - pre_processing_successful
+                        - generate_chapters
+                        - generate_description
+                        - resolution
+                        - audio_codec
+                        - video_codec
+                        - image_overlay
+                        - thumbnail
+                        - thumbnail_format
+                        - mp4_access
+                        - audio_only
+                        - original_deleted
+                        - per_title_encoding
+                        - generate_subtitles
+                        - preview_thumbnails
+                        required:
+                        - format
+                      profile_id:
+                        type: string
+                        examples:
+                        - 67e4ece9403562dbea65425c
+                      title:
+                        type: string
+                        examples:
+                        - ' Sample Video'
+                      description:
+                        type: string
+                        examples:
+                        - This is a sample video to help you experience Gumlet platform and player.
+                      chapters:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            endTime:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 10
+                            label:
+                              type: string
+                              examples:
+                              - First Chapter
+                          x-apidog-orders:
+                          - endTime
+                          - label
+                      source_url:
+                        type: string
+                        examples:
+                        - 5f462c1561cf8a766464ffc4/647eb18cc90c6c6c35370979/origin-647eb18cc90c6c6c35370979
+                      size:
+                        type: integer
+                        default: 0
+                        examples:
+                        - 364735178
+                      duration:
+                        type: number
+                        default: 0
+                        examples:
+                        - 183.088
+                      aspect_ratio:
+                        type: string
+                        examples:
+                        - '16:9'
+                      fps:
+                        type: number
+                        default: 0
+                        examples:
+                        - 23.98
+                      width:
+                        type: integer
+                        default: 0
+                        examples:
+                        - 3840
+                      height:
+                        type: integer
+                        default: 0
+                        examples:
+                        - 2160
+                    x-apidog-orders:
+                    - transformations
+                    - profile_id
+                    - title
+                    - description
+                    - chapters
+                    - source_url
+                    - size
+                    - duration
+                    - aspect_ratio
+                    - fps
+                    - width
+                    - height
+                  output:
+                    type: object
+                    properties:
+                      format:
+                        type: string
+                        examples:
+                        - abr
+                      status_url:
+                        type: string
+                        examples:
+                        - https://api.gumlet.com/v1/video/assets/67e4ece9403562dbea654261
+                      playback_url:
+                        type: string
+                        examples:
+                        - https://video.gumlet.io/67e4ece9403562dbea65425f/67e4ece9403562dbea654261/main.m3u8
+                      dash_playback_url:
+                        type: string
+                        examples:
+                        - https://video.gumlet.io/67e4ece9403562dbea65425f/67e4ece9403562dbea654261/main.mpd
+                      thumbnail_url:
+                        type: array
+                        items:
+                          type: string
+                          examples:
+                          - https://video.gumlet.io/67e4ece9403562dbea65425f/67e4ece9403562dbea654261/thumbnail-1-0.png?v=1743056105661
+                      storage_details:
+                        type: object
+                        properties:
+                          video:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                fileName:
+                                  type: string
+                                  examples:
+                                  - 1080p.mp4
+                                size:
+                                  type: integer
+                                  default: 0
+                                  examples:
+                                  - 91884957
+                                resolution:
+                                  type: string
+                                  examples:
+                                  - 1920x1080
+                                duration:
+                                  type: integer
+                                  default: 0
+                                  examples:
+                                  - 183
+                              x-apidog-orders:
+                              - fileName
+                              - size
+                              - resolution
+                              - duration
+                          audio:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                fileName:
+                                  type: string
+                                  examples:
+                                  - en_128k.mp4
+                                size:
+                                  type: integer
+                                  default: 0
+                                  examples:
+                                  - 2913025
+                                duration:
+                                  type: integer
+                                  default: 0
+                                  examples:
+                                  - 183
+                              x-apidog-orders:
+                              - fileName
+                              - size
+                              - duration
+                          playlist:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                fileName:
+                                  type: string
+                                  examples:
+                                  - 1080p.m3u8
+                                size:
+                                  type: integer
+                                  default: 0
+                                  examples:
+                                  - 3790
+                              x-apidog-orders:
+                              - fileName
+                              - size
+                          thumbnail:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                fileName:
+                                  type: string
+                                  examples:
+                                  - thumbnail-1-0.png
+                                size:
+                                  type: integer
+                                  default: 0
+                                  examples:
+                                  - 6087369
+                                resolution:
+                                  type: string
+                                  examples:
+                                  - 3840x2160
+                              x-apidog-orders:
+                              - fileName
+                              - size
+                              - resolution
+                          subtitle:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                fileName:
+                                  type: string
+                                  examples:
+                                  - es.vtt
+                                size:
+                                  type: integer
+                                  default: 0
+                                  examples:
+                                  - 398
+                              x-apidog-orders:
+                              - fileName
+                              - size
+                          previewThumbnail:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                fileName:
+                                  type: string
+                                  examples:
+                                  - preview_thumbnails.png
+                                size:
+                                  type: integer
+                                  default: 0
+                                  examples:
+                                  - 3089899
+                              x-apidog-orders:
+                              - fileName
+                              - size
+                        x-apidog-orders:
+                        - video
+                        - audio
+                        - playlist
+                        - thumbnail
+                        - subtitle
+                        - previewThumbnail
+                        required:
+                        - video
+                        - audio
+                        - thumbnail
+                        - playlist
+                        - subtitle
+                        - previewThumbnail
+                      transcription_word_level_timestamps:
+                        type: string
+                        examples:
+                        - https://video.gumlet.io/67e4ece9403562dbea65425f/67e4ece9403562dbea654261/67e4ece9403562dbea654261-transcription-word-level-timestamp.json?token=5589a9b725fabe0586e37782c3eb8e083a84e5c2&expires=1744100014337
+                      storage_bytes:
+                        type: integer
+                        default: 0
+                        examples:
+                        - 674034917
+                      preview_thumbnails_url:
+                        type: string
+                        examples:
+                        - https://video.gumlet.io/67e4ece9403562dbea65425f/67e4ece9403562dbea654261/preview_thumbnails.vtt
+                    x-apidog-orders:
+                    - format
+                    - status_url
+                    - playback_url
+                    - dash_playback_url
+                    - thumbnail_url
+                    - storage_details
+                    - transcription_word_level_timestamps
+                    - storage_bytes
+                    - preview_thumbnails_url
+                  processed_at:
+                    type: integer
+                    default: 0
+                    examples:
+                    - 1743056105661
+                  folder:
+                    type: string
+                    examples:
+                    - Demo Folder
+                  playlists:
+                    type: array
+                    description: Array of Playlist IDs
+                    items:
+                      x-stoplight:
+                        id: i8aa4yls9dah8
+                      type: string
+                  thumbnail_updated_at:
+                    type: integer
+                    format: int64
+                    description: Thumbnail updated timestamp in milliseconds since epoch
+                  warning:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        code:
+                          type: string
+                          description: Warning code for the asset
+                        message:
+                          type: string
+                          description: Human friendly warning message
+                      x-apidog-orders:
+                      - code
+                      - message
+                      required:
+                      - code
+                      - message
+                  audioOnly:
+                    type: boolean
+                    description: If `true` the asset is audio only
+                  video_protection:
+                    type: object
+                    properties:
+                      signed_url:
+                        type: boolean
+                        description: Flag is signed URL is enabled for this asset
+                    x-apidog-orders:
+                    - signed_url
+                  access_control:
+                    type: string
+                    description: Access control
+                    enum:
+                    - private
+                    - public
+                    - password-protected
+                    - dashboardOnly
+                    x-apidog-enum:
+                    - value: private
+                      name: ''
+                      description: ''
+                    - value: public
+                      name: ''
+                      description: ''
+                    - value: password-protected
+                      name: ''
+                      description: ''
+                    - value: dashboardOnly
+                      name: ''
+                      description: ''
+                  access_controls:
+                    type: object
+                    properties:
+                      password:
+                        type: string
+                        description: Hidden password field
+                    x-apidog-orders:
+                    - password
+                  workspace_updated_at:
+                    type: integer
+                    format: int64
+                    description: Collection updated timestamp in milliseconds since epoch
+                  workspace_id:
+                    type: string
+                    examples:
+                    - 67e4ece9403562dbea65425f
+                    description: Workspace ID
+                x-apidog-orders:
+                - asset_id
+                - progress
+                - created_at
+                - updated_at
+                - thumbnail_updated_at
+                - workspace_updated_at
+                - status
+                - tag
+                - workspace_id
+                - input
+                - output
+                - processed_at
+                - folder
+                - playlists
+                - warning
+                - audioOnly
+                - video_protection
+                - access_control
+                - access_controls
+                required:
+                - asset_id
+                - workspace_updated_at
+                - status
+                - created_at
+        '400':
+          description: Bad Request — invalid asset ID
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: asset_id_not_valid
+                      message: The asset ID is not valid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: asset_id_not_valid
+                      message:
+                        type: string
+                        example: The asset ID is not valid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: asset_not_found
+                      message: Could not find any video asset with specified asset_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: asset_not_found
+                      message:
+                        type: string
+                        example: Could not find any video asset with specified asset_id.
+        '403':
+          description: Forbidden — no access to this asset
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: access_denied
+                      message: You are not authorized to access this asset.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: access_denied
+                      message:
+                        type: string
+                        example: You are not authorized to access this asset.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: asset_not_found
+                      message: Could not find any video asset with specified asset_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: asset_not_found
+                      message:
+                        type: string
+                        example: Could not find any video asset with specified asset_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      deprecated: false
+      tags:
+      - Video Assets
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAsset = await client.videoAssets.retrieveDetails('assetId');\n\
+          \nconsole.log(videoAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_asset = client.video_assets.retrieve_details(\n    asset_id=\"assetId\"\
+          ,\n)\n\nprint(video_asset)"
+    delete:
+      summary: Delete Asset
+      description: This endpoint removes an asset given its unique asset id. The asset will be removed
+        from storage as well, associated URLs will be inaccessible.
+      operationId: delete-asset
+      parameters:
+      - name: asset_id
+        in: path
+        description: Asset id of the video asset which needs to be deleted.
+        schema:
+          type: string
+        required: true
+      responses:
+        '204':
+          description: '204'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: ''
+        '400':
+          description: Bad Request — invalid asset ID
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: asset_id_not_valid
+                      message: The asset ID is not valid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: asset_id_not_valid
+                      message:
+                        type: string
+                        example: The asset ID is not valid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: asset_not_found
+                      message: Could not find any video asset with specified asset_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: asset_not_found
+                      message:
+                        type: string
+                        example: Could not find any video asset with specified asset_id.
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: asset_not_found
+                      message: Could not find any video asset with specified asset_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: asset_not_found
+                      message:
+                        type: string
+                        example: Could not find any video asset with specified asset_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      deprecated: false
+      tags:
+      - Video Assets
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nawait client.videoAssets.delete('assetId');"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nclient.video_assets.delete(\n    asset_id=\"assetId\",\n)"
+  /video/assets/update:
+    post:
+      summary: Update Asset
+      description: This endpoint allows users to update video asset that has previously been created.
+      operationId: update-asset
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - asset_id
+              properties:
+                asset_id:
+                  type: string
+                  description: Asset Id
+                title:
+                  type: string
+                  description: Specify a text string or identifier which can be used for filtering or
+                    searching the asset.
+                description:
+                  type: string
+                  description: Attach some textual data with the asset. This field is neither searchable
+                    nor filterable.
+                tag:
+                  type: string
+                  description: Specify a text string or identifier which can identify an asset or bunch
+                    of assets later. You can pass multiple comma-separated values.
+                call_to_actions:
+                  type: array
+                  description: A CTA is an explicit prompt within the video content encouraging viewers
+                    to take a particular action.
+                  items:
+                    properties:
+                      text:
+                        type: string
+                      url:
+                        type: string
+                      start_time:
+                        type: integer
+                        format: int32
+                      end_time:
+                        type: integer
+                        format: int32
+                      font_color:
+                        type: string
+                        description: hex value of color
+                      background_color:
+                        type: string
+                        description: hex code of color
+                      position_from_top:
+                        type: integer
+                        description: number of pixels from top
+                        format: int32
+                      position_from_right:
+                        type: string
+                        description: number of pixels from right
+                    type: object
+                    x-apidog-orders:
+                    - text
+                    - url
+                    - start_time
+                    - end_time
+                    - font_color
+                    - background_color
+                    - position_from_top
+                    - position_from_right
+                metadata:
+                  type: string
+                  description: 'Set of key-value pairs that you can attach to this Asset. This can be
+                    useful for storing additional information.<br/> Example: <br/> <code>  {  "internal_video_id"
+                    : "123Abc"  }  </code>'
+                  format: json
+                remove_subtitles:
+                  type: array
+                  description: Comma separated string of language codes.
+                  items:
+                    type: string
+                input:
+                  type: string
+                  description: 'For replacing videos, pass this along with `asset_id`
+
+
+                    `{workspace_id}/{asset_id}/origin-{asset_id}`'
+                reprocess:
+                  type: boolean
+                  description: To reprocess same video, pass this as true.
+              x-apidog-orders:
+              - asset_id
+              - title
+              - description
+              - tag
+              - call_to_actions
+              - metadata
+              - remove_subtitles
+              - input
+              - reprocess
+            examples:
+              Example 1:
+                value:
+                  asset_id: <YOUR_ASSET_ID>
+                  title: Updated Title
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: {}
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request — invalid parameters or asset not found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: asset_id_not_valid
+                      message: The asset ID is not valid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: asset_id_not_valid
+                      message:
+                        type: string
+                        example: The asset ID is not valid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: asset_not_found
+                      message: Could not find any video asset with specified asset_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: asset_not_found
+                      message:
+                        type: string
+                        example: Could not find any video asset with specified asset_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '422':
+          $ref: '#/components/responses/ValidationError'
+      deprecated: false
+      tags:
+      - Video Assets
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAsset = await client.videoAssets.update({\
+          \ asset_id: '<YOUR_ASSET_ID>', title: 'Updated Title' });\n\nconsole.log(videoAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_asset = client.video_assets.update(\n    asset_id=\"<YOUR_ASSET_ID>\"\
+          ,\n    title=\"Updated Title\",\n)\n\nprint(video_asset)"
+  /video/assets/{asset_id}/thumbnail-select:
+    post:
+      summary: Update thumbnail from video
+      description: Select frame from video to use as thumbnail.
+      operationId: thumbnail-select
+      parameters:
+      - name: asset_id
+        in: path
+        description: Asset id of the video asset which needs to be deleted.
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - frame_at_second
+              properties:
+                frame_at_second:
+                  type: integer
+                  description: Frame secound
+                  format: int32
+            examples:
+              Request Example:
+                value:
+                  frame_at_second: 2
+      responses:
+        '200':
+          description: '200'
+          content:
+            text/plain:
+              examples:
+                Result:
+                  value:
+                    success: true
+                    asset_id: 6495e52a01e29f9a90f3e884
+                    thumbnail_updated_at: 1787073689058
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    success: true
+                    asset_id: 6495e52a01e29f9a90f3e884
+                    thumbnail_updated_at: 1787073689058
+                properties:
+                  success:
+                    type: boolean
+                  asset_id:
+                    type: string
+                  thumbnail_updated_at:
+                    type: integer
+                    description: Milliseconds since epoch for the updated time.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: video_asset_not_in_ready_state
+                      message: Uploading a custom thumbnail is only allowed when the video asset is in
+                        the ready state.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: video_asset_not_in_ready_state
+                      message:
+                        type: string
+                        example: Uploading a custom thumbnail is only allowed when the video asset is
+                          in the ready state.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: false
+      tags:
+      - Video Assets
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAsset = await client.videoAssets.thumbnailSelect('assetId',\
+          \ { frame_at_second: 2 });\n\nconsole.log(videoAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_asset = client.video_assets.thumbnail_select(\n    asset_id=\"assetId\"\
+          ,\n    frame_at_second=2,\n)\n\nprint(video_asset)"
+  /video/assets/{asset_ID}/thumbnail:
+    post:
+      summary: Update thumbnail via upload
+      description: 'Use any image file to use as thumbnail. Once you use the API, you will get `upload_url`
+        in the response, and that can be used to upload the image file.
+
+
+        Here is the sample curl request.
+
+
+        ```bash
+
+        curl --location --request PUT ''<upload_url>'' \
+
+        --data ''<YOUR_FILE_PATH>''
+
+        ```'
+      operationId: thumbnail-upload
+      parameters:
+      - name: asset_ID
+        in: path
+        description: An asset id for the previously created asset.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    upload_url: URL
+                    asset_id: asset_id
+              schema:
+                type: object
+                x-examples:
+                  Example 1:
+                    upload_url: https://gumlet-video-storage.s3.us-west-2.amazonaws.com/gumlet-video-storage-prod/5f553b6cec202a5b44e3dd69/6495e52a01e29f9a90f3e884/thumbnail-1-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=REDACTED_AWS_ACCESS_KEY_ID%2F20260818%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260818T173755Z&X-Amz-Expires=1800&X-Amz-Signature=1ba342f62a5d72bcfff451d7696039e951260434ce5e27bec9dffac448d762a7&X-Amz-SignedHeaders=host&x-amz-checksum-crc32=AAAAAA%3D%3D&x-amz-sdk-checksum-algorithm=CRC32&x-id=PutObject
+                    asset_id: 6495e52a01e29f9a90f3e884
+                    thumbnail_updated_at: 1787074674975
+                properties:
+                  upload_url:
+                    type: string
+                  asset_id:
+                    type: string
+                  thumbnail_updated_at:
+                    type: integer
+                    description: Thumbnail updated at timestamp in milliseconds since epoch
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: video_asset_not_in_ready_state
+                      message: Uploading a custom thumbnail is only allowed when the video asset is in
+                        the ready state.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: video_asset_not_in_ready_state
+                      message:
+                        type: string
+                        example: Uploading a custom thumbnail is only allowed when the video asset is
+                          in the ready state.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: false
+      tags:
+      - Video Assets
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAsset = await client.videoAssets.thumbnailUpload('assetId');\n\
+          \nconsole.log(videoAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_asset = client.video_assets.thumbnail_upload(\n    asset_id=\"assetId\"\
+          ,\n)\n\nprint(video_asset)"
+  /video/assets/{asset_id}/chapters:
+    post:
+      summary: Create/Update Video Asset Chapters
+      description: This endpoint will create/update video asset chapters.
+      operationId: create-update-chapter
+      parameters:
+      - name: asset_id
+        description: Gumlet asset ID
+        in: path
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - chapters
+              properties:
+                chapters:
+                  type: array
+                  items:
+                    properties:
+                      label:
+                        type: string
+                        description: Label for the chapter.
+                      startTime:
+                        type: integer
+                        format: int32
+                        description: Start time of chapter in seconds. 0 means chapter is put as the video
+                          starts.
+                    required:
+                    - label
+                    - startTime
+                    type: object
+                    x-apidog-orders:
+                    - label
+                    - startTime
+              x-apidog-orders:
+              - chapters
+            examples:
+              Example 1:
+                value:
+                  chapters:
+                  - label: Chapter 1
+                    startTime: 0
+                  - label: Chapter 2
+                    startTime: 10
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: {}
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request — chapter validation failed
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: label_missing
+                      message: Please provide a label with each chapter.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: label_missing
+                      message:
+                        type: string
+                        example: Please provide a label with each chapter.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '402':
+          description: Payment Required — unpaid invoices
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: payment_pending
+                      message: Please clear your pending invoices to resume your services.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: payment_pending
+                      message:
+                        type: string
+                        example: Please clear your pending invoices to resume your services.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: false
+      tags:
+      - Video Assets
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAsset = await client.videoAssets.createUpdateChapter('assetId',\
+          \ {\n  chapters: [\n    { label: 'Chapter 1', startTime: 0 },\n    { label: 'Chapter 2', startTime:\
+          \ 10 },\n  ],\n});\n\nconsole.log(videoAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_asset = client.video_assets.create_update_chapter(\n    asset_id=\"\
+          assetId\",\n    chapters=[{\"label\": \"Chapter 1\", \"startTime\": 0}, {\"label\": \"Chapter\
+          \ 2\", \"startTime\": 10}],\n)\n\nprint(video_asset)"
+  /video/workspaces/{workspace_id}/list:
+    get:
+      summary: List Assets
+      description: List folders and assets for a workspace in a single response. Use `parent_id` to browse
+        a specific folder, or filters like `title`, `status`, and `playlist_id` to search assets.
+      operationId: list-assets
+      parameters:
+      - name: workspace_id
+        in: path
+        description: Video workspace id.
+        schema:
+          type: string
+        required: true
+      - name: type
+        in: query
+        description: Return `folders`, `videos`, or `all`. Default is `all`.
+        schema:
+          type: string
+          enum:
+          - folders
+          - videos
+          - all
+          default: all
+        required: false
+      - name: parent_id
+        in: query
+        description: Parent folder id. Send `null` to browse the root level.
+        schema:
+          type: string
+      - name: title
+        in: query
+        description: Search folders or assets by title or description.
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: Comma-separated asset status values.
+        schema:
+          type: string
+      - name: tag
+        in: query
+        description: Comma-separated asset tags.
+        schema:
+          type: string
+      - name: playlist_id
+        in: query
+        description: Filter assets to a playlist.
+        schema:
+          type: string
+      - name: start_date
+        in: query
+        description: Asset created_at lower bound.
+        schema:
+          type: string
+      - name: end_date
+        in: query
+        description: Asset created_at upper bound.
+        schema:
+          type: string
+      - name: min_duration
+        in: query
+        description: Minimum asset duration in seconds.
+        schema:
+          type: number
+      - name: max_duration
+        in: query
+        description: Maximum asset duration in seconds.
+        schema:
+          type: number
+      - name: sortBy
+        in: query
+        description: Sort assets by a supported field.
+        schema:
+          type: string
+          enum:
+          - title
+          - duration
+          - uploaded_at
+          - created_at
+      - name: orderBy
+        in: query
+        description: Asset sort order.
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: searchIndex
+        in: query
+        description: Search index used for asset title search.
+        schema:
+          type: string
+          enum:
+          - search_index_for_asset_list
+          - cms-search
+          - cms-search-v2
+      - name: offset
+        in: query
+        description: Offset for paginated results.
+        schema:
+          type: integer
+          default: 0
+      - name: size
+        in: query
+        description: Page size. Maximum 100.
+        schema:
+          type: integer
+          default: 20
+          maximum: 100
+      - in: query
+        name: signed_token
+        schema:
+          type: string
+          default: 'false'
+          enum:
+          - 'true'
+          - 'false'
+          x-apidog-enum:
+          - value: 'true'
+            name: ''
+            description: ''
+          - value: 'false'
+            name: ''
+            description: ''
+        description: 'Whether URLs should be pre-signed in the API response. Possible values: `true` and
+          `false`. Default is `false`.'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    folders:
+                    - id: 67e4f01d403562dbea6542d4
+                      name: Course Assets
+                      video_source_id: 67e4ece9403562dbea65425f
+                      parent_id: null
+                      path: []
+                      path_names: []
+                      depth: 0
+                      subdirectory_count: 2
+                      asset_count: 12
+                      created_at: '2026-03-18T10:00:00.000Z'
+                      updated_at: '2026-03-18T10:15:00.000Z'
+                    all_assets:
+                    - asset_id: 67e4f2b4403562dbea654301
+                      status: ready
+                      title: Lesson 1
+                      folder: Course Assets
+                    folder_count: 1
+                    asset_count: 1
+                    total_count: 2
+                    current_offset: 2
+              schema:
+                type: object
+                properties:
+                  folders:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          examples:
+                          - 67e4f01d403562dbea6542d4
+                        name:
+                          type: string
+                          examples:
+                          - Course Assets
+                        video_source_id:
+                          type: string
+                          examples:
+                          - 67e4ece9403562dbea65425f
+                        parent_id:
+                          type:
+                          - string
+                          - 'null'
+                          examples:
+                          - null
+                        path:
+                          type: array
+                          items:
+                            type: string
+                            examples:
+                            - 67e4f01d403562dbea6542d4
+                        path_names:
+                          type: array
+                          items:
+                            type: string
+                            examples:
+                            - Course Assets
+                        depth:
+                          type: integer
+                          default: 0
+                          examples:
+                          - 0
+                        subdirectory_count:
+                          type: integer
+                          default: 0
+                          examples:
+                          - 2
+                        asset_count:
+                          type: integer
+                          default: 0
+                          examples:
+                          - 12
+                        created_at:
+                          type: string
+                          examples:
+                          - '2026-03-18T10:00:00.000Z'
+                        updated_at:
+                          type: string
+                          examples:
+                          - '2026-03-18T10:15:00.000Z'
+                      x-apidog-orders:
+                      - id
+                      - name
+                      - video_source_id
+                      - parent_id
+                      - path
+                      - path_names
+                      - depth
+                      - subdirectory_count
+                      - asset_count
+                      - created_at
+                      - updated_at
+                  all_assets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        asset_id:
+                          type: string
+                          examples:
+                          - 6192269e0822a81d955d1a4b
+                        progress:
+                          type: integer
+                          default: 0
+                          examples:
+                          - 0
+                        created_at:
+                          type: integer
+                          default: 0
+                          examples:
+                          - 1636968094594
+                        status:
+                          type: string
+                          examples:
+                          - optimizing
+                        tag:
+                          type: string
+                          examples:
+                          - ''
+                        source_id:
+                          type: string
+                          examples:
+                          - 5f462c1561cf8a766464ffc4
+                        input:
+                          type: object
+                          properties:
+                            transformations:
+                              type: object
+                              properties:
+                                resolution:
+                                  type: string
+                                  examples:
+                                  - 240p,360p
+                                format:
+                                  type: string
+                                  examples:
+                                  - hls
+                                audio_codec:
+                                  type: array
+                                  items:
+                                    type: string
+                                    examples:
+                                    - aac
+                                video_codec:
+                                  type: array
+                                  items:
+                                    type: string
+                                    examples:
+                                    - libx264
+                                thumbnail:
+                                  type: array
+                                  items:
+                                    type: string
+                                    examples:
+                                    - auto
+                                thumbnail_format:
+                                  type: string
+                                  examples:
+                                  - png
+                                mp4_access:
+                                  type: boolean
+                                  default: true
+                                  examples:
+                                  - false
+                                audio_only:
+                                  type: boolean
+                                  default: true
+                                  examples:
+                                  - false
+                                keep_original:
+                                  type: boolean
+                                  default: true
+                                  examples:
+                                  - true
+                                per_title_encoding:
+                                  type: boolean
+                                  default: true
+                                  examples:
+                                  - true
+                                process_low_resolution_input:
+                                  type: boolean
+                                  default: true
+                                  examples:
+                                  - false
+                              x-apidog-orders:
+                              - resolution
+                              - format
+                              - audio_codec
+                              - video_codec
+                              - thumbnail
+                              - thumbnail_format
+                              - mp4_access
+                              - audio_only
+                              - keep_original
+                              - per_title_encoding
+                              - process_low_resolution_input
+                            source_url:
+                              type: string
+                              examples:
+                              - https://gumlet.sgp1.digitaloceanspaces.com/video/BigBuckBunny.mp4
+                            size:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 158008374
+                            duration:
+                              type: number
+                              default: 0
+                              examples:
+                              - 596.473333
+                            aspect_ratio:
+                              type: string
+                              examples:
+                              - '16:9'
+                            fps:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 24
+                            width:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 1280
+                            height:
+                              type: integer
+                              default: 0
+                              examples:
+                              - 720
+                            additional_tracks:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  url:
+                                    type: string
+                                    examples:
+                                    - https://gumlet.sgp1.digitaloceanspaces.com/video/BigBuckBunny.aac
+                                  type:
+                                    type: string
+                                    examples:
+                                    - audio
+                                  language_code:
+                                    type: string
+                                    examples:
+                                    - en
+                                  name:
+                                    type: string
+                                    examples:
+                                    - English
+                                x-apidog-orders:
+                                - url
+                                - type
+                                - language_code
+                                - name
+                            title:
+                              type: string
+                              description: Title of the asset.
+                          x-apidog-orders:
+                          - transformations
+                          - source_url
+                          - title
+                          - size
+                          - duration
+                          - aspect_ratio
+                          - fps
+                          - width
+                          - height
+                          - additional_tracks
+                        output:
+                          type: object
+                          properties:
+                            format:
+                              type: string
+                              examples:
+                              - hls
+                            status_url:
+                              type: string
+                              examples:
+                              - https://api.gumlet.com/v1/video/assets/6192269e0822a81d955d1a4b
+                            playback_url:
+                              type: string
+                              examples:
+                              - https://video.gumlet.io/5f462c1561cf8a766464ffc4/6192269e0822a81d955d1a4b/1.m3u8
+                            thumbnail_url:
+                              type: array
+                              items:
+                                type: string
+                                examples:
+                                - https://video.gumlet.io/5f462c1561cf8a766464ffc4/6192269e0822a81d955d1a4b/thumbnail-1-0.png
+                          x-apidog-orders:
+                          - format
+                          - status_url
+                          - playback_url
+                          - thumbnail_url
+                      x-apidog-orders:
+                      - asset_id
+                      - progress
+                      - created_at
+                      - status
+                      - tag
+                      - source_id
+                      - input
+                      - output
+                  folder_count:
+                    type: integer
+                    default: 0
+                    examples:
+                    - 1
+                  asset_count:
+                    type: integer
+                    default: 0
+                    examples:
+                    - 1
+                  total_count:
+                    type: integer
+                    default: 0
+                    examples:
+                    - 2
+                  current_offset:
+                    type: integer
+                    default: 0
+                    examples:
+                    - 2
+                x-apidog-orders:
+                - folders
+                - all_assets
+                - folder_count
+                - asset_count
+                - total_count
+                - current_offset
+                required:
+                - all_assets
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: page_size_more_than_max
+                      message: Value for the page size (size) parameter is more than permissible value
+                        (100)
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: page_size_more_than_max
+                      message:
+                        type: string
+                        example: Value for the page size (size) parameter is more than permissible value
+                          (100)
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Video Assets
+      x-stoplight:
+        id: y3fzbxm6axi0a
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAsset = await client.videoAssets.list('workspaceId',\
+          \ {\n  type: 'all',\n  offset: 0,\n  size: 20,\n  signed_token: 'false',\n});\n\nconsole.log(videoAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_asset = client.video_assets.list(\n    workspace_id=\"workspaceId\"\
+          ,\n    type=\"all\",\n    offset=0,\n    size=20,\n    signed_token=\"false\",\n)\n\nprint(video_asset)"
+  /video/assets/list/{workspace_id}:
+    get:
+      summary: List Assets
+      description: '[Deprecated] This endpoint list assets in video workspace. You can also pass `status`
+        and `tag` to filter assets.'
+      operationId: list-assets-deprecated
+      parameters:
+      - name: status
+        in: query
+        description: To filter assets on the basis of their current status. Can be specified as a single
+          status value string or comma-separated status values. The status value can be one of `queued`,
+          `processing`, `ready`, `errored`, and `deleted`.
+        schema:
+          type: string
+          enum:
+          - queued
+          - processing
+          - ready
+          - errored
+          - deleted
+      - name: tag
+        in: query
+        description: Input tag on the basis of which assets need to be filtered. To filter on multiple
+          tags use comma-separated string.
+        schema:
+          type: string
+      - name: title
+        in: query
+        description: Title on the basis of which assets need to be filtered.
+        schema:
+          type: string
+      - name: folder
+        in: query
+        description: Folder name on the basis of which assets need to be filtered.
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: Offset value for a paginated list of assets.
+        schema:
+          type: string
+      - name: size
+        in: query
+        description: 'Page size for the paginated list. **Default: `10`** **Max Size: `100`**'
+        schema:
+          type: string
+      - name: playlist_id
+        in: query
+        description: filter assets from a playlist.
+        schema:
+          type: string
+      - name: sortBy
+        in: query
+        description: assets will be sorted based on the provided field.
+        schema:
+          type: string
+          enum:
+          - title
+          - duration
+          - uploaded_at
+          - created_at
+          default: created_at
+      - name: orderBy
+        in: query
+        description: assets will be sorted in the specified order based on provided sortBy field or by
+          default createAt field.
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+      - in: path
+        name: workspace_id
+        description: Gumlet workspace ID. You can get it on Gumlet dashboard or retrieve it using list
+          workspace API.
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: type
+        schema:
+          type: string
+        description: Search for folders, videos, or both. For videos, use `videos`. For folders, use `folders`.
+          If you do not send this parameter, it will search for both.
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    all_assets:
+                    - asset_id: 6192269e0822a81d955d1a4b
+                      progress: 0
+                      created_at: 1636968094594
+                      status: optimizing
+                      tag: ''
+                      source_id: 5f462c1561cf8a766464ffc4
+                      input:
+                        transformations:
+                          resolution: 240p,360p
+                          format: hls
+                          audio_codec:
+                          - aac
+                          video_codec:
+                          - libx264
+                          thumbnail:
+                          - auto
+                          thumbnail_format: png
+                          mp4_access: false
+                          audio_only: false
+                          keep_original: true
+                          per_title_encoding: true
+                          process_low_resolution_input: false
+                        source_url: https://gumlet.sgp1.digitaloceanspaces.com/video/BigBuckBunny.mp4
+                        size: 158008374
+                        duration: 596.473333
+                        aspect_ratio: '16:9'
+                        fps: 24
+                        width: 1280
+                        height: 720
+                        additional_tracks:
+                        - url: https://gumlet.sgp1.digitaloceanspaces.com/video/BigBuckBunny.aac
+                          type: audio
+                          language_code: en
+                          name: English
+                      output:
+                        format: hls
+                        status_url: https://api.gumlet.com/v1/video/assets/6192269e0822a81d955d1a4b
+                        playback_url: https://video.gumlet.io/5f462c1561cf8a766464ffc4/6192269e0822a81d955d1a4b/1.m3u8
+                        thumbnail_url:
+                        - https://video.gumlet.io/5f462c1561cf8a766464ffc4/6192269e0822a81d955d1a4b/thumbnail-1-0.png
+                    total_asset_count: 2159
+                    current_offset: 1
+                    distinct_tags:
+                    - ''
+                    - Gumlet
+                    - aasas
+                    - asasaasas
+                    - asasas
+                    - asasasasa
+                    - asasass
+                    - asasdfdfdd
+                    - asqs
+                    - dsddsd
+                    - dualcodectest-2
+                    - dualcodectrst
+                    - fallbacktest
+                    - filtertest
+                    - hlstest
+                    - josh
+                    - josh-2
+                    - lilo
+                    - newCode
+                    - newDashboard
+                    - newTest
+                    - newtest
+                    - rewew
+                    - sdsdsdsd
+                    - tag-1
+                    - test
+                    - testDASH
+                    - testVideoPad
+                    - test_bug
+                    - test_dash
+                    - testdualCodecsPatch
+                    - testgpusyash
+                    - testmp4
+                    - version_1
+                    - version_2
+                    - version_3
+                    - version_4
+                    - version_5
+                    - webhook
+              schema:
+                type: object
+                properties:
+                  all_assets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        asset_id:
+                          type: string
+                          example: 6192269e0822a81d955d1a4b
+                        progress:
+                          type: integer
+                          example: 0
+                          default: 0
+                        created_at:
+                          type: integer
+                          example: 1636968094594
+                          default: 0
+                        status:
+                          type: string
+                          example: optimizing
+                        tag:
+                          type: string
+                          example: ''
+                        source_id:
+                          type: string
+                          example: 5f462c1561cf8a766464ffc4
+                        input:
+                          type: object
+                          properties:
+                            transformations:
+                              type: object
+                              properties:
+                                resolution:
+                                  type: string
+                                  example: 240p,360p
+                                format:
+                                  type: string
+                                  example: hls
+                                audio_codec:
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: aac
+                                video_codec:
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: libx264
+                                thumbnail:
+                                  type: array
+                                  items:
+                                    type: string
+                                    example: auto
+                                thumbnail_format:
+                                  type: string
+                                  example: png
+                                mp4_access:
+                                  type: boolean
+                                  example: false
+                                  default: true
+                                audio_only:
+                                  type: boolean
+                                  example: false
+                                  default: true
+                                keep_original:
+                                  type: boolean
+                                  example: true
+                                  default: true
+                                per_title_encoding:
+                                  type: boolean
+                                  example: true
+                                  default: true
+                                process_low_resolution_input:
+                                  type: boolean
+                                  example: false
+                                  default: true
+                            source_url:
+                              type: string
+                              example: https://gumlet.sgp1.digitaloceanspaces.com/video/BigBuckBunny.mp4
+                            size:
+                              type: integer
+                              example: 158008374
+                              default: 0
+                            duration:
+                              type: number
+                              example: 596.473333
+                              default: 0
+                            aspect_ratio:
+                              type: string
+                              example: '16:9'
+                            fps:
+                              type: integer
+                              example: 24
+                              default: 0
+                            width:
+                              type: integer
+                              example: 1280
+                              default: 0
+                            height:
+                              type: integer
+                              example: 720
+                              default: 0
+                            additional_tracks:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  url:
+                                    type: string
+                                    example: https://gumlet.sgp1.digitaloceanspaces.com/video/BigBuckBunny.aac
+                                  type:
+                                    type: string
+                                    example: audio
+                                  language_code:
+                                    type: string
+                                    example: en
+                                  name:
+                                    type: string
+                                    example: English
+                        output:
+                          type: object
+                          properties:
+                            format:
+                              type: string
+                              example: hls
+                            status_url:
+                              type: string
+                              example: https://api.gumlet.com/v1/video/assets/6192269e0822a81d955d1a4b
+                            playback_url:
+                              type: string
+                              example: https://video.gumlet.io/5f462c1561cf8a766464ffc4/6192269e0822a81d955d1a4b/1.m3u8
+                            thumbnail_url:
+                              type: array
+                              items:
+                                type: string
+                                example: https://video.gumlet.io/5f462c1561cf8a766464ffc4/6192269e0822a81d955d1a4b/thumbnail-1-0.png
+                  total_asset_count:
+                    type: integer
+                    example: 2159
+                    default: 0
+                  current_offset:
+                    type: integer
+                    example: 1
+                    default: 0
+                  distinct_tags:
+                    type: array
+                    items:
+                      type: string
+                      example: ''
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: collection_not_found
+                      message: Could not find any video workspace with specified workspace_id.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: collection_not_found
+                      message:
+                        type: string
+                        example: Could not find any video workspace with specified workspace_id.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: source_not_found
+                      message: Could not find any video source with specified source ID.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: source_not_found
+                      message:
+                        type: string
+                        example: Could not find any video source with specified source ID.
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: true
+      tags:
+      - Video Assets
+      x-stoplight:
+        id: 9wrzusic0lzrv
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAsset = await client.videoAssets.listDeprecated('workspaceId',\
+          \ {\n  sortBy: 'created_at',\n  orderBy: 'desc',\n});\n\nconsole.log(videoAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_asset = client.video_assets.list_deprecated(\n    workspace_id=\"workspaceId\"\
+          ,\n    sort_by=\"created_at\",\n    order_by=\"desc\",\n)\n\nprint(video_asset)"
+  /video/assets/bulk/delete:
+    delete:
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Boolean parameter indicating if the delete was successful.
+                x-apidog-orders:
+                - success
+                required:
+                - success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: assets_id_not_valid
+                      message: One or more asset IDs in asset_list are not valid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: assets_id_not_valid
+                      message:
+                        type: string
+                        example: One or more asset IDs in asset_list are not valid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      summary: Bulk Delete
+      tags:
+      - Video Assets
+      operationId: assets-delete-many
+      description: Delete multiple VOD assets at once.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                asset_list:
+                  type: array
+                  items:
+                    type: string
+                  description: LIst of asset ids to delete
+                source_id:
+                  type: string
+                  description: Workspace ID from which assets needs to be deleted.
+              x-apidog-orders:
+              - asset_list
+              - source_id
+              required:
+              - asset_list
+              - source_id
+            examples:
+              Example 1:
+                value:
+                  source_id: 60bd2ba353ff754d28179ee6
+                  asset_list:
+                  - 64249a8858fd3a208b987702
+                  - 64784bae843b155b829bbf84
+      x-scalar-method-name: delete_many
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAsset = await client.videoAssets.deleteMany({\n\
+          \  source_id: '60bd2ba353ff754d28179ee6',\n  asset_list: ['64249a8858fd3a208b987702', '64784bae843b155b829bbf84'],\n\
+          });\n\nconsole.log(videoAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_asset = client.video_assets.delete_many(\n    asset_list=[\"64249a8858fd3a208b987702\"\
+          , \"64784bae843b155b829bbf84\"],\n    source_id=\"60bd2ba353ff754d28179ee6\",\n)\n\nprint(video_asset)"
+  /video/assets/bulk/tag:
+    post:
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Boolean flag indicating if operation was successful.
+                x-apidog-orders:
+                - success
+                required:
+                - success
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: assets_id_not_valid
+                      message: One or more asset IDs in asset_list are not valid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: assets_id_not_valid
+                      message:
+                        type: string
+                        example: One or more asset IDs in asset_list are not valid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      summary: Bulk Tag
+      tags:
+      - Video Assets
+      operationId: assets-tag-many
+      description: Add / remove tags from multiple assets at once.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                asset_list:
+                  type: array
+                  items:
+                    type: string
+                  description: List of asset ids to update the tags for.
+                source_id:
+                  type: string
+                  description: Workspace ID in which the videos needs the operation
+                add_tags:
+                  type: array
+                  items:
+                    type: string
+                  description: List of tags to add to given assets.
+                remove_tags:
+                  type: array
+                  items:
+                    type: string
+                  description: List of tags to remove from given assets. Pass empty array if nothing is
+                    to be removed.
+              x-apidog-orders:
+              - asset_list
+              - source_id
+              - add_tags
+              - remove_tags
+              required:
+              - asset_list
+              - source_id
+              - add_tags
+              - remove_tags
+            examples:
+              Example 1:
+                value:
+                  source_id: 60bd2ba353ff754d28179ee6
+                  add_tags:
+                  - tag-1
+                  remove_tags:
+                  - playlist-1
+                  asset_list:
+                  - 6221db301c8b821b0519fba0
+                  - 61e8f2726ec832ab2ac4fa6e
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAsset = await client.videoAssets.tagMany({\n\
+          \  source_id: '60bd2ba353ff754d28179ee6',\n  add_tags: ['tag-1'],\n  remove_tags: ['playlist-1'],\n\
+          \  asset_list: ['6221db301c8b821b0519fba0', '61e8f2726ec832ab2ac4fa6e'],\n});\n\nconsole.log(videoAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_asset = client.video_assets.tag_many(\n    asset_list=[\"6221db301c8b821b0519fba0\"\
+          , \"61e8f2726ec832ab2ac4fa6e\"],\n    source_id=\"60bd2ba353ff754d28179ee6\",\n    add_tags=[\"\
+          tag-1\"],\n    remove_tags=[\"playlist-1\"],\n)\n\nprint(video_asset)"
+  /video/assets/{asset_id}/analytics:
+    post:
+      parameters:
+      - in: path
+        name: asset_id
+        description: Gumlet asset ID
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  heatmap:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        bucket:
+                          type: string
+                          description: Buckets of seconds of video. E.g. '0-10', '10-20' etc.
+                        count:
+                          type: integer
+                          description: Percent of viewers who viewed that portion of video
+                      x-apidog-orders:
+                      - bucket
+                      - count
+                      required:
+                      - bucket
+                      - count
+                    description: Heatmap data
+                  views:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: integer
+                          description: Milliseconds since epoch timestamp for the data point
+                          format: uint64
+                        value:
+                          type: integer
+                          description: Count of views for the given timestamp
+                          format: uint64
+                      x-apidog-orders:
+                      - date
+                      - value
+                      required:
+                      - date
+                      - value
+                    description: Views data
+                  playing_time:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: integer
+                          format: uint64
+                          description: Milliseconds since epoch timestamp for the data point
+                        value:
+                          type: integer
+                          format: uint64
+                          description: Milliseconds of watch time for the timestamp above. A value of
+                            10000 means 10 seconds of watch time.
+                      x-apidog-orders:
+                      - date
+                      - value
+                      required:
+                      - date
+                      - value
+                  01M2QP6KS1HM1JE912S8K9DJ2N:
+                    x-tmp-pending-properties: true
+                  impressions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: integer
+                          format: uint64
+                          description: Milliseconds since epoch timestamp for the data point
+                        value:
+                          type: integer
+                          format: uint64
+                          description: Number of impressions
+                      x-apidog-orders:
+                      - date
+                      - value
+                      required:
+                      - date
+                      - value
+                  top_countries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                          description: Name of the country
+                        views:
+                          type: string
+                          description: Number of views from a given country
+                        impressions:
+                          type: string
+                          description: Number of impressions from a given country
+                      x-apidog-orders:
+                      - key
+                      - views
+                      - impressions
+                      required:
+                      - key
+                      - views
+                      - impressions
+                    description: Data for top countries
+                  top_pages:
+                    type: array
+                    items:
+                      type: object
+                      properties: {}
+                      x-apidog-orders: []
+                    description: Data for top pages
+                  top_cities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                          description: Name of the city
+                        views:
+                          type: string
+                          description: Number of views from a given city
+                        impressions:
+                          type: string
+                          description: Number of impressions from a given city
+                      x-apidog-orders:
+                      - key
+                      - views
+                      - impressions
+                      required:
+                      - key
+                      - views
+                      - impressions
+                    description: Data for top cities
+                  top_browsers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                          description: Name of the browser
+                        views:
+                          type: string
+                          description: Number of views from a given browser
+                        impressions:
+                          type: string
+                          description: Number of impressions from a given browser
+                      x-apidog-orders:
+                      - key
+                      - views
+                      - impressions
+                      required:
+                      - key
+                      - views
+                      - impressions
+                    description: Data for top browsers
+                  top_device_types:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+                          description: Name of the platform
+                        views:
+                          type: string
+                          description: Number of views from a given platform
+                        impressions:
+                          type: string
+                          description: Number of impressions from a given platform
+                      x-apidog-orders:
+                      - key
+                      - views
+                      - impressions
+                      required:
+                      - key
+                      - views
+                      - impressions
+                    description: Data for top device types
+                  widget_data:
+                    type: object
+                    properties:
+                      hasMore:
+                        type: boolean
+                        description: If there are more items apart from the response given.
+                      widgetData:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            asset_id:
+                              type: string
+                              description: Asset ID
+                            page_url:
+                              type: string
+                              description: Page URL where lead was captured
+                            playback_time_instant_milli:
+                              type: string
+                              description: Video time in milliseconds when the lead was captured
+                            workspace_id:
+                              type: string
+                              description: Workspace ID
+                            timestamp:
+                              type: string
+                              description: Lead capture time in seconds since epoch
+                            email:
+                              type: string
+                              description: Email id submitted
+                            name:
+                              type: string
+                              description: Name submitted
+                          x-apidog-orders:
+                          - workspace_id
+                          - asset_id
+                          - page_url
+                          - playback_time_instant_milli
+                          - timestamp
+                          - email
+                          - name
+                          required:
+                          - workspace_id
+                          - asset_id
+                          - page_url
+                          - playback_time_instant_milli
+                          - timestamp
+                          - email
+                          - name
+                        description: Data about the lead form submission
+                    x-apidog-orders:
+                    - hasMore
+                    - widgetData
+                    required:
+                    - hasMore
+                    - widgetData
+                x-apidog-orders:
+                - heatmap
+                - views
+                - playing_time
+                - impressions
+                - top_countries
+                - top_pages
+                - top_cities
+                - top_browsers
+                - top_device_types
+                - widget_data
+                - 01M2QP6KS1HM1JE912S8K9DJ2N
+                required:
+                - playing_time
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: asset_id_not_valid
+                      message: The asset ID is not valid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: asset_id_not_valid
+                      message:
+                        type: string
+                        example: The asset ID is not valid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      summary: Asset Analytics
+      tags:
+      - Video Assets
+      operationId: asset-analytics
+      description: Get video analytics for a single asset.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                group_by:
+                  type: string
+                  enum:
+                  - daily
+                  - monthly
+                  - weekly
+                  x-apidog-enum:
+                  - value: daily
+                    name: ''
+                    description: ''
+                  - value: monthly
+                    name: ''
+                    description: ''
+                  - value: weekly
+                    name: ''
+                    description: ''
+                  description: Group the data by this period.
+                date_range:
+                  type: object
+                  properties:
+                    start_at:
+                      type: string
+                      description: ISO 8601 start timestamp
+                      format: date
+                    end_at:
+                      type: string
+                      description: ISO 8601 end timestamp
+                      format: date
+                  x-apidog-orders:
+                  - start_at
+                  - end_at
+                  required:
+                  - start_at
+                  - end_at
+                metrics:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - impressions
+                    - views
+                    - playing_time
+                    - top_countries
+                    - top_pages
+                    - top_cities
+                    - top_device_types
+                    - top_browsers
+                    - heatmap
+                    - widget_data
+                    x-apidog-enum:
+                    - value: impressions
+                      name: ''
+                      description: ''
+                    - value: views
+                      name: ''
+                      description: ''
+                    - value: playing_time
+                      name: ''
+                      description: ''
+                    - value: top_countries
+                      name: ''
+                      description: ''
+                    - value: top_pages
+                      name: ''
+                      description: ''
+                    - value: top_cities
+                      name: ''
+                      description: ''
+                    - value: top_device_types
+                      name: ''
+                      description: ''
+                    - value: top_browsers
+                      name: ''
+                      description: ''
+                    - value: heatmap
+                      name: ''
+                      description: ''
+                    - value: widget_data
+                      name: ''
+                      description: ''
+                  description: List of metrics to return in response.
+                page_number:
+                  type: integer
+                  description: Page number to fetch. Starting at 1
+                page_size:
+                  type: integer
+                  description: Number of items to return per page
+              x-apidog-orders:
+              - group_by
+              - date_range
+              - metrics
+              - page_number
+              - page_size
+              required:
+              - group_by
+              - date_range
+              - metrics
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoAsset = await client.videoAssets.analytics('assetId',\
+          \ {\n  group_by: 'daily',\n  date_range: {\n    start_at: '2024-01-01',\n    end_at: '2024-01-01',\n\
+          \  },\n  metrics: ['impressions'],\n});\n\nconsole.log(videoAsset);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_asset = client.video_assets.analytics(\n    asset_id=\"assetId\",\n\
+          \    group_by=\"daily\",\n    date_range={\"start_at\": \"2024-01-01\", \"end_at\": \"2024-01-01\"\
+          },\n    metrics=[\"impressions\"],\n)\n\nprint(video_asset)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

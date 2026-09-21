@@ -1,0 +1,595 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Video Usage Analytics API
+  version: '1.4'
+  description: Video Usage Analytics operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Video Usage Analytics
+paths:
+  /video/analytics:
+    post:
+      summary: Video Usage Analytics
+      description: This endpoint gives usage analytics data of your videos. Ex - top assets, bandwidth
+        consumption
+      operationId: retrieve-analytics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - metrics
+              - date_range
+              properties:
+                metrics:
+                  type: array
+                  description: Define the metric you need the data for. Currently we only support `bandwidth_consumption`,
+                    `asset_duration`, `storage_unit`, `top_assets`, `bandwidth_consumption_by_collection`,
+                    `errored_videos` and `widget_data`
+                  items:
+                    type: string
+                    enum:
+                    - bandwidth_consumption
+                    - asset_duration
+                    - storage_unit
+                    - top_assets
+                    - drm_requests
+                    - ai_credit_usage
+                    - errored_videos
+                    x-apidog-enum:
+                    - value: bandwidth_consumption
+                      name: ''
+                      description: ''
+                    - value: asset_duration
+                      name: ''
+                      description: ''
+                    - value: storage_unit
+                      name: ''
+                      description: ''
+                    - value: top_assets
+                      name: ''
+                      description: ''
+                    - value: drm_requests
+                      name: ''
+                      description: ''
+                    - value: ai_credit_usage
+                      name: ''
+                      description: ''
+                    - value: errored_videos
+                      name: ''
+                      description: ''
+                date_range:
+                  type: object
+                  description: The timeframe to get the data for. Currently we only support a maximum
+                    of 60 days between `start_at` and `end_at`.
+                  properties:
+                    start_at:
+                      type: string
+                      description: The starting date to consider
+                      format: date
+                    end_at:
+                      type: string
+                      description: The ending date to consider
+                      format: date
+                  x-apidog-orders:
+                  - start_at
+                  - end_at
+                  required:
+                  - start_at
+                  - end_at
+                filters:
+                  type: object
+                  properties:
+                    collection_id:
+                      type: string
+                      description: The ID of the `workspace` you want to filter the data for.
+                    source_id:
+                      type: string
+                      description: The ID of the `workspace` you want to filter the data for. Deprecated.
+                      deprecated: true
+                  x-apidog-orders:
+                  - collection_id
+                  - source_id
+                top_assets_count:
+                  type: string
+                  description: Count of video assets that should be returned. Max assets count is 1000
+                    per page.
+                  default: '5'
+                top_assets_page:
+                  type: string
+                  default: '0'
+                  description: top_assets metric may get paginated response. Iterate this parameter to
+                    get more data.
+                group_by:
+                  type: string
+                  description: Group by hourly, daily or monthly. If you don't specify anything it's `hourly`
+                    by default.
+                  enum:
+                  - hourly
+                  - daily
+                  - monthly
+                  x-apidog-enum:
+                  - value: hourly
+                    name: ''
+                    description: ''
+                  - value: daily
+                    name: ''
+                    description: ''
+                  - value: monthly
+                    name: ''
+                    description: ''
+                  default: hourly
+              x-apidog-orders:
+              - metrics
+              - date_range
+              - group_by
+              - filters
+              - top_assets_count
+              - top_assets_page
+            examples:
+              Example 1:
+                value:
+                  metrics:
+                  - bandwidth_consumption
+                  - asset_duration
+                  - storage_unit
+                  - top_assets
+                  - drm_requests
+                  date_range:
+                    start_at: '2026-08-01'
+                    end_at: '2026-08-20'
+                  group_by: daily
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples: {}
+              schema:
+                type: object
+                properties:
+                  drm_requests:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: integer
+                          description: Number of DRM requests.
+                          format: int64
+                        timestamp:
+                          type: integer
+                          description: Seconds since epoch for the unit given.
+                          format: int64
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                  bandwidth_saving_unit:
+                    type: string
+                    enum:
+                    - ''
+                    x-apidog-enum:
+                    - value: ''
+                      name: ''
+                      description: ''
+                    description: The unit for bandwidth saving data.
+                  storage_data_unit:
+                    type: string
+                    enum:
+                    - gb
+                    - min
+                    x-apidog-enum:
+                    - value: gb
+                      name: Gigabytes
+                      description: ''
+                    - value: min
+                      name: Minutes
+                      description: ''
+                    description: The unit for the storage data.
+                  bandwidth_consumption:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: integer
+                          format: int64
+                          description: The bandwidth consumption data in bytes.
+                        timestamp:
+                          type: integer
+                          format: int64
+                          description: Seconds since epoch for the unit given.
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                  storage_unit:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: integer
+                          format: int64
+                          description: The storage data in bytes or seconds.
+                        timestamp:
+                          type: integer
+                          format: int64
+                          description: Seconds since epoch for the unit given.
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                  asset_duration:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        units:
+                          type: integer
+                          format: int64
+                          description: Total transcoding duration in seconds.
+                        timestamp:
+                          type: integer
+                          format: int64
+                          description: Seconds since epoch for the unit given.
+                      x-apidog-orders:
+                      - units
+                      - timestamp
+                      required:
+                      - units
+                      - timestamp
+                  top_assets:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        asset_id:
+                          type: string
+                          description: Asset ID
+                        units:
+                          type: string
+                          description: Bandwidth consumption by this asset in bytes.
+                        workspace_id:
+                          type: string
+                          description: Workspace ID
+                        duration:
+                          type: string
+                          description: Seconds of streaming minutes consumed by this asset.
+                        title:
+                          type: string
+                          description: Asset Title
+                        collection_name:
+                          type: string
+                          description: Workspace Name
+                      x-apidog-orders:
+                      - workspace_id
+                      - asset_id
+                      - units
+                      - duration
+                      - title
+                      - collection_name
+                      required:
+                      - workspace_id
+                      - asset_id
+                      - units
+                      - duration
+                      - title
+                      - collection_name
+                  has_more_top_asset:
+                    type: boolean
+                    description: Indicates whether the list of top assets is exhaustive or if it has more
+                      assets.
+                  ai_credit_usage:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        timestamp:
+                          type: integer
+                          description: Seconds since epoch for the unit given.
+                      x-apidog-orders:
+                      - timestamp
+                      required:
+                      - timestamp
+                  errored_videos:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        timestamp:
+                          type: integer
+                          description: Seconds since epoch for the unit given.
+                        units:
+                          type: integer
+                          description: Number of errored videos in the timeframe
+                      x-apidog-orders:
+                      - timestamp
+                      - units
+                      required:
+                      - timestamp
+                      - units
+                x-apidog-orders:
+                - drm_requests
+                - bandwidth_saving_unit
+                - storage_data_unit
+                - bandwidth_consumption
+                - storage_unit
+                - asset_duration
+                - errored_videos
+                - top_assets
+                - ai_credit_usage
+                - has_more_top_asset
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_parameter_value
+                      message: The parameter value is invalid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_parameter_value
+                      message:
+                        type: string
+                        example: The parameter value is invalid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Video Usage Analytics
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoUsageAnalytic = await client.videoUsageAnalytics.retrieve({\n\
+          \  metrics: ['bandwidth_consumption', 'asset_duration', 'storage_unit', 'top_assets', 'drm_requests'],\n\
+          \  date_range: { start_at: '2026-08-01', end_at: '2026-08-20' },\n  group_by: 'daily',\n});\n\
+          \nconsole.log(videoUsageAnalytic);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_usage_analytic = client.video_usage_analytics.retrieve(\n    metrics=[\"\
+          bandwidth_consumption\", \"asset_duration\", \"storage_unit\", \"top_assets\", \"drm_requests\"\
+          ],\n    date_range={\"start_at\": \"2026-08-01\", \"end_at\": \"2026-08-20\"},\n    top_assets_count=\"\
+          5\",\n    top_assets_page=\"0\",\n    group_by=\"hourly\",\n)\n\nprint(video_usage_analytic)"
+  /video/streaming-duration:
+    get:
+      summary: Top Streamed Assets
+      description: This endpoint lists top streamed assets in a video collection
+      operationId: top-assets
+      parameters:
+      - name: start_at
+        in: query
+        description: Date string in "yyyy-mm-dd" format
+        required: true
+        schema:
+          type: string
+          examples:
+          - '2026-06-21'
+      - name: end_at
+        in: query
+        description: Date string in "yyyy-mm-dd" format
+        required: true
+        schema:
+          type: string
+          examples:
+          - '2026-06-30'
+      - name: collection_id
+        description: Gumlet workspace ID
+        in: query
+        schema:
+          type: string
+      - name: page
+        description: Page number of the response.
+        in: query
+        schema:
+          type: string
+          default: '1'
+      - name: page_size
+        description: Assets to list per page.
+        in: query
+        schema:
+          type: string
+          default: '1000'
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    data:
+                    - asset_id: 638888010f1a158347ce9842
+                      units: 0
+                    - asset_id: 6369df88cb5ca27c554bb1f2
+                      units: 0
+                    - asset_id: 63761f1fbe6f4dea7af3e050
+                      units: 0
+                    - asset_id: 63761eb6b6648252fc979673
+                      units: 0
+                    - asset_id: 6385035a3f8d6fa3925c5ae9
+                      units: 0
+                    - asset_id: 63761e09be6f4dea7af3ddaf
+                      units: 0
+                    - asset_id: 6322109d046f16b5e0ee63d9
+                      units: 0
+                    - asset_id: 6405cc5b4d82222f8a2053f2
+                      units: 0
+                    has_next_page: false
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        asset_id:
+                          type: string
+                          example: 638888010f1a158347ce9842
+                        units:
+                          type: integer
+                          example: 0
+                          default: 0
+                  has_next_page:
+                    type: boolean
+                    example: false
+                    default: true
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_parameter_value
+                      message: The parameter value is invalid.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_parameter_value
+                      message:
+                        type: string
+                        example: The parameter value is invalid.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      deprecated: false
+      tags:
+      - Video Usage Analytics
+      x-stoplight:
+        id: difsmxe8e5oaa
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst videoUsageAnalytic = await client.videoUsageAnalytics.topAssets({\n\
+          \  start_at: '2026-06-21',\n  end_at: '2026-06-30',\n  page: '1',\n  page_size: '1000',\n});\n\
+          \nconsole.log(videoUsageAnalytic);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nvideo_usage_analytic = client.video_usage_analytics.top_assets(\n    start_at=\"\
+          2026-06-21\",\n    end_at=\"2026-06-30\",\n    page=\"1\",\n    page_size=\"1000\",\n)\n\nprint(video_usage_analytic)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

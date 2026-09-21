@@ -1,14 +1,39 @@
-generated: '2026-07-11'
+generated: '2026-09-21'
 method: derived
-source: openapi/gumlet-openapi.yml
+source: openapi/gumlet-audio-upload-openapi.yml, openapi/gumlet-audit-logs-openapi.yml, openapi/gumlet-billing-openapi.yml,
+  openapi/gumlet-channel-viewers-openapi.yml, openapi/gumlet-folders-openapi.yml, openapi/gumlet-global-search-openapi.yml,
+  openapi/gumlet-image-sources-openapi.yml, openapi/gumlet-image-usage-analytics-openapi.yml,
+  openapi/gumlet-live-stream-analytics-openapi.yml, openapi/gumlet-live-stream-assets-openapi.yml,
+  openapi/gumlet-live-stream-workspaces-openapi.yml, openapi/gumlet-multipart-upload-openapi.yml
+  ...
 summary:
   types:
   - http
 schemes:
-- name: bearerAuth
+- name: API_KEY
   type: http
   scheme: bearer
-  description: 'Pass your Gumlet API key as a bearer token in the Authorization header: `Authorization:
-    Bearer <API_KEY>`.'
   sources:
-  - openapi/gumlet-openapi.yml
+  - openapi/gumlet-audio-upload-openapi.yml
+  - openapi/gumlet-audit-logs-openapi.yml
+  - openapi/gumlet-billing-openapi.yml
+  - openapi/gumlet-channel-viewers-openapi.yml
+  - openapi/gumlet-folders-openapi.yml
+  - openapi/gumlet-global-search-openapi.yml
+  - openapi/gumlet-image-sources-openapi.yml
+  - openapi/gumlet-image-usage-analytics-openapi.yml
+  - openapi/gumlet-live-stream-analytics-openapi.yml
+  - openapi/gumlet-live-stream-assets-openapi.yml
+  - openapi/gumlet-live-stream-workspaces-openapi.yml
+  - openapi/gumlet-multipart-upload-openapi.yml
+  - openapi/gumlet-organization-data-openapi.yml
+  - openapi/gumlet-recycle-bin-openapi.yml
+  - openapi/gumlet-subtitle-upload-openapi.yml
+  - openapi/gumlet-user-data-openapi.yml
+  - openapi/gumlet-video-analytics-openapi.yml
+  - openapi/gumlet-video-assets-openapi.yml
+  - openapi/gumlet-video-playlists-openapi.yml
+  - openapi/gumlet-video-profiles-openapi.yml
+  - openapi/gumlet-video-usage-analytics-openapi.yml
+  - openapi/gumlet-video-workspaces-openapi.yml
+  - openapi/gumlet-webhooks-openapi.yml

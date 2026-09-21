@@ -1,0 +1,284 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Organization Data API
+  version: '1.4'
+  description: Organization Data operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Organization Data
+paths:
+  /org/data:
+    get:
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Organization ID
+                  org_email:
+                    type: string
+                    description: Primary email of the organization
+                  unpaid:
+                    type: boolean
+                    description: Flag if account is blocked due to unpaid dues. False means account is
+                      not blocked.
+                  created_at:
+                    type: number
+                    description: Org creation time. Epoch timestamp in milliseconds.
+                  plan:
+                    type: string
+                    description: Subscription plan name
+                  plan_cycle:
+                    type: string
+                    enum:
+                    - monthly
+                    - yearly
+                    x-apidog-enum:
+                    - value: monthly
+                      name: ''
+                      description: ''
+                    - value: yearly
+                      name: ''
+                      description: ''
+                    description: Billing cycle. `monthly` or `yearly`.
+                  plan_data:
+                    type: object
+                    properties:
+                      image:
+                        type: object
+                        properties:
+                          plan:
+                            type: string
+                            description: Image plan name
+                          cycle:
+                            type: string
+                            description: Billing cycle. `monthly` or `yearly`.
+                            enum:
+                            - monthly
+                            - yearly
+                            x-apidog-enum:
+                            - value: monthly
+                              name: ''
+                              description: ''
+                            - value: yearly
+                              name: ''
+                              description: ''
+                          trialing:
+                            type: boolean
+                            description: If the plan is under trial or not.
+                          display_name:
+                            type: string
+                        x-apidog-orders:
+                        - plan
+                        - cycle
+                        - trialing
+                        - display_name
+                        required:
+                        - plan
+                        - cycle
+                        - trialing
+                        - display_name
+                      video:
+                        type: object
+                        properties:
+                          plan:
+                            type: string
+                            description: Video plan name
+                          cycle:
+                            type: string
+                            description: Billing cycle. `monthly` or `yearly`.
+                            enum:
+                            - monthly
+                            - yearly
+                            x-apidog-enum:
+                            - value: monthly
+                              name: ''
+                              description: ''
+                            - value: yearly
+                              name: ''
+                              description: ''
+                          trialing:
+                            type: boolean
+                            description: If the plan is under trial or not.
+                          display_name:
+                            type: string
+                        x-apidog-orders:
+                        - plan
+                        - cycle
+                        - trialing
+                        - display_name
+                        required:
+                        - plan
+                        - cycle
+                        - trialing
+                        - display_name
+                    x-apidog-orders:
+                    - image
+                    - video
+                    required:
+                    - image
+                    - video
+                  stripe_account_loc:
+                    type: string
+                    enum:
+                    - ind
+                    - sgp
+                    x-apidog-enum:
+                    - value: ind
+                      name: ''
+                      description: ''
+                    - value: sgp
+                      name: ''
+                      description: ''
+                  sso_enabled:
+                    type: boolean
+                    description: Flag if SSO is enabled for org.
+                  got_free_trial:
+                    type: boolean
+                  metadata:
+                    type: object
+                    properties:
+                      firstImageSourceCreated:
+                        type: boolean
+                      firstVideoUploaded:
+                        type: boolean
+                      nsfw_blocked:
+                        type: boolean
+                        description: Flag is org is blocked for NSFW uploads.
+                    x-apidog-orders:
+                    - firstImageSourceCreated
+                    - firstVideoUploaded
+                    - nsfw_blocked
+                    required:
+                    - firstImageSourceCreated
+                    - firstVideoUploaded
+                    - nsfw_blocked
+                x-apidog-orders:
+                - id
+                - org_email
+                - unpaid
+                - created_at
+                - plan_cycle
+                - plan
+                - plan_data
+                - stripe_account_loc
+                - sso_enabled
+                - got_free_trial
+                - metadata
+                required:
+                - id
+                - org_email
+                - unpaid
+                - created_at
+                - plan
+                - plan_cycle
+                - plan_data
+                - stripe_account_loc
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      summary: Get Organization Details
+      tags:
+      - Organization Data
+      operationId: fetch-org
+      description: You can get organization data using this API.
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst organizationData = await client.organizationData.fetchOrg();\n\
+          \nconsole.log(organizationData);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\norganization_data = client.organization_data.fetch_org()\n\nprint(organization_data)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

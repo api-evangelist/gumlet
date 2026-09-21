@@ -1,0 +1,206 @@
+openapi: 3.1.0
+info:
+  title: Gumlet User Data API
+  version: '1.4'
+  description: User Data operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: User Data
+paths:
+  /user/data:
+    get:
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: User ID
+                  email:
+                    type: string
+                    format: email
+                    description: User Email
+                  name:
+                    type: string
+                    description: Full name of user
+                  creation_date:
+                    type: integer
+                    description: User creation date. Milliseconds since epoch.
+                  last_login_date:
+                    type: integer
+                    description: Last login date. Milliseconds since epoch.
+                  last_login_ip:
+                    type: string
+                    description: IP address of last login.
+                  roles:
+                    type: array
+                    items:
+                      type: string
+                    description: Roles assigned to the user.
+                  timezone:
+                    type: string
+                    description: Timezone selected by user.
+                  metadata:
+                    type: object
+                    properties:
+                      theme:
+                        type: string
+                        description: Dashboard theme.
+                    x-apidog-orders:
+                    - theme
+                    required:
+                    - theme
+                x-apidog-orders:
+                - id
+                - email
+                - name
+                - creation_date
+                - last_login_date
+                - last_login_ip
+                - roles
+                - timezone
+                - metadata
+                required:
+                - id
+                - email
+                - name
+                - creation_date
+                - last_login_date
+                - last_login_ip
+                - roles
+                - timezone
+                - metadata
+        '400':
+          description: Bad Request — org API key not allowed
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: user_token_required
+                      message: You must access this route by only using a user token or gumlet website.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: user_token_required
+                      message:
+                        type: string
+                        example: You must access this route by only using a user token or gumlet website.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      summary: Get User
+      tags:
+      - User Data
+      operationId: fetch-user
+      description: This endpoint gives information about the user account.
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst userData = await client.userData.fetch();\n\
+          \nconsole.log(userData);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nuser_data = client.user_data.fetch()\n\nprint(user_data)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

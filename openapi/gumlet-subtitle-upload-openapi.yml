@@ -1,0 +1,313 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Subtitle Upload API
+  version: '1.4'
+  description: Subtitle Upload operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Subtitle Upload
+paths:
+  /video/assets/{asset_ID}/subtitle/upload:
+    post:
+      summary: Upload Subtitles
+      description: Upload `.srt` or `.vtt` file to the video asset. The response of this API call gives
+        `upload_url` for each language specified. You need to send a `PUT` request of the subtitle files
+        to those URLs. Once that's done, you need to call the subtitle upload complete API. Only after
+        that, Gumlet will add subtitles to asset.
+      operationId: upload-subtitles
+      parameters:
+      - name: asset_ID
+        in: path
+        description: An asset id for the previously created asset.
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                language_codes:
+                  type: array
+                  description: List of language codes to upload subtitle file (use <a href='https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes'>
+                    ISO 639-1 </a> Language Codes)
+                  items:
+                    type: string
+            examples:
+              Example 1:
+                value:
+                  language_codes:
+                  - en
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    signed_urls:
+                    - language_code: en
+                      upload_url: <UPLOAD_URL>
+                    asset_id: 6a8491aaf180d34362c9587a
+              schema:
+                title: ''
+                type: object
+                properties:
+                  asset_id:
+                    type: string
+                    description: Asset ID of Gumlet
+                  signed_urls:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        language_code:
+                          type: string
+                        upload_url:
+                          type: string
+                      x-apidog-orders:
+                      - language_code
+                      - upload_url
+                      required:
+                      - language_code
+                      - upload_url
+                x-apidog-orders:
+                - asset_id
+                - signed_urls
+                required:
+                - asset_id
+                - signed_urls
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_language_code
+                      message: Invalid language code. It must be one of the ISO 639-1 assigned codes.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_language_code
+                      message:
+                        type: string
+                        example: Invalid language code. It must be one of the ISO 639-1 assigned codes.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: false
+      tags:
+      - Subtitle Upload
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst subtitleUpload = await client.subtitleUpload.upload('assetId');\n\
+          \nconsole.log(subtitleUpload);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nsubtitle_upload = client.subtitle_upload.upload(\n    asset_id=\"assetId\"\
+          ,\n    language_codes=[\"en\"],\n)\n\nprint(subtitle_upload)"
+  /video/assets/{asset_ID}/subtitle/upload/event:
+    post:
+      summary: Complete Subtitle Upload
+      description: "This API must be called after adding subtitles; the add subtitle call gives you URLs\
+        \ to upload, and you complete a `PUT` request to those URLs. \nOnce that is done, calling this\
+        \ initiates the process to actually add the subtitle to the video."
+      operationId: complete-subtitle-upload
+      parameters:
+      - name: asset_ID
+        in: path
+        description: An asset id for the previously created asset.
+        schema:
+          type: string
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                upload_responses:
+                  type: array
+                  items:
+                    properties:
+                      language_code:
+                        type: string
+                        description: Language code for uploaded .srt or .vtt file.
+                      uploaded:
+                        type: boolean
+                        description: Status of language uploaded .srt or .vtt file. (If status code was
+                          200, You can mark true else false)
+                    type: object
+                    x-apidog-orders:
+                    - language_code
+                    - uploaded
+              x-apidog-orders:
+              - upload_responses
+            examples:
+              Example 1:
+                value:
+                  upload_responses:
+                  - language_code: en
+                    uploaded: true
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: {}
+              schema:
+                type: object
+                properties: {}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: no_additional_track
+                      message: No track request exists. Please upload a track first.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: no_additional_track
+                      message:
+                        type: string
+                        example: No track request exists. Please upload a track first.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      deprecated: false
+      tags:
+      - Subtitle Upload
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst subtitleUpload = await client.subtitleUpload.complete('assetId');\n\
+          \nconsole.log(subtitleUpload);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nsubtitle_upload = client.subtitle_upload.complete(\n    asset_id=\"assetId\"\
+          ,\n    upload_responses=[{\"language_code\": \"en\", \"uploaded\": True}],\n)\n\nprint(subtitle_upload)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

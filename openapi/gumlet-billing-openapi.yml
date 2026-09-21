@@ -1,0 +1,535 @@
+openapi: 3.1.0
+info:
+  title: Gumlet Billing API
+  version: '1.4'
+  description: Billing operations of the Gumlet API.
+  contact:
+    name: Gumlet Support Team
+    url: https://www.gumlet.com/contact/
+    email: support@gumlet.com
+  termsOfService: https://www.gumlet.com/terms/
+servers:
+- url: https://api.gumlet.com/v1
+tags:
+- name: Billing
+paths:
+  /mixed/billing/invoice/history:
+    get:
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  unpaid_invoices:
+                    type: boolean
+                    description: Flag which shows if this account has any unpaid invoices.
+                  stripe_invoices:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Invoice ID as per stripe. This is not invoice number.
+                        status:
+                          type: string
+                          description: Current status of the invoice
+                          enum:
+                          - draft
+                          - open
+                          - paid
+                          - uncollectible
+                          - void
+                          x-apidog-enum:
+                          - value: draft
+                            name: ''
+                            description: ''
+                          - value: open
+                            name: ''
+                            description: ''
+                          - value: paid
+                            name: ''
+                            description: ''
+                          - value: uncollectible
+                            name: ''
+                            description: ''
+                          - value: void
+                            name: ''
+                            description: ''
+                        created:
+                          type: integer
+                          description: Created timestamp of invoice in seconds since epoch
+                        amount_due:
+                          type: integer
+                          description: Amount due for invoice in the lowest denomination of the given
+                            currency. For example if the invoice is in USD, the amount shown here is in
+                            cents. Therefore, a value like 10000 means the invoice is $100.
+                        hosted_invoice_url:
+                          type: string
+                          description: URL of the invoice page where you can pay the invoice
+                        invoice_pdf:
+                          type: string
+                          description: URL of the page from where you can download the invoice PDF
+                      x-apidog-orders:
+                      - id
+                      - status
+                      - created
+                      - amount_due
+                      - hosted_invoice_url
+                      - invoice_pdf
+                      required:
+                      - id
+                      - status
+                      - created
+                      - amount_due
+                      - hosted_invoice_url
+                      - invoice_pdf
+                    description: List of invoices
+                x-apidog-orders:
+                - unpaid_invoices
+                - stripe_invoices
+                required:
+                - unpaid_invoices
+                - stripe_invoices
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      summary: List Invoices
+      tags:
+      - Billing
+      operationId: list-invoices
+      description: Liost all invoices that are generated so far.
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst billing = await client.billing.listInvoices();\n\
+          \nconsole.log(billing);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nbilling = client.billing.list_invoices()\n\nprint(billing)"
+  /mixed/billing/details:
+    get:
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  company_name:
+                    type: string
+                    description: Company name
+                  gst_number:
+                    type: string
+                    description: GST / VAT number
+                  address_line:
+                    type: string
+                    description: Address line 1
+                  city:
+                    type: string
+                    description: City
+                  state_code:
+                    type: string
+                    description: ISO code of the state
+                  postal:
+                    type: string
+                    description: Postal code
+                  country_code:
+                    type: string
+                    description: ISO code of country. For example, it's "US" for USA.
+                x-apidog-orders:
+                - company_name
+                - gst_number
+                - address_line
+                - city
+                - state_code
+                - postal
+                - country_code
+                required:
+                - company_name
+                - gst_number
+                - address_line
+                - city
+                - state_code
+                - postal
+                - country_code
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      summary: Get Billing Details
+      tags:
+      - Billing
+      operationId: fetch-billing-details
+      description: Get billing details for this organization.
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst billing = await client.billing.fetchDetails();\n\
+          \nconsole.log(billing);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nbilling = client.billing.fetch_details()\n\nprint(billing)"
+    post:
+      summary: Update Billing Details
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  address_line:
+                    type: string
+                    description: Address line 1
+                  city:
+                    type: string
+                    description: Name of the city
+                  company_name:
+                    type: string
+                    description: Company name
+                  country_code:
+                    type: string
+                    description: ISO country code
+                  gst_number:
+                    type: string
+                    description: GST / VAT details of the company
+                  postal:
+                    type: string
+                    description: Postal code of the company
+                  state_code:
+                    type: string
+                    description: ISO code of the state / region
+                x-apidog-orders:
+                - company_name
+                - address_line
+                - city
+                - country_code
+                - gst_number
+                - postal
+                - state_code
+                required:
+                - company_name
+                - address_line
+                - city
+                - country_code
+                - gst_number
+                - postal
+                - state_code
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: invalid_parameter
+                      message: Invalid parameter value.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: invalid_parameter
+                      message:
+                        type: string
+                        example: Invalid parameter value.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: update-billing-details
+      description: Update billing details
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address_line:
+                  type: string
+                  description: Address line 1
+                city:
+                  type: string
+                  description: Name of the city
+                company_name:
+                  type: string
+                  description: Company name
+                country_code:
+                  type: string
+                  description: ISO country code
+                gst_number:
+                  type: string
+                  description: GST / VAT details of the company
+                postal:
+                  type: string
+                  description: Postal code of the company
+                state_code:
+                  type: string
+                  description: ISO code of the state / region
+              x-apidog-orders:
+              - address_line
+              - city
+              - company_name
+              - country_code
+              - gst_number
+              - postal
+              - state_code
+              required:
+              - address_line
+              - city
+              - company_name
+              - country_code
+              - gst_number
+              - postal
+              - state_code
+      tags:
+      - Billing
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst billing = await client.billing.updateDetails({\n\
+          \  address_line: '',\n  city: '',\n  company_name: '',\n  country_code: '',\n  gst_number: '',\n\
+          \  postal: '',\n  state_code: '',\n});\n\nconsole.log(billing);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nbilling = client.billing.update_details(\n    address_line=\"\",\n    city=\"\
+          \",\n    company_name=\"\",\n    country_code=\"\",\n    gst_number=\"\",\n    postal=\"\",\n\
+          \    state_code=\"\",\n)\n\nprint(billing)"
+  /mixed/billing/invoice/upcoming:
+    get:
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invoice_start_date:
+                    type: string
+                    description: Invoice start date in DD MMM YYYY format
+                  invoice_last_date:
+                    type: string
+                    description: Invoice end date in DD MMM YYYY format
+                  next_invoice_date:
+                    type: string
+                    description: Next invoice date in DD MMM format
+                  trial_end_date:
+                    type:
+                    - string
+                    - 'null'
+                    description: Trial end date
+                  current_month_usage:
+                    type: string
+                    description: Current month total amount in given currency.
+                  upcoming_invoice:
+                    type: object
+                    properties:
+                      subtotal:
+                        type: string
+                        description: Upcoming invoice amount without tax
+                      lines:
+                        type: object
+                        properties:
+                          data:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                description:
+                                  type: string
+                                  description: Description about invoice line item
+                                quantity:
+                                  type: string
+                                  description: User friendly quantity of the line item
+                                unit_price:
+                                  type: number
+                                  description: Price per unit for the given item in given currency.
+                                amount:
+                                  type: string
+                                  description: Total amount of the line item
+                              x-apidog-orders:
+                              - description
+                              - quantity
+                              - unit_price
+                              - amount
+                              required:
+                              - description
+                              - quantity
+                              - unit_price
+                              - amount
+                        x-apidog-orders:
+                        - data
+                        required:
+                        - data
+                        description: Invoice line items
+                    x-apidog-orders:
+                    - subtotal
+                    - lines
+                    description: Upcoming invoice details
+                    required:
+                    - subtotal
+                    - lines
+                x-apidog-orders:
+                - invoice_start_date
+                - invoice_last_date
+                - next_invoice_date
+                - trial_end_date
+                - current_month_usage
+                - upcoming_invoice
+                required:
+                - invoice_start_date
+                - invoice_last_date
+                - next_invoice_date
+                - current_month_usage
+                - upcoming_invoice
+        '400':
+          description: Bad Request — no active subscription
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    error:
+                      code: no_active_subscription
+                      message: No active subscription found for this user.
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        example: no_active_subscription
+                      message:
+                        type: string
+                        example: No active subscription found for this user.
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      summary: Upcoming Invoice
+      tags:
+      - Billing
+      operationId: fetch-upcoming-invoice
+      description: Get details about upcoming invoice.
+      x-codeSamples:
+      - label: TypeScript
+        lang: TypeScript
+        source: "import Gumlet from '@gumlet/nodejs-sdk';\n\nconst client = new Gumlet({\n  apiKey: process.env['API_KEY'],\
+          \ // defaults to the API_KEY env var\n});\n\nconst billing = await client.billing.fetchUpcomingInvoice();\n\
+          \nconsole.log(billing);"
+      - label: Python
+        lang: Python
+        source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"\
+          API_KEY\"),\n)\n\nbilling = client.billing.fetch_upcoming_invoice()\n\nprint(billing)"
+components:
+  securitySchemes:
+    API_KEY:
+      type: http
+      scheme: bearer
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it
+                    soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+security:
+- API_KEY: []

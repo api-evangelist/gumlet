@@ -1,12 +1,7 @@
 {
   "provider": "gumlet",
   "sources": [
-    "gumlet-analytics-api-openapi.yml",
-    "gumlet-image-sources-api-openapi.yml",
-    "gumlet-live-streaming-api-openapi.yml",
-    "gumlet-uploads-api-openapi.yml",
-    "gumlet-video-assets-api-openapi.yml",
-    "gumlet-video-collections-api-openapi.yml"
+    "_original/gumlet-openapi.yml"
   ],
   "outputs": [
     "gumlet-analytics-api-openapi.yml",
@@ -19,6 +14,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "gumlet-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "gumlet-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gumlet-image-sources-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gumlet-live-streaming-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gumlet-uploads-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gumlet-video-assets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "gumlet-video-collections-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

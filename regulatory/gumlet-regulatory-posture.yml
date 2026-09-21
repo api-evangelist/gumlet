@@ -1,0 +1,14 @@
+generated: '2026-09-21'
+method: searched
+source: https://trust.gumlet.com/ and https://www.gumlet.com/pricing/, 2026-09-21
+signals:
+  subprocessors:
+    present: true
+    url: https://trust.gumlet.com/
+    detail: Public sub-processor register naming Intercom, Mixpanel, MongoDB, Cloudflare, Stripe and Google
+      with their regions.
+    pointer_type: Subprocessors
+note: Horizontal regulatory signals harvested from the trust center. ISO 27001:2022 and SOC 2 are recorded
+  in conformance/ and security/gumlet-trust-center.yml. No public SBOM, VPAT/accessibility conformance
+  report, data-residency statement, DSAR page, or AI-transparency disclosure was found; those signals
+  are absent.
