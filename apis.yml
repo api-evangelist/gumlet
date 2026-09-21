@@ -1,12 +1,10 @@
 aid: gumlet
 url: https://raw.githubusercontent.com/api-evangelist/gumlet/refs/heads/main/apis.yml
-name: Gumlet
+name: Gumlet APIs
 kind: company
-description: Gumlet is a video hosting, streaming, and image optimization platform.
-  Its video APIs cover on-demand and live streaming, per-title encoding, DRM, subtitles,
-  and analytics, while its image APIs provide real-time resize, compression, and CDN
-  delivery from cloud storage sources. All surfaces run under a single REST API at
-  api.gumlet.com/v1 authenticated with a bearer API key.
+description: >-
+  Gumlet is an all-in-one media platform for storing, transcoding, and streaming video plus image optimization. It
+  exposes a public REST API, a machine-readable OpenAPI 3.1.0 contract, an official MCP server, and an llms.txt.
 deliveryModel:
   model: saas
   open_source: false
@@ -15,8 +13,8 @@ deliveryModel:
   label: Hosted service · you call their endpoint
   confidence: high
   source:
-  - openapi
-  - pricing
+    - openapi
+    - pricing
   generated: '2026-08-28'
   method: derived
 accessModel:
@@ -28,275 +26,317 @@ accessModel:
   label: Freemium · Self-serve signup
   confidence: high
   source:
-  - plans
-  - authentication
+    - plans
+    - authentication
   generated: '2026-07-22'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/gumlet.png
 tags:
-- Video
-- Streaming
-- Image Optimization
-- CDN
-- Encoding
-- Analytics
-created: '2026-07-01'
-modified: '2026-07-01'
-specificationVersion: '0.23'
-apis:
-- aid: gumlet:gumlet-analytics-api
-  name: Gumlet Analytics API
-  description: Query video and image analytics and insights.
-  humanURL: https://docs.gumlet.com/reference/create-asset
-  baseURL: https://api.gumlet.com/v1/video
-  tags:
+  - Video
+  - Streaming
+  - Image Optimization
+  - CDN
+  - Encoding
   - Analytics
-  properties:
-  - type: OpenAPI
-    url: openapi/gumlet-analytics-api-openapi.yml
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/video-getting-started
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-asset
-  - type: PostmanCollection
-    url: collections/gumlet.postman_collection.json
-  - type: OpenCollection
-    url: collections/gumlet.opencollection.json
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/manage-sources
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/list-collections
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/live-streaming
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-live-asset
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/image-getting-started
-  - type: APIReference
-    url: https://docs.gumlet.com/docs/image-transform-apis
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/advanced-video-analytics
-  - type: APIReference
-    url: https://docs.gumlet.com/docs/insights-metrics-tracked
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/direct-upload
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-asset-direct-upload
-- aid: gumlet:gumlet-image-sources-api
-  name: Gumlet Image Sources API
-  description: Connect cloud storage to Gumlet image optimization.
-  humanURL: https://docs.gumlet.com/reference/create-asset
-  baseURL: https://api.gumlet.com/v1/video
-  tags:
-  - Image Sources
-  properties:
-  - type: OpenAPI
-    url: openapi/gumlet-image-sources-api-openapi.yml
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/video-getting-started
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-asset
-  - type: PostmanCollection
-    url: collections/gumlet.postman_collection.json
-  - type: OpenCollection
-    url: collections/gumlet.opencollection.json
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/manage-sources
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/list-collections
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/live-streaming
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-live-asset
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/image-getting-started
-  - type: APIReference
-    url: https://docs.gumlet.com/docs/image-transform-apis
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/advanced-video-analytics
-  - type: APIReference
-    url: https://docs.gumlet.com/docs/insights-metrics-tracked
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/direct-upload
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-asset-direct-upload
-- aid: gumlet:gumlet-live-streaming-api
-  name: Gumlet Live Streaming API
-  description: Create and manage live streaming assets.
-  humanURL: https://docs.gumlet.com/reference/create-asset
-  baseURL: https://api.gumlet.com/v1/video
-  tags:
-  - Live Streaming
-  properties:
-  - type: OpenAPI
-    url: openapi/gumlet-live-streaming-api-openapi.yml
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/video-getting-started
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-asset
-  - type: PostmanCollection
-    url: collections/gumlet.postman_collection.json
-  - type: OpenCollection
-    url: collections/gumlet.opencollection.json
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/manage-sources
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/list-collections
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/live-streaming
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-live-asset
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/image-getting-started
-  - type: APIReference
-    url: https://docs.gumlet.com/docs/image-transform-apis
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/advanced-video-analytics
-  - type: APIReference
-    url: https://docs.gumlet.com/docs/insights-metrics-tracked
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/direct-upload
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-asset-direct-upload
-- aid: gumlet:gumlet-uploads-api
-  name: Gumlet Uploads API
-  description: Direct and multipart uploads of local media.
-  humanURL: https://docs.gumlet.com/reference/create-asset
-  baseURL: https://api.gumlet.com/v1/video
-  tags:
-  - Uploads
-  properties:
-  - type: OpenAPI
-    url: openapi/gumlet-uploads-api-openapi.yml
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/video-getting-started
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-asset
-  - type: PostmanCollection
-    url: collections/gumlet.postman_collection.json
-  - type: OpenCollection
-    url: collections/gumlet.opencollection.json
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/manage-sources
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/list-collections
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/live-streaming
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-live-asset
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/image-getting-started
-  - type: APIReference
-    url: https://docs.gumlet.com/docs/image-transform-apis
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/advanced-video-analytics
-  - type: APIReference
-    url: https://docs.gumlet.com/docs/insights-metrics-tracked
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/direct-upload
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-asset-direct-upload
-- aid: gumlet:gumlet-video-assets-api
-  name: Gumlet Video Assets API
-  description: Ingest, encode, and manage video-on-demand assets.
-  humanURL: https://docs.gumlet.com/reference/create-asset
-  baseURL: https://api.gumlet.com/v1/video
-  tags:
-  - Video Assets
-  properties:
-  - type: OpenAPI
-    url: openapi/gumlet-video-assets-api-openapi.yml
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/video-getting-started
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-asset
-  - type: PostmanCollection
-    url: collections/gumlet.postman_collection.json
-  - type: OpenCollection
-    url: collections/gumlet.opencollection.json
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/manage-sources
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/list-collections
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/live-streaming
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-live-asset
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/image-getting-started
-  - type: APIReference
-    url: https://docs.gumlet.com/docs/image-transform-apis
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/advanced-video-analytics
-  - type: APIReference
-    url: https://docs.gumlet.com/docs/insights-metrics-tracked
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/direct-upload
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-asset-direct-upload
-- aid: gumlet:gumlet-video-collections-api
-  name: Gumlet Video Collections API
-  description: Manage video collections (sources) and organization.
-  humanURL: https://docs.gumlet.com/reference/create-asset
-  baseURL: https://api.gumlet.com/v1/video
-  tags:
-  - Video Collections
-  properties:
-  - type: OpenAPI
-    url: openapi/gumlet-video-collections-api-openapi.yml
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/video-getting-started
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-asset
-  - type: PostmanCollection
-    url: collections/gumlet.postman_collection.json
-  - type: OpenCollection
-    url: collections/gumlet.opencollection.json
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/manage-sources
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/list-collections
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/live-streaming
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-live-asset
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/image-getting-started
-  - type: APIReference
-    url: https://docs.gumlet.com/docs/image-transform-apis
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/advanced-video-analytics
-  - type: APIReference
-    url: https://docs.gumlet.com/docs/insights-metrics-tracked
-  - type: Documentation
-    url: https://docs.gumlet.com/docs/direct-upload
-  - type: APIReference
-    url: https://docs.gumlet.com/reference/create-asset-direct-upload
+  - video hosting
+  - video streaming
+  - video analytics
+  - media optimization
+  - image optimization
+  - DRM
+  - content protection
+  - live streaming
+  - media delivery
+created: '2026-07-01'
+modified: '2026-09-21'
+specificationVersion: '0.21'
+apis:
+  - aid: gumlet:gumlet-analytics-api
+    name: Gumlet Analytics API
+    description: Query video and image analytics and insights.
+    humanURL: https://docs.gumlet.com/reference/create-asset
+    baseURL: https://api.gumlet.com/v1/video
+    tags:
+      - Analytics
+    properties:
+      - type: OpenAPI
+        url: openapi/gumlet-analytics-api-openapi.yml
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/video-getting-started
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-asset
+      - type: PostmanCollection
+        url: collections/gumlet.postman_collection.json
+      - type: OpenCollection
+        url: collections/gumlet.opencollection.json
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/manage-sources
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/list-collections
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/live-streaming
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-live-asset
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/image-getting-started
+      - type: APIReference
+        url: https://docs.gumlet.com/docs/image-transform-apis
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/advanced-video-analytics
+      - type: APIReference
+        url: https://docs.gumlet.com/docs/insights-metrics-tracked
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/direct-upload
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-asset-direct-upload
+  - aid: gumlet:gumlet-image-sources-api
+    name: Gumlet Image Sources API
+    description: Connect cloud storage to Gumlet image optimization.
+    humanURL: https://docs.gumlet.com/reference/create-asset
+    baseURL: https://api.gumlet.com/v1/video
+    tags:
+      - Image Sources
+    properties:
+      - type: OpenAPI
+        url: openapi/gumlet-image-sources-api-openapi.yml
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/video-getting-started
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-asset
+      - type: PostmanCollection
+        url: collections/gumlet.postman_collection.json
+      - type: OpenCollection
+        url: collections/gumlet.opencollection.json
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/manage-sources
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/list-collections
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/live-streaming
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-live-asset
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/image-getting-started
+      - type: APIReference
+        url: https://docs.gumlet.com/docs/image-transform-apis
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/advanced-video-analytics
+      - type: APIReference
+        url: https://docs.gumlet.com/docs/insights-metrics-tracked
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/direct-upload
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-asset-direct-upload
+  - aid: gumlet:gumlet-live-streaming-api
+    name: Gumlet Live Streaming API
+    description: Create and manage live streaming assets.
+    humanURL: https://docs.gumlet.com/reference/create-asset
+    baseURL: https://api.gumlet.com/v1/video
+    tags:
+      - Live Streaming
+    properties:
+      - type: OpenAPI
+        url: openapi/gumlet-live-streaming-api-openapi.yml
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/video-getting-started
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-asset
+      - type: PostmanCollection
+        url: collections/gumlet.postman_collection.json
+      - type: OpenCollection
+        url: collections/gumlet.opencollection.json
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/manage-sources
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/list-collections
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/live-streaming
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-live-asset
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/image-getting-started
+      - type: APIReference
+        url: https://docs.gumlet.com/docs/image-transform-apis
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/advanced-video-analytics
+      - type: APIReference
+        url: https://docs.gumlet.com/docs/insights-metrics-tracked
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/direct-upload
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-asset-direct-upload
+  - aid: gumlet:gumlet-uploads-api
+    name: Gumlet Uploads API
+    description: Direct and multipart uploads of local media.
+    humanURL: https://docs.gumlet.com/reference/create-asset
+    baseURL: https://api.gumlet.com/v1/video
+    tags:
+      - Uploads
+    properties:
+      - type: OpenAPI
+        url: openapi/gumlet-uploads-api-openapi.yml
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/video-getting-started
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-asset
+      - type: PostmanCollection
+        url: collections/gumlet.postman_collection.json
+      - type: OpenCollection
+        url: collections/gumlet.opencollection.json
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/manage-sources
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/list-collections
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/live-streaming
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-live-asset
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/image-getting-started
+      - type: APIReference
+        url: https://docs.gumlet.com/docs/image-transform-apis
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/advanced-video-analytics
+      - type: APIReference
+        url: https://docs.gumlet.com/docs/insights-metrics-tracked
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/direct-upload
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-asset-direct-upload
+  - aid: gumlet:gumlet-video-assets-api
+    name: Gumlet Video Assets API
+    description: Ingest, encode, and manage video-on-demand assets.
+    humanURL: https://docs.gumlet.com/reference/create-asset
+    baseURL: https://api.gumlet.com/v1/video
+    tags:
+      - Video Assets
+    properties:
+      - type: OpenAPI
+        url: openapi/gumlet-video-assets-api-openapi.yml
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/video-getting-started
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-asset
+      - type: PostmanCollection
+        url: collections/gumlet.postman_collection.json
+      - type: OpenCollection
+        url: collections/gumlet.opencollection.json
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/manage-sources
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/list-collections
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/live-streaming
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-live-asset
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/image-getting-started
+      - type: APIReference
+        url: https://docs.gumlet.com/docs/image-transform-apis
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/advanced-video-analytics
+      - type: APIReference
+        url: https://docs.gumlet.com/docs/insights-metrics-tracked
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/direct-upload
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-asset-direct-upload
+  - aid: gumlet:gumlet-video-collections-api
+    name: Gumlet Video Collections API
+    description: Manage video collections (sources) and organization.
+    humanURL: https://docs.gumlet.com/reference/create-asset
+    baseURL: https://api.gumlet.com/v1/video
+    tags:
+      - Video Collections
+    properties:
+      - type: OpenAPI
+        url: openapi/gumlet-video-collections-api-openapi.yml
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/video-getting-started
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-asset
+      - type: PostmanCollection
+        url: collections/gumlet.postman_collection.json
+      - type: OpenCollection
+        url: collections/gumlet.opencollection.json
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/manage-sources
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/list-collections
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/live-streaming
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-live-asset
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/image-getting-started
+      - type: APIReference
+        url: https://docs.gumlet.com/docs/image-transform-apis
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/advanced-video-analytics
+      - type: APIReference
+        url: https://docs.gumlet.com/docs/insights-metrics-tracked
+      - type: Documentation
+        url: https://docs.gumlet.com/docs/direct-upload
+      - type: APIReference
+        url: https://docs.gumlet.com/reference/create-asset-direct-upload
+  - name: Gumlet REST API
+    description: >-
+      Public REST API for video asset management, transcoding, adaptive HLS streaming, DRM, live streaming, image
+      optimization, and analytics. API-key/Bearer auth, v1.4.
+    humanURL: https://docs.gumlet.com/reference
+    baseURL: https://api.gumlet.com/v1
+    tags:
+      - video hosting
+      - video streaming
+      - video analytics
+      - media optimization
+      - image optimization
+      - DRM
+      - content protection
+      - live streaming
+      - CDN
+      - media delivery
+    properties:
+      - type: OpenAPI
+        url: https://raw.githubusercontent.com/gumlet/openapi-spec/refs/heads/main/openapi.json
+      - type: Documentation
+        url: https://docs.gumlet.com
+      - type: Documentation
+        url: https://docs.gumlet.com/reference
+      - type: LLMsTxt
+        url: https://www.gumlet.com/llms.txt
 common:
-- type: AgenticAccess
-  url: agentic-access/gumlet-agentic-access.yml
-- type: VulnerabilityDisclosure
-  url: security/gumlet-vulnerability-disclosure.yml
-- type: DomainSecurity
-  url: security/gumlet-domain-security.yml
-- type: Authentication
-  url: authentication/gumlet-authentication.yml
-- type: GitHubOrganization
-  url: https://github.com/gumlet
-- type: LinkedIn
-  url: https://www.linkedin.com/company/gumlet
-- type: Website
-  url: https://www.gumlet.com/
-- type: Documentation
-  url: https://docs.gumlet.com/
-- type: Plans
-  url: plans/gumlet-plans-pricing.yml
-- type: RateLimits
-  url: rate-limits/gumlet-rate-limits.yml
-- type: FinOps
-  url: finops/gumlet-finops.yml
-- type: Blog
-  url: https://www.gumlet.com/blog/rss/
+  - type: AgenticAccess
+    url: agentic-access/gumlet-agentic-access.yml
+  - type: VulnerabilityDisclosure
+    url: security/gumlet-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/gumlet-domain-security.yml
+  - type: Authentication
+    url: authentication/gumlet-authentication.yml
+  - type: GitHubOrganization
+    url: https://github.com/gumlet
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/gumlet
+  - type: Website
+    url: https://www.gumlet.com/
+  - type: Documentation
+    url: https://docs.gumlet.com/
+  - type: Plans
+    url: plans/gumlet-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/gumlet-rate-limits.yml
+  - type: FinOps
+    url: finops/gumlet-finops.yml
+  - type: Blog
+    url: https://www.gumlet.com/blog/rss/
 maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+  - FN: Gumlet APIs
+    url: https://www.gumlet.com
+generated:
+  by: apis.io/add
+  model: claude-opus-4-8
+  confidence: 95
+  at: '2026-09-21T03:05:29.992Z'
