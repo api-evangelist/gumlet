@@ -540,6 +540,8 @@ apis:
   humanURL: https://docs.gumlet.com/reference
   baseURL: https://api.gumlet.com/v1
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
