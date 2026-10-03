@@ -1,15 +1,29 @@
 openapi: 3.2.0
 info:
   title: Gumlet Video Analytics API
+  description: Gumlet helps developers deliver online video and images. This API encompasses Gumlet Video, Image and Video Analytics functionality to help you build your products better and faster than ever before.
   version: '1.4'
   contact:
     name: Gumlet Support Team
     url: https://www.gumlet.com/contact/
     email: support@gumlet.com
   termsOfService: https://www.gumlet.com/terms/
-  x-refined-note:
-  - x-scalar-sdk-installation differs across the merged source definitions and was not carried
-  description: 'Operations tagged Video Analytics across 2 of this provider''s published API definitions: gumlet-openapi.json, gumlet-video-analytics-openapi.yml. Each path carries the servers of the definition it was published in.'
+  license:
+    name: Apache 2.0
+    url: https://opensource.org/license/apache-2.0
+  x-scalar-sdk-installation:
+  - lang: TypeScript
+    description: '```sh
+
+      npm install @gumlet/nodejs-sdk
+
+      ```'
+  - lang: Python
+    description: '```sh
+
+      pip install gumlet
+
+      ```'
 servers:
 - url: https://api.gumlet.com/v1
 security:
@@ -341,8 +355,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_analytic = client.video_analytics.chart_data(\n    metrics=[\"\"],\n    workspace_id=\"\",\n    date_range={\"start_at\": \"2024-01-01\", \"end_at\": \"2024-01-01\"},\n    group_by=\"daily\",\n)\n\nprint(video_analytic)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /insights/breakdown-data:
     post:
       summary: Breakdown Data
@@ -651,8 +663,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_analytic = client.video_analytics.breakdown_data(\n    date_range={\"start_at\": \"2026-07-20\", \"end_at\": \"2026-08-20\"},\n    filters=[],\n    breakdowns=[\n        {\"name\": \"custom_video_id\", \"metric\": \"views\", \"page\": 1, \"page_size\": 10},\n        {\"name\": \"custom_video_title\", \"metric\": \"completion_percent_by_views\", \"page\": 1, \"page_size\": 10},\n    ],\n    workspace_id=\"6694c405e63913eecf3cf5fb\",\n)\n\nprint(video_analytic)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /insights/aggregated-data:
     post:
       summary: Aggregated Data
@@ -892,9 +902,32 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_analytic = client.video_analytics.aggregated_data(\n    aggregate=[{\"metric\": \"views\", \"function\": \"sum\"}],\n    workspace_id=\"\",\n    timeframe={},\n)\n\nprint(video_analytic)"
-    servers:
-    - url: https://api.gumlet.com/v1
 components:
+  responses:
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -916,38 +949,10 @@ components:
             param:
               type: string
               description: Optional parameter name related to the error
-  responses:
-    Forbidden:
-      description: Forbidden — unpaid account or insufficient role permissions
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: unauthorized
-                  message: You don't have access to this feature. Please contact your organization owner.
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Internal Server Error
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: internal_server_error
-                  message: We have encountered some server error. We have been notified and will fix it soon.
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     API_KEY:
       type: http
       scheme: bearer
-x-refined-from:
-- gumlet-openapi.json
-- gumlet-video-analytics-openapi.yml
 x-tagGroups:
 - name: Video on Demand
   tags:

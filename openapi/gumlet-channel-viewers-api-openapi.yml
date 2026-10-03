@@ -1,15 +1,29 @@
 openapi: 3.2.0
 info:
   title: Gumlet Channel Viewers API
+  description: Gumlet helps developers deliver online video and images. This API encompasses Gumlet Video, Image and Video Analytics functionality to help you build your products better and faster than ever before.
   version: '1.4'
   contact:
     name: Gumlet Support Team
     url: https://www.gumlet.com/contact/
     email: support@gumlet.com
   termsOfService: https://www.gumlet.com/terms/
-  x-refined-note:
-  - x-scalar-sdk-installation differs across the merged source definitions and was not carried
-  description: 'Operations tagged Channel Viewers across 2 of this provider''s published API definitions: gumlet-openapi.json, gumlet-channel-viewers-openapi.yml. Each path carries the servers of the definition it was published in.'
+  license:
+    name: Apache 2.0
+    url: https://opensource.org/license/apache-2.0
+  x-scalar-sdk-installation:
+  - lang: TypeScript
+    description: '```sh
+
+      npm install @gumlet/nodejs-sdk
+
+      ```'
+  - lang: Python
+    description: '```sh
+
+      pip install gumlet
+
+      ```'
 servers:
 - url: https://api.gumlet.com/v1
 security:
@@ -126,8 +140,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nchannel_viewer = client.channel_viewers.invite(\n    video_workspace_id=\"videoWorkspaceId\",\n    users=[\n        {\"email\": \"test@gumlet.com\", \"name\": \"Test User-0\"},\n        {\"email\": \"test+1@gumlet.com\", \"name\": \"Test User-1\"},\n        {\"email\": \"test+2@gumlet.com\", \"name\": \"Test User-2\"},\n    ],\n)\n\nprint(channel_viewer)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /channel/{video_workspace_id}/viewers/remove:
     post:
       summary: Remove Channel Viewers
@@ -219,8 +231,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nchannel_viewer = client.channel_viewers.delete(\n    video_workspace_id=\"videoWorkspaceId\",\n    emails=[\"test@gumlet.com\", \"test+2@gumlet.com\"],\n)\n\nprint(channel_viewer)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /channel/{video_workspace_id}/viewers/invite/csv:
     post:
       summary: Invite Channel Viewers via CSV
@@ -334,8 +344,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nchannel_viewer = client.channel_viewers.invite_csv(\n    video_workspace_id=\"videoWorkspaceId\",\n    viewers_csv=b\"viewers.csv\",\n)\n\nprint(channel_viewer)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /channel/{workspace_id}/viewers:
     get:
       responses:
@@ -468,8 +476,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nchannel_viewer = client.channel_viewers.list_subscribers(\n    workspace_id=\"workspaceId\",\n    page_number=1,\n    page_size=10,\n)\n\nprint(channel_viewer)"
-    servers:
-    - url: https://api.gumlet.com/v1
 components:
   schemas:
     Error:
@@ -521,9 +527,6 @@ components:
     API_KEY:
       type: http
       scheme: bearer
-x-refined-from:
-- gumlet-openapi.json
-- gumlet-channel-viewers-openapi.yml
 x-tagGroups:
 - name: Video on Demand
   tags:

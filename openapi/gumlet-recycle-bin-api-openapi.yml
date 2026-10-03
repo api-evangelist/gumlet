@@ -1,15 +1,29 @@
 openapi: 3.2.0
 info:
   title: Gumlet Recycle Bin API
+  description: Gumlet helps developers deliver online video and images. This API encompasses Gumlet Video, Image and Video Analytics functionality to help you build your products better and faster than ever before.
   version: '1.4'
   contact:
     name: Gumlet Support Team
     url: https://www.gumlet.com/contact/
     email: support@gumlet.com
   termsOfService: https://www.gumlet.com/terms/
-  x-refined-note:
-  - x-scalar-sdk-installation differs across the merged source definitions and was not carried
-  description: 'Operations tagged Recycle Bin across 2 of this provider''s published API definitions: gumlet-openapi.json, gumlet-recycle-bin-openapi.yml. Each path carries the servers of the definition it was published in.'
+  license:
+    name: Apache 2.0
+    url: https://opensource.org/license/apache-2.0
+  x-scalar-sdk-installation:
+  - lang: TypeScript
+    description: '```sh
+
+      npm install @gumlet/nodejs-sdk
+
+      ```'
+  - lang: Python
+    description: '```sh
+
+      pip install gumlet
+
+      ```'
 servers:
 - url: https://api.gumlet.com/v1
 security:
@@ -118,8 +132,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nclient.recycle_bin.recover(\n    asset_id=\"\",\n)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/asset/recoverable/list:
     get:
       responses:
@@ -258,8 +270,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nrecycle_bin = client.recycle_bin.list(\n    size=20,\n    workspace_id=\"workspace_id\",\n)\n\nprint(recycle_bin)"
-    servers:
-    - url: https://api.gumlet.com/v1
 components:
   schemas:
     Error:
@@ -311,9 +321,6 @@ components:
     API_KEY:
       type: http
       scheme: bearer
-x-refined-from:
-- gumlet-openapi.json
-- gumlet-recycle-bin-openapi.yml
 x-tagGroups:
 - name: Video on Demand
   tags:

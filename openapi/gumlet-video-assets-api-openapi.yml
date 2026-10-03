@@ -1,15 +1,29 @@
 openapi: 3.2.0
 info:
   title: Gumlet Video Assets API
+  description: Gumlet helps developers deliver online video and images. This API encompasses Gumlet Video, Image and Video Analytics functionality to help you build your products better and faster than ever before.
   version: '1.4'
   contact:
     name: Gumlet Support Team
     url: https://www.gumlet.com/contact/
     email: support@gumlet.com
   termsOfService: https://www.gumlet.com/terms/
-  x-refined-note:
-  - x-scalar-sdk-installation differs across the merged source definitions and was not carried
-  description: 'Operations tagged Video Assets across 2 of this provider''s published API definitions: gumlet-openapi.json, gumlet-video-assets-openapi.yml. Each path carries the servers of the definition it was published in.'
+  license:
+    name: Apache 2.0
+    url: https://opensource.org/license/apache-2.0
+  x-scalar-sdk-installation:
+  - lang: TypeScript
+    description: '```sh
+
+      npm install @gumlet/nodejs-sdk
+
+      ```'
+  - lang: Python
+    description: '```sh
+
+      pip install gumlet
+
+      ```'
 servers:
 - url: https://api.gumlet.com/v1
 security:
@@ -710,8 +724,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_asset = client.video_assets.create(\n    input=\"http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8\",\n    format=\"ABR\",\n    title=\"Example Title\",\n    workspace_id=\"<your workspace id>\",\n)\n\nprint(video_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/assets/upload:
     post:
       summary: Create Asset Direct Upload
@@ -1312,8 +1324,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_asset = client.video_assets.upload(\n    collection_id=\"646df1c9173a4a2fcac180b4\",\n    profile_id=\"646df1c9173a4a2fcac180b7\",\n    format=\"ABR\",\n    tag=[\"ball\"],\n    description=\"some description\",\n    metadata={\"headermeta\": \"metavalue\"},\n    call_to_actions=[\n        {\n            \"start_time\": 1,\n            \"end_time\": 90,\n            \"text\": \"some test\",\n            \"url\": \"https://some-url.com\",\n            \"position_from_top\": 11,\n            \"position_from_right\": 23,\n            \"border_radius\": \"11\",\n            \"font_color\": \"#000001\",\n            \"background_color\": \"#ffffff\",\n        }\n    ],\n    playlist_id=\"6597acd5ed6f26a9c5ca9633\",\n    folder=\"697375fbfa2d1037283140e4\",\n)\n\nprint(video_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/assets/{asset_id}:
     get:
       summary: Asset Details
@@ -2350,8 +2360,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nclient.video_assets.delete(\n    asset_id=\"assetId\",\n)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/assets/update:
     post:
       summary: Update Asset
@@ -2529,8 +2537,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_asset = client.video_assets.update(\n    asset_id=\"<YOUR_ASSET_ID>\",\n    title=\"Updated Title\",\n)\n\nprint(video_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/assets/{asset_id}/thumbnail-select:
     parameters:
     - schema:
@@ -2635,8 +2641,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_asset = client.video_assets.thumbnail_select(\n    asset_id=\"assetId\",\n    frame_at_second=2,\n)\n\nprint(video_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/assets/{asset_ID}/thumbnail:
     post:
       summary: Update thumbnail via upload
@@ -2729,8 +2733,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_asset = client.video_assets.thumbnail_upload(\n    asset_id=\"assetId\",\n)\n\nprint(video_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/assets/{asset_id}/chapters:
     post:
       summary: Create/Update Video Asset Chapters
@@ -2860,8 +2862,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_asset = client.video_assets.create_update_chapter(\n    asset_id=\"assetId\",\n    chapters=[{\"label\": \"Chapter 1\", \"startTime\": 0}, {\"label\": \"Chapter 2\", \"startTime\": 10}],\n)\n\nprint(video_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/workspaces/{workspace_id}/list:
     get:
       summary: List Assets
@@ -3372,8 +3372,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_asset = client.video_assets.list(\n    workspace_id=\"workspaceId\",\n    type=\"all\",\n    offset=0,\n    size=20,\n    signed_token=\"false\",\n)\n\nprint(video_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/assets/list/{workspace_id}:
     get:
       summary: List Assets
@@ -3757,8 +3755,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_asset = client.video_assets.list_deprecated(\n    workspace_id=\"workspaceId\",\n    sort_by=\"created_at\",\n    order_by=\"desc\",\n)\n\nprint(video_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/assets/bulk/delete:
     delete:
       responses:
@@ -3849,8 +3845,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_asset = client.video_assets.delete_many(\n    asset_list=[\"64249a8858fd3a208b987702\", \"64784bae843b155b829bbf84\"],\n    source_id=\"60bd2ba353ff754d28179ee6\",\n)\n\nprint(video_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/assets/bulk/tag:
     post:
       responses:
@@ -3958,8 +3952,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_asset = client.video_assets.tag_many(\n    asset_list=[\"6221db301c8b821b0519fba0\", \"61e8f2726ec832ab2ac4fa6e\"],\n    source_id=\"60bd2ba353ff754d28179ee6\",\n    add_tags=[\"tag-1\"],\n    remove_tags=[\"playlist-1\"],\n)\n\nprint(video_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/assets/{asset_id}/analytics:
     post:
       parameters:
@@ -4371,22 +4363,8 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_asset = client.video_assets.analytics(\n    asset_id=\"assetId\",\n    group_by=\"daily\",\n    date_range={\"start_at\": \"2024-01-01\", \"end_at\": \"2024-01-01\"},\n    metrics=[\"impressions\"],\n)\n\nprint(video_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
 components:
   responses:
-    Unauthorized:
-      description: Unauthorized — missing or invalid API key / bearer token
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: invalid_api_key
-                  message: API key supplied with request is invalid
-          schema:
-            $ref: '#/components/schemas/Error'
     ValidationError:
       description: Unprocessable Entity — request validation failed
       content:
@@ -4397,6 +4375,18 @@ components:
                 error:
                   code: invalid_parameter
                   message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
           schema:
             $ref: '#/components/schemas/Error'
     InternalServerError:
@@ -4411,16 +4401,16 @@ components:
                   message: We have encountered some server error. We have been notified and will fix it soon.
           schema:
             $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden — unpaid account or insufficient role permissions
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
       content:
         application/json:
           examples:
             Result:
               value:
                 error:
-                  code: unauthorized
-                  message: You don't have access to this feature. Please contact your organization owner.
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
@@ -4448,9 +4438,6 @@ components:
     API_KEY:
       type: http
       scheme: bearer
-x-refined-from:
-- gumlet-openapi.json
-- gumlet-video-assets-openapi.yml
 x-tagGroups:
 - name: Video on Demand
   tags:

@@ -1,15 +1,29 @@
 openapi: 3.2.0
 info:
   title: Gumlet Live Stream Assets API
+  description: Gumlet helps developers deliver online video and images. This API encompasses Gumlet Video, Image and Video Analytics functionality to help you build your products better and faster than ever before.
   version: '1.4'
   contact:
     name: Gumlet Support Team
     url: https://www.gumlet.com/contact/
     email: support@gumlet.com
   termsOfService: https://www.gumlet.com/terms/
-  x-refined-note:
-  - x-scalar-sdk-installation differs across the merged source definitions and was not carried
-  description: 'Operations tagged Live Stream Assets across 2 of this provider''s published API definitions: gumlet-openapi.json, gumlet-live-stream-assets-openapi.yml. Each path carries the servers of the definition it was published in.'
+  license:
+    name: Apache 2.0
+    url: https://opensource.org/license/apache-2.0
+  x-scalar-sdk-installation:
+  - lang: TypeScript
+    description: '```sh
+
+      npm install @gumlet/nodejs-sdk
+
+      ```'
+  - lang: Python
+    description: '```sh
+
+      pip install gumlet
+
+      ```'
 servers:
 - url: https://api.gumlet.com/v1
 security:
@@ -230,8 +244,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.create(\n    live_source_id=\"\",\n    resolution=\"\",\n)\n\nprint(live_stream_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/live/assets/update:
     post:
       summary: Update Live Asset
@@ -431,8 +443,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.update(\n    live_asset_id=\"\",\n)\n\nprint(live_stream_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/live/assets/{live_asset_id}:
     get:
       summary: Get Live Asset Status
@@ -684,8 +694,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.delete(\n    live_asset_id=\"liveAssetId\",\n)\n\nprint(live_stream_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/live/assets/{live_asset_id}/complete:
     post:
       summary: Complete Live Stream
@@ -777,8 +785,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.complete(\n    live_asset_id=\"liveAssetId\",\n)\n\nprint(live_stream_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/live/assets/list/{live_source_id}:
     get:
       summary: Filter Live Assets
@@ -991,8 +997,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.filter(\n    live_source_id=\"liveSourceId\",\n)\n\nprint(live_stream_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/live/assets/{live_asset_id}/start:
     post:
       description: Start a live stream.
@@ -1076,8 +1080,6 @@ paths:
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nclient.live_stream_assets.start(\n    live_asset_id=\"liveAssetId\",\n)"
       summary: Start live
       x-summary-source: derived
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/live/assets/thumbnail/upload:
     post:
       summary: Upload Live Thumbnails
@@ -1233,8 +1235,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.upload(\n    live_asset_id=\"68c406b147f9ad0c0d584ce2\",\n    statuses=\"preparing\",\n)\n\nprint(live_stream_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/live/assets/{live_asset_id}/history:
     get:
       summary: Get Live Asset Status History
@@ -1370,22 +1370,8 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.status_history(\n    live_asset_id=\"liveAssetId\",\n)\n\nprint(live_stream_asset)"
-    servers:
-    - url: https://api.gumlet.com/v1
 components:
   responses:
-    Unauthorized:
-      description: Unauthorized — missing or invalid API key / bearer token
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: invalid_api_key
-                  message: API key supplied with request is invalid
-          schema:
-            $ref: '#/components/schemas/Error'
     ValidationError:
       description: Unprocessable Entity — request validation failed
       content:
@@ -1396,6 +1382,18 @@ components:
                 error:
                   code: invalid_parameter
                   message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
           schema:
             $ref: '#/components/schemas/Error'
     InternalServerError:
@@ -1410,16 +1408,16 @@ components:
                   message: We have encountered some server error. We have been notified and will fix it soon.
           schema:
             $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden — unpaid account or insufficient role permissions
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
       content:
         application/json:
           examples:
             Result:
               value:
                 error:
-                  code: unauthorized
-                  message: You don't have access to this feature. Please contact your organization owner.
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
@@ -1447,9 +1445,6 @@ components:
     API_KEY:
       type: http
       scheme: bearer
-x-refined-from:
-- gumlet-openapi.json
-- gumlet-live-stream-assets-openapi.yml
 x-tagGroups:
 - name: Video on Demand
   tags:

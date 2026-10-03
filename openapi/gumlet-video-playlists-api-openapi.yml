@@ -1,15 +1,29 @@
 openapi: 3.2.0
 info:
   title: Gumlet Video Playlists API
+  description: Gumlet helps developers deliver online video and images. This API encompasses Gumlet Video, Image and Video Analytics functionality to help you build your products better and faster than ever before.
   version: '1.4'
   contact:
     name: Gumlet Support Team
     url: https://www.gumlet.com/contact/
     email: support@gumlet.com
   termsOfService: https://www.gumlet.com/terms/
-  x-refined-note:
-  - x-scalar-sdk-installation differs across the merged source definitions and was not carried
-  description: 'Operations tagged Video Playlists across 2 of this provider''s published API definitions: gumlet-openapi.json, gumlet-video-playlists-openapi.yml. Each path carries the servers of the definition it was published in.'
+  license:
+    name: Apache 2.0
+    url: https://opensource.org/license/apache-2.0
+  x-scalar-sdk-installation:
+  - lang: TypeScript
+    description: '```sh
+
+      npm install @gumlet/nodejs-sdk
+
+      ```'
+  - lang: Python
+    description: '```sh
+
+      pip install gumlet
+
+      ```'
 servers:
 - url: https://api.gumlet.com/v1
 security:
@@ -353,8 +367,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_playlist = client.video_playlists.list_all()\n\nprint(video_playlist)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/playlist/{playlist_id}/asset:
     post:
       summary: Add asset to playlist
@@ -545,8 +557,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_playlist = client.video_playlists.delete_asset(\n    playlist_id=\"playlistId\",\n    delete_list=[\"6508790783e4d606118467a3\"],\n)\n\nprint(video_playlist)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/playlist/{playlist_id}:
     post:
       summary: Update Playlist
@@ -913,8 +923,6 @@ paths:
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nclient.video_playlists.delete(\n    playlist_id=\"playlistId\",\n)"
       summary: Delete playlist
       x-summary-source: derived
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/playlist/{playlist_id}/assets:
     get:
       summary: Get playlist assets
@@ -1101,8 +1109,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_playlist = client.video_playlists.list_assets(\n    playlist_id=\"playlistId\",\n    sort_order=1,\n    page_number=1,\n    page_size=\"10\",\n)\n\nprint(video_playlist)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/playlists/{playlist_id}/reorder:
     post:
       summary: Arrange Videos In Playlist
@@ -1262,30 +1268,7 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_playlist = client.video_playlists.reorder_asset(\n    playlist_id=\"playlistId\",\n    asset_id=\"6e82bf783e88be000ab45ed2\",\n    page_number=1,\n    page_size=10,\n    asset_position=0,\n)\n\nprint(video_playlist)"
-    servers:
-    - url: https://api.gumlet.com/v1
 components:
-  schemas:
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            param:
-              type: string
-              description: Optional parameter name related to the error
   responses:
     ValidationError:
       description: Unprocessable Entity — request validation failed
@@ -1323,13 +1306,31 @@ components:
                   message: API key supplied with request is invalid
           schema:
             $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
   securitySchemes:
     API_KEY:
       type: http
       scheme: bearer
-x-refined-from:
-- gumlet-openapi.json
-- gumlet-video-playlists-openapi.yml
 x-tagGroups:
 - name: Video on Demand
   tags:

@@ -1,15 +1,29 @@
 openapi: 3.2.0
 info:
   title: Gumlet Subtitle Upload API
+  description: Gumlet helps developers deliver online video and images. This API encompasses Gumlet Video, Image and Video Analytics functionality to help you build your products better and faster than ever before.
   version: '1.4'
   contact:
     name: Gumlet Support Team
     url: https://www.gumlet.com/contact/
     email: support@gumlet.com
   termsOfService: https://www.gumlet.com/terms/
-  x-refined-note:
-  - x-scalar-sdk-installation differs across the merged source definitions and was not carried
-  description: 'Operations tagged Subtitle Upload across 2 of this provider''s published API definitions: gumlet-openapi.json, gumlet-subtitle-upload-openapi.yml. Each path carries the servers of the definition it was published in.'
+  license:
+    name: Apache 2.0
+    url: https://opensource.org/license/apache-2.0
+  x-scalar-sdk-installation:
+  - lang: TypeScript
+    description: '```sh
+
+      npm install @gumlet/nodejs-sdk
+
+      ```'
+  - lang: Python
+    description: '```sh
+
+      pip install gumlet
+
+      ```'
 servers:
 - url: https://api.gumlet.com/v1
 security:
@@ -129,8 +143,6 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nsubtitle_upload = client.subtitle_upload.upload(\n    asset_id=\"assetId\",\n    language_codes=[\"en\"],\n)\n\nprint(subtitle_upload)"
-    servers:
-    - url: https://api.gumlet.com/v1
   /video/assets/{asset_ID}/subtitle/upload/event:
     post:
       summary: Complete Subtitle Upload
@@ -227,9 +239,44 @@ paths:
       - label: Python
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nsubtitle_upload = client.subtitle_upload.complete(\n    asset_id=\"assetId\",\n    upload_responses=[{\"language_code\": \"en\", \"uploaded\": True}],\n)\n\nprint(subtitle_upload)"
-    servers:
-    - url: https://api.gumlet.com/v1
 components:
+  responses:
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it soon.
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -251,50 +298,10 @@ components:
             param:
               type: string
               description: Optional parameter name related to the error
-  responses:
-    Forbidden:
-      description: Forbidden — unpaid account or insufficient role permissions
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: unauthorized
-                  message: You don't have access to this feature. Please contact your organization owner.
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: Internal Server Error
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: internal_server_error
-                  message: We have encountered some server error. We have been notified and will fix it soon.
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized — missing or invalid API key / bearer token
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: invalid_api_key
-                  message: API key supplied with request is invalid
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     API_KEY:
       type: http
       scheme: bearer
-x-refined-from:
-- gumlet-openapi.json
-- gumlet-subtitle-upload-openapi.yml
 x-tagGroups:
 - name: Video on Demand
   tags:
