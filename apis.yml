@@ -32,6 +32,9 @@ accessModel:
   generated: '2026-07-22'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/gumlet.png
+x-docs-platform: scalar
+x-docs-platform-confidence: high
+x-docs-platform-checked: 2026-10-03
 tags:
 - Video
 - Streaming
@@ -43,6 +46,9 @@ created: '2026-07-01'
 modified: '2026-07-01'
 specificationVersion: '0.23'
 common:
+- type: CapabilityMap
+  url: capabilities/gumlet-capability-edges.yml
+  name: Gumlet Business Capability Map
 - type: Webhooks
   url: asyncapi/gumlet-webhooks-asyncapi.yml
 - type: AsyncAPI
@@ -452,6 +458,8 @@ apis:
   humanURL: https://docs.gumlet.com/reference
   baseURL: https://api.gumlet.com/v1
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
