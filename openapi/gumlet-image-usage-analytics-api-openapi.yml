@@ -552,18 +552,6 @@ components:
               type: string
               description: Optional parameter name related to the error
   responses:
-    Forbidden:
-      description: Forbidden — unpaid account or insufficient role permissions
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: unauthorized
-                  message: You don't have access to this feature. Please contact your organization owner.
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Unauthorized — missing or invalid API key / bearer token
       content:
@@ -574,6 +562,18 @@ components:
                 error:
                   code: invalid_api_key
                   message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
           schema:
             $ref: '#/components/schemas/Error'
   securitySchemes:

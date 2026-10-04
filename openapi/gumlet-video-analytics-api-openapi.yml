@@ -903,31 +903,6 @@ paths:
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_analytic = client.video_analytics.aggregated_data(\n    aggregate=[{\"metric\": \"views\", \"function\": \"sum\"}],\n    workspace_id=\"\",\n    timeframe={},\n)\n\nprint(video_analytic)"
 components:
-  responses:
-    InternalServerError:
-      description: Internal Server Error
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: internal_server_error
-                  message: We have encountered some server error. We have been notified and will fix it soon.
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden — unpaid account or insufficient role permissions
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: unauthorized
-                  message: You don't have access to this feature. Please contact your organization owner.
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -949,6 +924,31 @@ components:
             param:
               type: string
               description: Optional parameter name related to the error
+  responses:
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it soon.
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     API_KEY:
       type: http

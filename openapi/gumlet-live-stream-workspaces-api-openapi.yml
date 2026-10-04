@@ -378,43 +378,6 @@ paths:
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nlive_stream_workspace = client.live_stream_workspaces.delete(\n    live_workspace_id=\"liveWorkspaceId\",\n)\n\nprint(live_stream_workspace)"
 components:
-  responses:
-    ValidationError:
-      description: Unprocessable Entity — request validation failed
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: invalid_parameter
-                  message: body must have required property '<field>'
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden — unpaid account or insufficient role permissions
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: unauthorized
-                  message: You don't have access to this feature. Please contact your organization owner.
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized — missing or invalid API key / bearer token
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: invalid_api_key
-                  message: API key supplied with request is invalid
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -436,6 +399,43 @@ components:
             param:
               type: string
               description: Optional parameter name related to the error
+  responses:
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Unprocessable Entity — request validation failed
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_parameter
+                  message: body must have required property '<field>'
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     API_KEY:
       type: http

@@ -240,19 +240,28 @@ paths:
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nsubtitle_upload = client.subtitle_upload.complete(\n    asset_id=\"assetId\",\n    upload_responses=[{\"language_code\": \"en\", \"uploaded\": True}],\n)\n\nprint(subtitle_upload)"
 components:
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
   responses:
-    InternalServerError:
-      description: Internal Server Error
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: internal_server_error
-                  message: We have encountered some server error. We have been notified and will fix it soon.
-          schema:
-            $ref: '#/components/schemas/Error'
     Forbidden:
       description: Forbidden — unpaid account or insufficient role permissions
       content:
@@ -277,27 +286,18 @@ components:
                   message: API key supplied with request is invalid
           schema:
             $ref: '#/components/schemas/Error'
-  schemas:
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            param:
-              type: string
-              description: Optional parameter name related to the error
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: internal_server_error
+                  message: We have encountered some server error. We have been notified and will fix it soon.
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     API_KEY:
       type: http
