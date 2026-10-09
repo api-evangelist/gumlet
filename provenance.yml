@@ -6,103 +6,82 @@ artifacts:
   agentic-access/gumlet-agentic-access.yml:
     method: generated
     evidence: declared in the artifact
+  asyncapi/gumlet-webhooks-asyncapi.yml:
+    method: unknown
+    evidence: no authorship recorded
   authentication/gumlet-authentication.yml:
     method: derived
     evidence: declared in the artifact
+  cli/gumlet-cli.yml:
+    method: searched
+    evidence: declared in the artifact
   collections/gumlet-analytics-api.opencollection.json:
-    method: derived
-    evidence: openapi/gumlet-analytics-api
+    method: unknown
+    evidence: no authorship recorded
   collections/gumlet-analytics-api.postman_collection.json:
-    method: derived
-    evidence: openapi/gumlet-analytics-api
+    method: unknown
+    evidence: no authorship recorded
   collections/gumlet-image-sources-api.opencollection.json:
-    method: derived
-    evidence: openapi/gumlet-image-sources-api
+    method: unknown
+    evidence: no authorship recorded
   collections/gumlet-image-sources-api.postman_collection.json:
-    method: derived
-    evidence: openapi/gumlet-image-sources-api
+    method: unknown
+    evidence: no authorship recorded
   collections/gumlet-live-streaming-api.opencollection.json:
-    method: derived
-    evidence: openapi/gumlet-live-streaming-api
+    method: unknown
+    evidence: no authorship recorded
   collections/gumlet-live-streaming-api.postman_collection.json:
-    method: derived
-    evidence: openapi/gumlet-live-streaming-api
+    method: unknown
+    evidence: no authorship recorded
   collections/gumlet-uploads-api.opencollection.json:
-    method: derived
-    evidence: openapi/gumlet-uploads-api
+    method: unknown
+    evidence: no authorship recorded
   collections/gumlet-uploads-api.postman_collection.json:
-    method: derived
-    evidence: openapi/gumlet-uploads-api
+    method: unknown
+    evidence: no authorship recorded
   collections/gumlet-video-assets-api.opencollection.json:
-    method: derived
-    evidence: openapi/gumlet-video-assets-api
+    method: unknown
+    evidence: no authorship recorded
   collections/gumlet-video-assets-api.postman_collection.json:
-    method: derived
-    evidence: openapi/gumlet-video-assets-api
+    method: unknown
+    evidence: no authorship recorded
   collections/gumlet-video-collections-api.opencollection.json:
-    method: derived
-    evidence: openapi/gumlet-video-collections-api
+    method: unknown
+    evidence: no authorship recorded
   collections/gumlet-video-collections-api.postman_collection.json:
-    method: derived
-    evidence: openapi/gumlet-video-collections-api
+    method: unknown
+    evidence: no authorship recorded
   collections/gumlet.opencollection.json:
     method: derived
     evidence: openapi/gumlet
   collections/gumlet.postman_collection.json:
     method: derived
     evidence: openapi/gumlet
+  components/gumlet-components.yml:
+    method: searched
+    evidence: declared in the artifact
+  conformance/gumlet-conformance.yml:
+    method: searched
+    evidence: declared in the artifact
+  conventions/gumlet-conventions.yml:
+    method: derived
+    evidence: declared in the artifact
+  data-model/gumlet-data-model.yml:
+    method: derived
+    evidence: declared in the artifact
+  errors/gumlet-problem-types.yml:
+    method: derived
+    evidence: declared in the artifact
   finops/gumlet-finops.yml:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-06T210741.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-07T135032.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-10T093022.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-10T111628.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-11T211707.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-12T193225.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-17T064519.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T080027.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T082702.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-19T114122.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T165047.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T191845.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-20T205517.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-21T110057.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-24T064859.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-24T171257.yml:
+  front-door-ai/2026-09-17.yml:
+    method: unknown
+    evidence: no authorship recorded
+  json-ld/gumlet-context.jsonld:
+    method: unknown
+    evidence: no authorship recorded
+  kin/checks-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-08-25T125852.yml:
@@ -189,36 +168,271 @@ artifacts:
   kin/score-2026-09-05T072335.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  openapi/_original/gumlet-openapi.yml:
-    method: harvested
-    evidence: fetched from the provider as-is; byte-identical to the source
-  openapi/gumlet-analytics-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/gumlet-image-sources-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/gumlet-live-streaming-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/gumlet-uploads-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/gumlet-video-assets-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/gumlet-video-collections-api-openapi.yml:
-    method: derived
-    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  plans/gumlet-plans-pricing.yml:
+  kin/score-2026-09-05T144739.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T195450.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T211839.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T011047.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T211804.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T224210.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-07T200636.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-07T213054.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-08T214843.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-08T232836.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-10T204815.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-10T222408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T062655.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T080032.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T204651.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T221936.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-13T214537.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T064754.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T210656.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T225847.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T211329.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T230249.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T210549.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T225339.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-17T211151.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-17T233623.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-18T205255.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-18T231945.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-19T165737.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-19T193153.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-20T205903.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-20T232958.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-21T211425.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-21T233935.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-22T213221.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-23T000603.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T064009.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T090406.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-24T161608.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  lifecycle/gumlet-lifecycle.yml:
+    method: searched
+    evidence: declared in the artifact
+  llms/gumlet-llms.txt:
+    method: searched
+    evidence: 'derive-llms-provenance.py: harvested'
+  mcp/gumlet-mcp.yml:
     method: unknown
     evidence: no authorship recorded
+  mcp/gumlet-tool-crosswalk.yml:
+    method: derived
+    evidence: declared in the artifact
+  openapi/_original/gumlet-openapi.json:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/gumlet-audio-upload-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-audit-logs-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-billing-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-channel-viewers-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-folders-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-global-search-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-image-sources-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-image-usage-analytics-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-live-stream-analytics-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-live-stream-assets-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-live-stream-workspaces-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-multipart-upload-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-organization-data-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-recycle-bin-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-subtitle-upload-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-user-data-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-video-analytics-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-video-assets-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-video-playlists-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-video-profiles-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-video-usage-analytics-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-video-workspaces-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/gumlet-webhooks-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  packages/gumlet-packages.yml:
+    method: searched
+    evidence: declared in the artifact
+  plans/gumlet-plans-pricing.yml:
+    method: searched
+    evidence: declared in the artifact
   rate-limits/gumlet-rate-limits.yml:
     method: unknown
     evidence: no authorship recorded
+  regulatory/gumlet-regulatory-posture.yml:
+    method: searched
+    evidence: declared in the artifact
+  rules/gumlet-rules.yml:
+    method: generated
+    evidence: declared in the artifact
   security/gumlet-domain-security.yml:
     method: unknown
     evidence: no authorship recorded
+  security/gumlet-trust-center.yml:
+    method: searched
+    evidence: declared in the artifact
   security/gumlet-vulnerability-disclosure.yml:
     method: searched
     evidence: declared in the artifact
+  skills/_index.yml:
+    method: unknown
+    evidence: no authorship recorded
+  skills/gumlet-configure-webhooks.md:
+    method: unknown
+    evidence: no authorship recorded
+  skills/gumlet-set-up-live-stream.md:
+    method: unknown
+    evidence: no authorship recorded
+  skills/gumlet-upload-and-publish-video.md:
+    method: unknown
+    evidence: no authorship recorded
+  vocabulary/gumlet-vocabulary.yml:
+    method: derived
+    evidence: declared in the artifact
+  well-known/gumlet-api-catalog.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/gumlet-apis.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/gumlet-help-security.txt:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/gumlet-mcp-oauth-authorization-server.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/gumlet-mcp-oauth-protected-resource.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/gumlet-mcp-server-card.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/gumlet-security.txt:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/gumlet-webapp-oauth-authorization-server.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/gumlet-well-known.yml:
+    method: unknown
+    evidence: no authorship recorded

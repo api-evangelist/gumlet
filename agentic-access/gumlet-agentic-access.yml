@@ -1,4 +1,4 @@
-generated: '2026-09-21'
+generated: '2026-09-23'
 method: generated
 source: openapi/gumlet-audio-upload-openapi.yml, openapi/gumlet-audit-logs-openapi.yml, openapi/gumlet-billing-openapi.yml,
   openapi/gumlet-channel-viewers-openapi.yml, openapi/gumlet-folders-openapi.yml, openapi/gumlet-global-search-openapi.yml,
@@ -15,11 +15,11 @@ description: Recommended x-agentic-access execution contracts, classified heuris
 summary:
   operations: 89
   by_action_class:
-    acting: 60
-    connected: 29
+    acting: 57
+    connected: 32
   by_consequence:
-    write: 59
-    read: 29
+    write: 56
+    read: 32
     physical: 1
   human_in_the_loop_required: 0
 operations:
@@ -59,18 +59,12 @@ operations:
   method: post
   operationId: fetch-audit-logs
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /mixed/billing/invoice/history
   method: get
   operationId: list-invoices
@@ -373,18 +367,12 @@ operations:
   method: post
   operationId: retrieve-image-analytics
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /video/live/analytics
   method: post
   operationId: live-usage-analytics
@@ -1117,18 +1105,12 @@ operations:
   method: post
   operationId: retrieve-analytics
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /video/streaming-duration
   method: get
   operationId: top-assets
