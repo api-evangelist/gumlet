@@ -514,27 +514,6 @@ paths:
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nvideo_usage_analytic = client.video_usage_analytics.top_assets(\n    start_at=\"2026-06-21\",\n    end_at=\"2026-06-30\",\n    page=\"1\",\n    page_size=\"1000\",\n)\n\nprint(video_usage_analytic)"
 components:
-  schemas:
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            param:
-              type: string
-              description: Optional parameter name related to the error
   responses:
     Unauthorized:
       description: Unauthorized — missing or invalid API key / bearer token
@@ -560,6 +539,27 @@ components:
                   message: You don't have access to this feature. Please contact your organization owner.
           schema:
             $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
   securitySchemes:
     API_KEY:
       type: http

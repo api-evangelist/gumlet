@@ -1371,7 +1371,52 @@ paths:
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nlive_stream_asset = client.live_stream_assets.status_history(\n    live_asset_id=\"liveAssetId\",\n)\n\nprint(live_stream_asset)"
 components:
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
   responses:
+    Forbidden:
+      description: Forbidden — unpaid account or insufficient role permissions
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: unauthorized
+                  message: You don't have access to this feature. Please contact your organization owner.
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized — missing or invalid API key / bearer token
+      content:
+        application/json:
+          examples:
+            Result:
+              value:
+                error:
+                  code: invalid_api_key
+                  message: API key supplied with request is invalid
+          schema:
+            $ref: '#/components/schemas/Error'
     ValidationError:
       description: Unprocessable Entity — request validation failed
       content:
@@ -1396,51 +1441,6 @@ components:
                   message: We have encountered some server error. We have been notified and will fix it soon.
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Unauthorized — missing or invalid API key / bearer token
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: invalid_api_key
-                  message: API key supplied with request is invalid
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Forbidden — unpaid account or insufficient role permissions
-      content:
-        application/json:
-          examples:
-            Result:
-              value:
-                error:
-                  code: unauthorized
-                  message: You don't have access to this feature. Please contact your organization owner.
-          schema:
-            $ref: '#/components/schemas/Error'
-  schemas:
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            param:
-              type: string
-              description: Optional parameter name related to the error
   securitySchemes:
     API_KEY:
       type: http

@@ -477,27 +477,6 @@ paths:
         lang: Python
         source: "import os\n\nfrom gumlet import Gumlet\n\nclient = Gumlet(\n    api_key=os.environ.get(\"API_KEY\"),\n)\n\nglobal_search = client.global_search.search(\n    search_query=\"search_query\",\n    size=20,\n    assets_offset=0,\n    folders_offset=0,\n    playlists_offset=0,\n    channels_offset=0,\n)\n\nprint(global_search)"
 components:
-  schemas:
-    Error:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: object
-          required:
-          - code
-          - message
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            param:
-              type: string
-              description: Optional parameter name related to the error
   responses:
     Unauthorized:
       description: Unauthorized — missing or invalid API key / bearer token
@@ -523,6 +502,27 @@ components:
                   message: You don't have access to this feature. Please contact your organization owner.
           schema:
             $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: object
+          required:
+          - code
+          - message
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            param:
+              type: string
+              description: Optional parameter name related to the error
   securitySchemes:
     API_KEY:
       type: http
