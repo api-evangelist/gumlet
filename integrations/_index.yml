@@ -28,3 +28,110 @@
     builder: unknown (not in the directory record)
   status: not-a-workflow
   arazzo: null
+- slug: gumlet-npm-registry
+  label: npm registry
+  partner: npm
+  partner_name: npm registry
+  category: official SDK (JavaScript/TypeScript)
+  type: register
+  channel: package-registry
+  evidence: https://www.npmjs.com/package/@gumlet/cli
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@gumlet/cli'
+      version: 1.0.9
+      released: '2026-08-04'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@gumlet/cli
+      repo_leg: domain:gumlet.com
+      publisher_leg: email:gumlet.com
+      matched_by: domain
+    - name: '@gumlet/dynamic-watermark'
+      version: 4.0.0
+      released: '2026-09-02'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@gumlet/dynamic-watermark
+      repo_leg: domain:gumlet.com
+      publisher_leg: email:gumlet.com
+      matched_by: domain
+    - name: '@gumlet/insights-js-core'
+      version: 4.2.0
+      released: '2026-10-14'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@gumlet/insights-js-core
+      repo_leg: domain:gumlet.com
+      publisher_leg: email:gumlet.com
+      matched_by: domain
+    - name: '@gumlet/nodejs-sdk'
+      version: 1.5.5
+      released: '2026-10-16'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@gumlet/nodejs-sdk
+      repo_leg: github-org:gumlet
+      publisher_leg: email:gumlet.com
+      matched_by: domain
+    - name: '@gumlet/player.js'
+      version: 3.0.11
+      released: '2026-09-29'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@gumlet/player.js
+      repo_leg: github-org:gumlet
+      publisher_leg: email:gumlet.com
+      matched_by: domain
+    - name: '@gumlet/react-embed-player'
+      version: 2.1.1
+      released: '2026-03-14'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@gumlet/react-embed-player
+      repo_leg: github-org:gumlet
+      publisher_leg: email:gumlet.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
+- slug: gumlet-pypi
+  label: PyPI
+  partner: pypi
+  partner_name: PyPI
+  category: official SDK (Python)
+  type: register
+  channel: package-registry
+  evidence: https://pypi.org/project/gumlet/
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: PyPI (public registry JSON)
+    spec_file: null
+    language: Python
+    packages:
+    - name: gumlet
+      version: 1.2.2
+      released: '2026-10-16'
+      released_field: upload_time
+      lapsed: false
+      page: https://pypi.org/project/gumlet/
+      repo_leg: github-org:gumlet
+      publisher_leg: email:gumlet.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
