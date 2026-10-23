@@ -239,6 +239,23 @@ edges:
     detected: '2026-10-22'
   detected_by: sweep-php-dart-elixir-package-registries.py
   first_seen: '2026-10-22'
+- partner_name: Bubble (own)
+  partner: bubble
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://bubble.io/plugin/gumlet-video-1754038125640x200719415416717300
+  mirror_of: bubble/integrations/bubble-integration-edges.yml
+  apps:
+  - Gumlet Video
+  listing_count: 1
+  detected: '2026-10-23'
+  detected_by: mirror-platform-listings.py
+  category: Background Services
 method: searched
 checked:
 - https://api.nuget.org/v3
@@ -257,5 +274,6 @@ checked:
 - https://hex.pm/api
 - https://packagist.org/packages
 - https://pub.dev/api
+- bubble/integrations/bubble-integration-edges.yml
 source:
 - https://zapier.com/api/v4/apps/

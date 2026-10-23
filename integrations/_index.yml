@@ -216,3 +216,16 @@
     detected: '2026-10-22'
   status: not-a-workflow
   arazzo: null
+- slug: gumlet-bubble-own
+  label: Bubble (own)
+  partner: bubble
+  partner_name: Bubble (own)
+  category: Background Services
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://bubble.io/plugin/gumlet-video-1754038125640x200719415416717300
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
