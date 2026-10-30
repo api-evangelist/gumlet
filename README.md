@@ -1,4 +1,4 @@
-# Gumlet (gumlet)
+# Gumlet
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,166 +66,214 @@
 
 Gumlet is a video hosting, streaming, and image optimization platform. Its video APIs cover on-demand and live streaming, per-title encoding, DRM, subtitles, and analytics, while its image APIs provide real-time resize, compression, and CDN delivery from cloud storage sources. All surfaces run under a single REST API at api.gumlet.com/v1 authenticated with a bearer API key.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/gumlet/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/gumlet/refs/heads/main/apis.yml)
+**Areas:** Video · Streaming · Image Optimization · CDN · Encoding · Analytics
 
-## Tags
+## Gumlet on APIs.io
 
-- Video
-- Streaming
-- Image Optimization
-- CDN
-- Encoding
-- Analytics
+Everything profiled for Gumlet is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/gumlet/](https://apis.io/providers/gumlet/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (23)
 
-- **Created:** 2026-07-01
-- **Modified:** 2026-07-01
+- [Gumlet Audio Upload API](https://apis.io/apis/gumlet/gumlet-audio-upload-api/) — Add additional audio tracks to an existing asset.
+- [Gumlet Audit Logs API](https://apis.io/apis/gumlet/gumlet-audit-logs-api/) — Get detailed user activity logs for the entire organisation.
+- [Gumlet Billing API](https://apis.io/apis/gumlet/gumlet-billing-api/) — Get / change all details about billing and invoices.
+- [Gumlet Channel Viewers API](https://apis.io/apis/gumlet/gumlet-channel-viewers-api/) — Invite and remove viewers on a private video channel.
+- [Gumlet Folders API](https://apis.io/apis/gumlet/gumlet-folders-api/) — Organize video assets into folders within a workspace.
+- [Gumlet Global Search API](https://apis.io/apis/gumlet/gumlet-global-search-api/) — Search all video assets / playlists / folders etc across workspaces.
+- [Gumlet Image Sources API](https://apis.io/apis/gumlet/gumlet-image-sources-api/) — Manage image sources, view image analytics, and purge the image cache.
+- [Gumlet Image Usage Analytics API](https://apis.io/apis/gumlet/gumlet-image-usage-analytics-api/) — Query aggregated and chart-ready image usage analytics data.
+- [Gumlet Live Stream Analytics API](https://apis.io/apis/gumlet/gumlet-live-stream-analytics-api/) — Get usage analytics for live streams.
+- [Gumlet Live Stream Assets API](https://apis.io/apis/gumlet/gumlet-live-stream-assets-api/) — Create, control, and monitor live stream assets.
+- [Gumlet Live Stream Workspaces API](https://apis.io/apis/gumlet/gumlet-live-stream-workspaces-api/) — Create and manage live stream workspaces.
+- [Gumlet Multipart Upload API](https://apis.io/apis/gumlet/gumlet-multipart-upload-api/) — Upload large video files in parts and complete the multipart upload.
+- [Gumlet Organization Data API](https://apis.io/apis/gumlet/gumlet-organization-data-api/) — Endpoints to get organization details.
+- [Gumlet Recycle Bin API](https://apis.io/apis/gumlet/gumlet-recycle-bin-api/) — Endpoints to list deleted assets and restore them.
+- [Gumlet Subtitle Upload API](https://apis.io/apis/gumlet/gumlet-subtitle-upload-api/) — Add subtitles to an existing asset.
+- [Gumlet User Data API](https://apis.io/apis/gumlet/gumlet-user-data-api/) — Endpoints to get user details.
+- [Gumlet Video Analytics API](https://apis.io/apis/gumlet/gumlet-video-analytics-api/) — Query aggregated and chart-ready video analytics data.
+- [Gumlet Video Assets API](https://apis.io/apis/gumlet/gumlet-video-assets-api/) — Upload, manage, and retrieve video assets, including thumbnails, subtitles, audio tracks, and chapters.
+- [Gumlet Video Playlists API](https://apis.io/apis/gumlet/gumlet-video-playlists-api/) — Create and manage playlists, and control which assets belong to them.
+- [Gumlet Video Profiles API](https://apis.io/apis/gumlet/gumlet-video-profiles-api/) — Create and manage encoding/output profiles for video assets.
+- [Gumlet Video Usage Analytics API](https://apis.io/apis/gumlet/gumlet-video-usage-analytics-api/) — Query video analytics and streaming duration usage data.
+- [Gumlet Video Workspaces API](https://apis.io/apis/gumlet/gumlet-video-workspaces-api/) — Create and manage video workspaces.
+- [Gumlet Webhooks API](https://apis.io/apis/gumlet/gumlet-webhooks-api/) — Configure webhooks for account and asset events.
 
-## APIs
+### Published properties
 
-### Gumlet Video Assets API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Ingest, encode, and manage video-on-demand assets with adaptive bitrate (HLS/DASH) or MP4 output, per-title encoding, DRM, overlays, trimming, subtitles, chapters, and thumbnails.
+#### AsyncAPI (1)
 
-- **Human URL:** [https://docs.gumlet.com/reference/create-asset](https://docs.gumlet.com/reference/create-asset)
-- **Base URL:** `https://api.gumlet.com/v1/video`
+Event-driven and webhook contracts.
 
-#### Tags
+- [Gumlet Webhooks](https://apis.io/asyncapis/gumlet/gumlet-webhooks-asyncapi/)
 
-- Video
-- Assets
-- Encoding
-- VOD
+#### Event channels (1)
 
-#### Properties
+Individual events and webhooks the provider emits.
 
-- [Documentation](https://docs.gumlet.com/docs/video-getting-started)
-- [API Reference](https://docs.gumlet.com/reference/create-asset)
-- [OpenAPI](openapi/gumlet-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/gumlet.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/gumlet.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [{your_webhook_url}](https://apis.io/channels/gumlet/your-webhook-url/)
 
-### Gumlet Video Collections API
+#### MCP servers (1)
 
-Create and manage video collections (sources) that group assets under a workspace, along with playlists and folders for organizing library content.
+Model Context Protocol servers that expose the API to agents.
 
-- **Human URL:** [https://docs.gumlet.com/reference/list-collections](https://docs.gumlet.com/reference/list-collections)
-- **Base URL:** `https://api.gumlet.com/v1/video`
+- [Gumlet MCP Server](https://apis.io/servers/gumlet/gumlet-mcp-server/)
 
-#### Tags
+#### Agentic access (1)
 
-- Video
-- Collections
-- Sources
-- Workspaces
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Properties
+- [Gumlet Agentic Access](https://apis.io/agentic-access/gumlet/gumlet-agentic-access/)
 
-- [Documentation](https://docs.gumlet.com/docs/manage-sources)
-- [API Reference](https://docs.gumlet.com/reference/list-collections)
-- [OpenAPI](openapi/gumlet-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/gumlet.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/gumlet.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### JSON-LD (1)
 
-### Gumlet Live Streaming API
+Linked-data contexts for the provider's vocabulary.
 
-Create and manage live streaming assets with RTMP ingest, live-to-VOD recording, status history, and thumbnails for real-time broadcast workflows.
+- [Gumlet Context](https://apis.io/jsonld/gumlet/gumlet-context/)
 
-- **Human URL:** [https://docs.gumlet.com/reference/create-live-asset](https://docs.gumlet.com/reference/create-live-asset)
-- **Base URL:** `https://api.gumlet.com/v1/video`
+#### Collections (7)
 
-#### Tags
+Postman and Open Collection request collections.
 
-- Live
-- Streaming
-- RTMP
-- Low Latency
+- [Gumlet API](https://apis.io/collections/gumlet/open-gumlet/)
+- [Gumlet Analytics API](https://apis.io/collections/gumlet/open-gumlet-analytics-api/)
+- [Gumlet Analytics Image Sources API](https://apis.io/collections/gumlet/open-gumlet-image-sources-api/)
+- [Gumlet Analytics Live Streaming API](https://apis.io/collections/gumlet/open-gumlet-live-streaming-api/)
+- [Gumlet Analytics Uploads API](https://apis.io/collections/gumlet/open-gumlet-uploads-api/)
+- [Gumlet Analytics Video Assets API](https://apis.io/collections/gumlet/open-gumlet-video-assets-api/)
+- [Gumlet Analytics Video Collections API](https://apis.io/collections/gumlet/open-gumlet-video-collections-api/)
 
-#### Properties
+#### Overlays (23)
 
-- [Documentation](https://docs.gumlet.com/docs/live-streaming)
-- [API Reference](https://docs.gumlet.com/reference/create-live-asset)
-- [OpenAPI](openapi/gumlet-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/gumlet.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/gumlet.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+OpenAPI overlays, including conversational phrasing for each operation.
 
-### Gumlet Image Optimization API
+- [Gumlet Audio Upload Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-audio-upload-api-phrasing-overlay/)
+- [Gumlet Audit Logs Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-audit-logs-api-phrasing-overlay/)
+- [Gumlet Billing Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-billing-api-phrasing-overlay/)
+- [Gumlet Channel Viewers Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-channel-viewers-api-phrasing-overlay/)
+- [Gumlet Folders Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-folders-api-phrasing-overlay/)
+- [Gumlet Global Search Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-global-search-api-phrasing-overlay/)
+- [Gumlet Image Sources Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-image-sources-api-phrasing-overlay/)
+- [Gumlet Image Usage Analytics Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-image-usage-analytics-api-phrasing-overlay/)
+- [Gumlet Live Stream Analytics Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-live-stream-analytics-api-phrasing-overlay/)
+- [Gumlet Live Stream Assets Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-live-stream-assets-api-phrasing-overlay/)
+- [Gumlet Live Stream Workspaces Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-live-stream-workspaces-api-phrasing-overlay/)
+- [Gumlet Multipart Upload Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-multipart-upload-api-phrasing-overlay/)
+- [Gumlet Organization Data Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-organization-data-api-phrasing-overlay/)
+- [Gumlet Recycle Bin Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-recycle-bin-api-phrasing-overlay/)
+- [Gumlet Subtitle Upload Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-subtitle-upload-api-phrasing-overlay/)
+- [Gumlet User Data Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-user-data-api-phrasing-overlay/)
+- [Gumlet Video Analytics Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-video-analytics-api-phrasing-overlay/)
+- [Gumlet Video Assets Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-video-assets-api-phrasing-overlay/)
+- [Gumlet Video Playlists Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-video-playlists-api-phrasing-overlay/)
+- [Gumlet Video Profiles Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-video-profiles-api-phrasing-overlay/)
+- [Gumlet Video Usage Analytics Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-video-usage-analytics-api-phrasing-overlay/)
+- [Gumlet Video Workspaces Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-video-workspaces-api-phrasing-overlay/)
+- [Gumlet Webhooks Api Phrasing Overlay](https://apis.io/overlays/gumlet/gumlet-webhooks-api-phrasing-overlay/)
 
-Manage image sources that connect cloud storage (S3, GCS, Spaces, Wasabi) to Gumlet's real-time resize, compression, format conversion, and CDN delivery, including cache purging.
+#### Governance rules (1)
 
-- **Human URL:** [https://docs.gumlet.com/docs/manage-sources](https://docs.gumlet.com/docs/manage-sources)
-- **Base URL:** `https://api.gumlet.com/v1`
+Spectral rulesets for the provider's contracts.
 
-#### Tags
+- [Gumlet API Rules](https://apis.io/rules/gumlet/gumlet-rules/)
 
-- Image
-- Optimization
-- Sources
-- CDN
+#### Security (4)
 
-#### Properties
+Authentication, trust centre, and vulnerability disclosure.
 
-- [Documentation](https://docs.gumlet.com/docs/image-getting-started)
-- [API Reference](https://docs.gumlet.com/docs/image-transform-apis)
-- [OpenAPI](openapi/gumlet-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/gumlet.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/gumlet.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Gumlet Authentication](https://apis.io/security/gumlet/gumlet-authentication/)
+- [Gumlet Domain Security](https://apis.io/security/gumlet/gumlet-domain-security/)
+- [Gumlet Trust Center](https://apis.io/security/gumlet/gumlet-trust-center/)
+- [Gumlet Vulnerability Disclosure](https://apis.io/security/gumlet/gumlet-vulnerability-disclosure/)
 
-### Gumlet Analytics API
+#### Plans and pricing (1)
 
-Query video and image analytics with aggregated, breakdown, and chart data APIs covering views, unique viewers, watch time, and engagement/completion metrics.
+Published plans, tiers and prices.
 
-- **Human URL:** [https://docs.gumlet.com/docs/advanced-video-analytics](https://docs.gumlet.com/docs/advanced-video-analytics)
-- **Base URL:** `https://api.gumlet.com/v1`
+- [Gumlet Plans Pricing](https://apis.io/plans/gumlet/gumlet-plans-pricing/)
 
-#### Tags
+#### Rate limits (1)
 
-- Analytics
-- Insights
-- Engagement
-- Views
+Published request limits.
 
-#### Properties
+- [Gumlet Rate Limits](https://apis.io/rate-limits/gumlet/gumlet-rate-limits/)
 
-- [Documentation](https://docs.gumlet.com/docs/advanced-video-analytics)
-- [API Reference](https://docs.gumlet.com/docs/insights-metrics-tracked)
-- [OpenAPI](openapi/gumlet-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/gumlet.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/gumlet.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### FinOps (1)
 
-### Gumlet Uploads API
+What the API costs to run, by operation.
 
-Request signed direct-upload URLs and complete multipart uploads to ingest local video files into Gumlet for processing.
+- [Gumlet Finops](https://apis.io/finops/gumlet/gumlet-finops/)
 
-- **Human URL:** [https://docs.gumlet.com/reference/create-asset-direct-upload](https://docs.gumlet.com/reference/create-asset-direct-upload)
-- **Base URL:** `https://api.gumlet.com/v1/video`
+## Where to find this API
 
-#### Tags
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- Uploads
-- Direct Upload
-- Multipart
-
-#### Properties
-
-- [Documentation](https://docs.gumlet.com/docs/direct-upload)
-- [API Reference](https://docs.gumlet.com/reference/create-asset-direct-upload)
-- [OpenAPI](openapi/gumlet-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/gumlet.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/gumlet.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/gumlet)
-- [LinkedIn](https://www.linkedin.com/company/gumlet)
 - [Website](https://www.gumlet.com/)
 - [Documentation](https://docs.gumlet.com/)
-- [Plans](plans/gumlet-plans-pricing.yml)
-- [Rate Limits](rate-limits/gumlet-rate-limits.yml)
-- [Fin Ops](finops/gumlet-finops.yml)
+- [Getting started](https://docs.gumlet.com/docs/getting-started)
+- [Pricing](https://www.gumlet.com/pricing/)
+- [Support](https://help.gumlet.com/en/)
+- [Changelog](https://community.gumlet.com/tag/release-notes/9)
+- [Blog](https://www.gumlet.com/blog/rss/)
+- [Compliance](https://trust.gumlet.com/)
+- [Trust centre](https://trust.gumlet.com/)
+- [Terms of service](https://www.gumlet.com/terms/)
+- [Privacy policy](https://www.gumlet.com/privacy/)
+- [GitHub](https://github.com/gumlet)
+- [Status](https://status.gumlet.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 69.6** — exemplar · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 80.0 |
+| Contract quality | 67.2 |
+| Contract governance | 35.6 |
+| Operational transparency | 52.6 |
+| Developer ergonomics | 64.8 |
+| Access clarity | 92.1 |
+
+**Agent readiness 46.5** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | unknown |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | mostly |
+
+**Regulatory alignment 35.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/gumlet/](https://apis.io/providers/gumlet/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Gumlet: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/gumlet/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
